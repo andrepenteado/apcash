@@ -32,14 +32,14 @@ import lombok.ToString;
 @EqualsAndHashCode(of = { "descricao", "dataVencimento", "valor" })
 @ToString(of = { "descricao", "dataVencimento", "valor" })
 @Entity
-@Table(name = "receber")
-public class Receber implements Serializable {
+@Table(name = "pagar")
+public class Pagar implements Serializable {
 
     private static final long serialVersionUID = -5444758171825826973L;
 
     @Id
-    @SequenceGenerator(name = "receber_id_seq", sequenceName = "receber_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "receber_id_seq")
+    @SequenceGenerator(name = "pagar_id_seq", sequenceName = "pagar_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pagar_id_seq")
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -66,6 +66,6 @@ public class Receber implements Serializable {
     private String observacao;
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_receber", insertable = false, updatable = false)
-    private Collection<Recebido> recebimentos;
+    @JoinColumn(name = "id_pagar", insertable = false, updatable = false)
+    private Collection<Pago> pagamentos;
 }

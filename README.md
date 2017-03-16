@@ -11,6 +11,16 @@ CREATE TABLE categoria (
    CONSTRAINT pk_categoria PRIMARY KEY (id)
 );
 
+CREATE TABLE cheque (
+   id serial,
+   numero integer NOT NULL,
+   nome character varying NOT NULL,
+   valor numeric(15,2) NOT NULL,
+   data date NOT NULL, 
+   situacao "char",
+   CONSTRAINT pk_cheque PRIMARY KEY (id) 
+);
+
 CREATE TABLE receber (
    id serial, 
    descricao character varying NOT NULL, 
@@ -24,7 +34,7 @@ CREATE TABLE receber (
 
 CREATE TABLE recebido (
    id serial, 
-   id_receber integer, 
+   id_receber integer NOT NULL, 
    valor_recebido numeric(15,2) NOT NULL, 
    data_recebimento date NOT NULL, 
    forma_recebimento "char" NOT NULL, 
@@ -46,7 +56,7 @@ CREATE TABLE pagar (
 
 CREATE TABLE pago (
    id serial, 
-   id_pagar integer, 
+   id_pagar integer NOT NULL, 
    valor_pago numeric(15,2) NOT NULL, 
    data_pagamento date NOT NULL, 
    forma_pagamento "char" NOT NULL, 
