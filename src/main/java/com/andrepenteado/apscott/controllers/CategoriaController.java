@@ -4,6 +4,7 @@ package com.andrepenteado.apscott.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,55 +26,58 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/categorias")
 public class CategoriaController {
 
-    @Autowired
-    private CategoriaRepository repository;
+	@Autowired
+	private CategoriaRepository repository;
 
-    @GetMapping
-    public String pesquisar(Model model) {
-        model.addAttribute("listagemCategorias", repository.findAll(new Sort(Sort.Direction.ASC, "descricao")));
-        return "/categorias/pesquisar";
-    }
+	@Autowired
+	private MessageSource config;
 
-    @GetMapping("/incluir")
-    public String incluir(Model model) {
-        model.addAttribute("categoria", new Categoria());
-        return "/categorias/cadastro";
-    }
+	@GetMapping
+	public String pesquisar(Model model) {
+		model.addAttribute("listagemCategorias", repository.findAll(new Sort(Sort.Direction.ASC, "descricao")));
+		return "/categorias/pesquisar";
+	}
 
-    @GetMapping("/editar/{id}")
-    public String editar(Model model, @PathVariable Long id) {
-        Categoria categoria = repository.findOne(id);
-        model.addAttribute("categoria", categoria);
-        return "/categorias/cadastro";
-    }
+	@GetMapping("/incluir")
+	public String incluir(Model model) {
+		model.addAttribute("categoria", new Categoria());
+		return "/categorias/cadastro";
+	}
 
-    @PostMapping("/gravar")
-    public String gravar(Model model, @ModelAttribute("categoria") @Valid Categoria categoria, BindingResult result) {
-        try {
-            if (!result.hasErrors()) {
-                Categoria categoriaAtualizada = repository.save(categoria);
-                log.info(categoriaAtualizada.toString() + " gravada com sucesso");
-                model.addAttribute("mensagemInfo", "Categoria gravada com sucesso");
-            }
-        }
-        catch (Exception ex) {
-            log.error("Erro de processamento", ex);
-            model.addAttribute("mensagemErro", "Ocorreu um erro no processamento da solicitação");
-        }
-        return "/categorias/cadastro";
-    }
+	@GetMapping("/editar/{id}")
+	public String editar(Model model, @PathVariable Long id) {
+		Categoria categoria = repository.findOne(id);
+		model.addAttribute("categoria", categoria);
+		return "/categorias/cadastro";
+	}
 
-    @GetMapping("/excluir/{id}")
-    public String excluir(RedirectAttributes ra, @PathVariable Long id) {
-        try {
-            repository.delete(id);
-            log.info("Categoria #" + id + " excluída com sucesso");
-            ra.addFlashAttribute("mensagemInfo", "Categoria excluída com sucesso");
-        }
-        catch (Exception ex) {
-            log.error("Erro de processamento", ex);
-            ra.addFlashAttribute("mensagemErro", "Ocorreu um erro no processamento da solicitação");
-        }
-        return "redirect:/categorias";
-    }
+	@PostMapping("/gravar")
+	public String gravar(Model model, @ModelAttribute("categoria") @Valid Categoria categoria, BindingResult result) {
+		try {
+			if (!result.hasErrors()) {
+				Categoria categoriaAtualizada = repository.save(categoria);
+				log.info(categoriaAtualizada.toString() + " gravada com sucesso");
+				model.addAttribute("mensagemInfo",
+						config.getMessage("gravadoSucesso", new Object[] { "categoria" }, null));
+			}
+		} catch (Exception ex) {
+			log.error("Erro de processamento", ex);
+			model.addAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
+		}
+		return "/categorias/cadastro";
+	}
+
+	@GetMapping("/excluir/{id}")
+	public String excluir(RedirectAttributes ra, @PathVariable Long id) {
+		try {
+			repository.delete(id);
+			log.info("Categoria #" + id + " excluída com sucesso");
+			ra.addFlashAttribute("mensagemInfo",
+					config.getMessage("excluidoSucesso", new Object[] { "categoria" }, null));
+		} catch (Exception ex) {
+			log.error("Erro de processamento", ex);
+			ra.addFlashAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
+		}
+		return "redirect:/categorias";
+	}
 }
