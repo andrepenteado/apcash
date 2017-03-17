@@ -21,6 +21,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.springframework.format.annotation.NumberFormat;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -32,34 +34,35 @@ import lombok.ToString;
 @Table(name = "recebido")
 public class Recebido implements Serializable {
 
-    private static final long serialVersionUID = -4197428786908469146L;
+	private static final long serialVersionUID = -4197428786908469146L;
 
-    @Id
-    @SequenceGenerator(name = "recebido_id_seq", sequenceName = "recebido_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recebido_id_seq")
-    @Column(name = "id", nullable = false)
-    private Long id;
+	@Id
+	@SequenceGenerator(name = "recebido_id_seq", sequenceName = "recebido_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recebido_id_seq")
+	@Column(name = "id", nullable = false)
+	private Long id;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "id_receber", referencedColumnName = "id")
-    private Receber receber;
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "id_receber", referencedColumnName = "id")
+	private Receber receber;
 
-    @NotNull
-    @Column(name = "valor_recebido")
-    private BigDecimal valorRecebido;
+	@NotNull
+	@NumberFormat(pattern = "#,##0.00")
+	@Column(name = "valor_recebido")
+	private BigDecimal valorRecebido;
 
-    @NotNull
-    @Past
-    @Temporal(TemporalType.DATE)
-    @Column(name = "data_recebimento")
-    private Date dataRecebimento;
+	@NotNull
+	@Past
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_recebimento")
+	private Date dataRecebimento;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "forma_recebimento")
-    private TipoQuitacao formaRecebimento;
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "forma_recebimento")
+	private TipoQuitacao formaRecebimento;
 
-    @Column(name = "observacao")
-    private String observacao;
+	@Column(name = "observacao")
+	private String observacao;
 }

@@ -16,12 +16,12 @@
 <body>
   <%@include file="/layouts/mensagens.jsp"%>
   <button class="unespfc-floating-button" onclick="location.href='<c:url value="/categorias/incluir"/>'">+</button>
-  <datatables:table data="${listagemCategorias}" row="categoria" id="GridDatatable">
-    <datatables:column title="Nome" property="descricao" sortInitDirection="ASC"/>
-    <datatables:column title="Alterar" sortable="false" filterable="false" searchable="false">
+  <datatables:table data="${listagemCategorias}" row="categoria" id="GridDatatable" sortable="false">
+    <datatables:column title="Descrição" property="descricao"/>
+    <datatables:column title="Alterar" filterable="false" searchable="false">
       <center><a href="${linkEditar}/${categoria.id}"><span class='glyphicon glyphicon-pencil'></span></a></center>
     </datatables:column>
-    <datatables:column title="Excluir" sortable="false" filterable="false" searchable="false">
+    <datatables:column title="Excluir" filterable="false" searchable="false">
       <center><a href="${linkExcluir}/${categoria.id}"><span class='glyphicon glyphicon-remove'></span></a></center>
     </datatables:column>
     <datatables:extraJs bundles="datatables.extended.config" placeholder="before_start_document_ready" />

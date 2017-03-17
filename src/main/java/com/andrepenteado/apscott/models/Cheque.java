@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.NumberFormat;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -48,6 +49,7 @@ public class Cheque implements Serializable {
     private String nome;
 
     @NotNull
+    @NumberFormat(pattern = "#,##0.00")
     @Column(name = "valor")
     private BigDecimal valor;
 

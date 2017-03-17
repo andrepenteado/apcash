@@ -26,21 +26,23 @@
   });
   </script>
   <form:form action="${actionGravar}" modelAttribute="categoria">
-    <form:input type="hidden" path="id" />
+    <form:hidden path="id" />
     <div class="panel panel-primary col-xs-12 col-md-8 col-md-offset-2">
       <div class="panel-body">
         <div class="page-header" style="margin-top: 10px;">
-          <%@include file="/layouts/mensagens.jsp"%>
+          <jsp:include page="/layouts/mensagens.jsp"><jsp:param name="model" value="categoria"/></jsp:include>
           <h3>
             <strong>Categoria de Contas</strong>
           </h3>
         </div>
         <div class="row">
-          <div class="form-group col-xs-12 col-md-12">
-            <label for="txt_descricao" class="control-label">Descrição</label>
-            <form:input type="text" path="descricao" class="form-control" placeholder="Digite a descrição da categoria de contas"/>
-            <div class="has-error"><form:errors path="descricao" class="help-block"/></div>
-          </div>
+          <spring:bind path="descricao">
+            <div class="form-group col-xs-12 col-md-12 ${status.error ? 'has-error' : ''}">
+	          <label for="txt_descricao" class="control-label">Descrição</label>
+	          <form:input path="descricao" class="form-control" placeholder="Digite a descrição da categoria de contas"/>
+	          <span class="has-error"><form:errors path="descricao" class="help-block"/></span>
+	        </div>
+	      </spring:bind>
         </div>
       </div>
       <div class="form-group col-x-12 col-md-12" style="text-align: center; margin-top: 25px;">

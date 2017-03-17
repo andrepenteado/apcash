@@ -23,6 +23,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.NumberFormat;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,37 +36,38 @@ import lombok.ToString;
 @Table(name = "pagar")
 public class Pagar implements Serializable {
 
-    private static final long serialVersionUID = -5444758171825826973L;
+	private static final long serialVersionUID = -5444758171825826973L;
 
-    @Id
-    @SequenceGenerator(name = "pagar_id_seq", sequenceName = "pagar_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pagar_id_seq")
-    @Column(name = "id", nullable = false)
-    private Long id;
+	@Id
+	@SequenceGenerator(name = "pagar_id_seq", sequenceName = "pagar_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pagar_id_seq")
+	@Column(name = "id", nullable = false)
+	private Long id;
 
-    @NotBlank
-    @Column(name = "descricao")
-    private String descricao;
+	@NotBlank
+	@Column(name = "descricao")
+	private String descricao;
 
-    @NotNull
-    @Future
-    @Temporal(TemporalType.DATE)
-    @Column(name = "data_vencimento")
-    private Date dataVencimento;
+	@NotNull
+	@Future
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_vencimento")
+	private Date dataVencimento;
 
-    @NotNull
-    @Column(name = "valor")
-    private BigDecimal valor;
+	@NotNull
+	@NumberFormat(pattern = "#,##0.00")
+	@Column(name = "valor")
+	private BigDecimal valor;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "id_categoria", referencedColumnName = "id")
-    private Categoria categoria;
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "id_categoria", referencedColumnName = "id")
+	private Categoria categoria;
 
-    @Column(name = "observacao")
-    private String observacao;
-    
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_pagar", insertable = false, updatable = false)
-    private Collection<Pago> pagamentos;
+	@Column(name = "observacao")
+	private String observacao;
+
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "id_pagar", insertable = false, updatable = false)
+	private Collection<Pago> pagamentos;
 }
