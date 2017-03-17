@@ -49,19 +49,31 @@ public class CategoriaController {
 
     @PostMapping("/gravar")
     public String gravar(Model model, @ModelAttribute("categoria") @Valid Categoria categoria, BindingResult result) {
-        if (result.hasErrors())
-            return "/categorias/cadastro";
-        Categoria categoriaAtualizada = repository.save(categoria);
-        log.info(categoriaAtualizada.toString() + " gravada com sucesso");
-        model.addAttribute("mensagemInfo", "Categoria gravada com sucesso");
+        try {
+            if (!result.hasErrors()) {
+                Categoria categoriaAtualizada = repository.save(categoria);
+                log.info(categoriaAtualizada.toString() + " gravada com sucesso");
+                model.addAttribute("mensagemInfo", "Categoria gravada com sucesso");
+            }
+        }
+        catch (Exception ex) {
+            log.error("Erro de processamento", ex);
+            model.addAttribute("mensagemErro", "Ocorreu um erro no processamento da solicitação");
+        }
         return "/categorias/cadastro";
     }
 
     @GetMapping("/excluir/{id}")
     public String excluir(RedirectAttributes ra, @PathVariable Long id) {
-        repository.delete(id);
-        log.info("Categoria #" + id + " excluída com sucesso");
-        ra.addFlashAttribute("mensagemInfo", "Categoria excluída com sucesso");
+        try {
+            repository.delete(id);
+            log.info("Categoria #" + id + " excluída com sucesso");
+            ra.addFlashAttribute("mensagemInfo", "Categoria excluída com sucesso");
+        }
+        catch (Exception ex) {
+            log.error("Erro de processamento", ex);
+            ra.addFlashAttribute("mensagemErro", "Ocorreu um erro no processamento da solicitação");
+        }
         return "redirect:/categorias";
     }
 }
