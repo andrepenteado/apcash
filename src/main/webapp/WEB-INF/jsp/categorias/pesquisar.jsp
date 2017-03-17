@@ -14,6 +14,7 @@
   <meta name="header" content="Categorias" />
 </head>
 <body>
+  <%@include file="/layouts/mensagens.jsp"%>
   <button class="unespfc-floating-button" onclick="location.href='<c:url value="/categorias/incluir"/>'">+</button>
   <datatables:table data="${listagemCategorias}" row="categoria" id="GridDatatable">
     <datatables:column title="Nome" property="descricao" sortInitDirection="ASC"/>
