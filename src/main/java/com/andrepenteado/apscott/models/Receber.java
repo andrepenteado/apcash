@@ -3,8 +3,8 @@ package com.andrepenteado.apscott.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,6 +23,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 import lombok.Data;
@@ -51,6 +52,7 @@ public class Receber implements Serializable {
 	@NotNull
 	@Future
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "data_vencimento")
 	private Date dataVencimento;
 
@@ -69,5 +71,5 @@ public class Receber implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "id_receber", insertable = false, updatable = false)
-	private Collection<Recebido> recebimentos;
+	private List<Recebido> recebimentos;
 }

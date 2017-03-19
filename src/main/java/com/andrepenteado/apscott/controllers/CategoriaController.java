@@ -58,7 +58,7 @@ public class CategoriaController {
 				Categoria categoriaAtualizada = repository.save(categoria);
 				log.info(categoriaAtualizada.toString() + " gravada com sucesso");
 				model.addAttribute("mensagemInfo",
-						config.getMessage("gravadoSucesso", new Object[] { "categoria" }, null));
+						config.getMessage("gravadoSucesso", new Object[] { "a categoria" }, null));
 			}
 		} catch (Exception ex) {
 			log.error("Erro de processamento", ex);
@@ -73,7 +73,7 @@ public class CategoriaController {
 			repository.delete(id);
 			log.info("Categoria #" + id + " excluída com sucesso");
 			ra.addFlashAttribute("mensagemInfo",
-					config.getMessage("excluidoSucesso", new Object[] { "categoria" }, null));
+					config.getMessage("excluidoSucesso", new Object[] { "a categoria" }, null));
 		} catch (Exception ex) {
 			log.error("Erro de processamento", ex);
 			ra.addFlashAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));

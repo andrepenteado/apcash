@@ -1,0 +1,90 @@
+package com.andrepenteado.apscott.controllers;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.andrepenteado.apscott.models.Receber;
+import com.andrepenteado.apscott.repositories.CategoriaRepository;
+import com.andrepenteado.apscott.repositories.ReceberRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/recebimentos")
+public class RecebimentosController {
+
+	@Autowired
+	private ReceberRepository repository;
+
+	@Autowired
+	private CategoriaRepository categoriaRepository;
+
+	@Autowired
+	private MessageSource config;
+
+	@GetMapping("/pendentes")
+	public String pendentes(Model model) {
+		model.addAttribute("listagemPendentes", repository.findByRecebimentosIsNullOrderByDataVencimentoAsc());
+		return "/recebimentos/pendentes/pesquisar";
+	}
+
+	@GetMapping("/pendentes/incluir")
+	public String incluirPendente(Model model) {
+		model.addAttribute("receber", new Receber());
+		model.addAttribute("listagemCategorias",
+				categoriaRepository.findAll(new Sort(Sort.Direction.ASC, "descricao")));
+		return "/recebimentos/pendentes/cadastro";
+	}
+
+	@GetMapping("/pendentes/editar/{id}")
+	public String editar(Model model, @PathVariable Long id) {
+		Receber receber = repository.findOne(id);
+		model.addAttribute("receber", receber);
+		model.addAttribute("listagemCategorias",
+				categoriaRepository.findAll(new Sort(Sort.Direction.ASC, "descricao")));
+		return "/recebimentos/pendentes/cadastro";
+	}
+
+	@PostMapping("/pendentes/gravar")
+	public String gravar(Model model, @ModelAttribute("receber") @Valid Receber receber, BindingResult result) {
+		try {
+			if (!result.hasErrors()) {
+				Receber receberAtualizado = repository.save(receber);
+				log.info(receberAtualizado.toString() + " gravada com sucesso");
+				model.addAttribute("mensagemInfo",
+						config.getMessage("gravadoSucesso", new Object[] { "a conta à receber" }, null));
+			}
+		} catch (Exception ex) {
+			log.error("Erro de processamento", ex);
+			model.addAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
+		}
+		return "/recebimentos/pendentes/cadastro";
+	}
+
+	@GetMapping("/pendentes/excluir/{id}")
+	public String excluir(RedirectAttributes ra, @PathVariable Long id) {
+		try {
+			repository.delete(id);
+			log.info("Conta à receber #" + id + " excluída com sucesso");
+			ra.addFlashAttribute("mensagemInfo",
+					config.getMessage("excluidoSucesso", new Object[] { "a conta à receber" }, null));
+		} catch (Exception ex) {
+			log.error("Erro de processamento", ex);
+			ra.addFlashAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
+		}
+		return "redirect:/recebimentos/pendentes";
+	}
+}

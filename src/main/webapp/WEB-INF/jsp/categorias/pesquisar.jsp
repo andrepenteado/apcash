@@ -3,8 +3,7 @@
 <%@taglib prefix="datatables" uri="http://github.com/dandelion/datatables" %>
 <%@taglib prefix="dandelion" uri="http://github.com/dandelion" %>
 
-<c:set var="linkEditar"><c:url value="/categorias/editar"/></c:set>
-<c:set var="linkExcluir"><c:url value="/categorias/excluir"/></c:set>
+<c:set var="linkController"><c:url value="/categorias"/></c:set>
 
 <dandelion:bundle includes="datatables.extended,floating.button"/>
 
@@ -15,14 +14,14 @@
 </head>
 <body>
   <%@include file="/layouts/mensagens.jsp"%>
-  <button class="unespfc-floating-button" onclick="location.href='<c:url value="/categorias/incluir"/>'">+</button>
+  <button class="unespfc-floating-button" onclick="location.href='${linkController}/incluir'">+</button>
   <datatables:table data="${listagemCategorias}" row="categoria" id="GridDatatable" sortable="false">
     <datatables:column title="Descrição" property="descricao"/>
     <datatables:column title="Alterar" filterable="false" searchable="false">
-      <center><a href="${linkEditar}/${categoria.id}"><span class='glyphicon glyphicon-pencil'></span></a></center>
+      <center><a href="${linkController}/editar/${categoria.id}"><span class='glyphicon glyphicon-pencil'></span></a></center>
     </datatables:column>
     <datatables:column title="Excluir" filterable="false" searchable="false">
-      <center><a href="${linkExcluir}/${categoria.id}"><span class='glyphicon glyphicon-remove'></span></a></center>
+      <center><a href="${linkController}/excluir/${categoria.id}"><span class='glyphicon glyphicon-remove'></span></a></center>
     </datatables:column>
     <datatables:extraJs bundles="datatables.extended.config" placeholder="before_start_document_ready" />
   </datatables:table>

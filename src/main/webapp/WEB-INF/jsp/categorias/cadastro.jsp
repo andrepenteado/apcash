@@ -38,7 +38,7 @@
         <div class="row">
           <spring:bind path="descricao">
             <div class="form-group col-xs-12 col-md-12 ${status.error ? 'has-error' : ''}">
-	          <label for="txt_descricao" class="control-label">Descrição</label>
+	          <label for="descricao" class="control-label">Descrição</label>
 	          <form:input path="descricao" class="form-control" placeholder="Digite a descrição da categoria de contas"/>
 	          <span class="has-error"><form:errors path="descricao" class="help-block"/></span>
 	        </div>
