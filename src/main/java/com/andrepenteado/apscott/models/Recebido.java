@@ -29,7 +29,7 @@ import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(of = { "receber", "valorRecebido", "dataRecebimento", "formaRecebimento" })
-@ToString(of = { "receber", "valorRecebido", "dataRecebimento", "formaRecebimento" })
+@ToString(of = { "receber", "valorRecebido", "formaRecebimento" })
 @Entity
 @Table(name = "recebido")
 public class Recebido implements Serializable {
@@ -44,7 +44,7 @@ public class Recebido implements Serializable {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "id_receber")
+    @JoinColumn(name = "id_receber", referencedColumnName = "id")
     private Receber receber;
 
     @NotNull

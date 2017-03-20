@@ -3,6 +3,7 @@ package com.andrepenteado.apscott.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,7 +33,7 @@ import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(of = { "descricao", "dataVencimento", "valor" })
-@ToString(of = { "descricao", "dataVencimento", "valor" })
+@ToString(of = { "descricao", "valor" })
 @Entity
 @Table(name = "receber")
 public class Receber implements Serializable {
@@ -68,5 +70,24 @@ public class Receber implements Serializable {
     private String observacao;
 
     @OneToMany(mappedBy = "receber", cascade = CascadeType.ALL)
+    @OrderBy(value = "dataRecebimento")
     private List<Recebido> recebimentos;
+
+    public boolean isVencida() {
+        LocalDate hoje = LocalDate.now();
+        LocalDate dataVencimento = new java.sql.Date(this.dataVencimento.getTime()).toLocalDate();
+        return hoje.isAfter(dataVencimento);
+    }
+
+    public boolean isVencendo() {
+        LocalDate hoje = LocalDate.now();
+        LocalDate dataVencimento = new java.sql.Date(this.dataVencimento.getTime()).toLocalDate();
+        return hoje.isEqual(dataVencimento);
+    }
+
+    public boolean isVencer() {
+        LocalDate hoje = LocalDate.now();
+        LocalDate dataVencimento = new java.sql.Date(this.dataVencimento.getTime()).toLocalDate();
+        return hoje.isBefore(dataVencimento);
+    }
 }

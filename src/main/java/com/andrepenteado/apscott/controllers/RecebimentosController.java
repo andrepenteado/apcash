@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.andrepenteado.apscott.models.Receber;
 import com.andrepenteado.apscott.repositories.CategoriaRepository;
 import com.andrepenteado.apscott.repositories.ReceberRepository;
+import com.google.common.base.Objects;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,7 +39,11 @@ public class RecebimentosController {
 
     @GetMapping("/pendentes")
     public String pendentes(Model model) {
-        model.addAttribute("listagemPendentes", repository.findByRecebimentosIsNullOrderByDataVencimentoAsc());
+        model.addAttribute("listagemPendentes", repository.pesquisarReceber());
+        model.addAttribute("total", Objects.firstNonNull(repository.totalReceber(), 0));
+        model.addAttribute("totalVencer", Objects.firstNonNull(repository.totalVencer(), 0));
+        model.addAttribute("totalVencido", Objects.firstNonNull(repository.totalVencido(), 0));
+        model.addAttribute("totalVencendo", Objects.firstNonNull(repository.totalVencendo(), 0));
         return "/recebimentos/pendentes/pesquisar";
     }
 
