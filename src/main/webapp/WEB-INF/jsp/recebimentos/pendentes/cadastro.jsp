@@ -12,7 +12,7 @@
 <head>
   <title>Cadastro de Conta à Receber</title>
   <meta name="header" content="Cadastro" />
-  <meta name="previouspage" content="<li><a href='<c:url value="/recebimentos/pendentes"/>'>Contas à Receber</a></li>" />
+  <meta name="previouspage" content="<li><a href='<c:url value="/recebimentos/pendentes"/>'>Recebimentos Pendentes</a></li>" />
 </head>
 <body>
   <script type="text/javascript">

@@ -1,3 +1,4 @@
+
 package com.andrepenteado.apscott.controllers;
 
 import javax.validation.Valid;
@@ -26,65 +27,66 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/recebimentos")
 public class RecebimentosController {
 
-	@Autowired
-	private ReceberRepository repository;
+    @Autowired
+    private ReceberRepository repository;
 
-	@Autowired
-	private CategoriaRepository categoriaRepository;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
-	@Autowired
-	private MessageSource config;
+    @Autowired
+    private MessageSource config;
 
-	@GetMapping("/pendentes")
-	public String pendentes(Model model) {
-		model.addAttribute("listagemPendentes", repository.findByRecebimentosIsNullOrderByDataVencimentoAsc());
-		return "/recebimentos/pendentes/pesquisar";
-	}
+    @GetMapping("/pendentes")
+    public String pendentes(Model model) {
+        model.addAttribute("listagemPendentes", repository.findByRecebimentosIsNullOrderByDataVencimentoAsc());
+        return "/recebimentos/pendentes/pesquisar";
+    }
 
-	@GetMapping("/pendentes/incluir")
-	public String incluirPendente(Model model) {
-		model.addAttribute("receber", new Receber());
-		model.addAttribute("listagemCategorias",
-				categoriaRepository.findAll(new Sort(Sort.Direction.ASC, "descricao")));
-		return "/recebimentos/pendentes/cadastro";
-	}
+    @GetMapping("/pendentes/incluir")
+    public String incluirReceber(Model model) {
+        model.addAttribute("receber", new Receber());
+        return abrirCadastroReceber(model);
+    }
 
-	@GetMapping("/pendentes/editar/{id}")
-	public String editar(Model model, @PathVariable Long id) {
-		Receber receber = repository.findOne(id);
-		model.addAttribute("receber", receber);
-		model.addAttribute("listagemCategorias",
-				categoriaRepository.findAll(new Sort(Sort.Direction.ASC, "descricao")));
-		return "/recebimentos/pendentes/cadastro";
-	}
+    @GetMapping("/pendentes/editar/{id}")
+    public String editarReceber(Model model, @PathVariable Long id) {
+        Receber receber = repository.findOne(id);
+        model.addAttribute("receber", receber);
+        return abrirCadastroReceber(model);
+    }
 
-	@PostMapping("/pendentes/gravar")
-	public String gravar(Model model, @ModelAttribute("receber") @Valid Receber receber, BindingResult result) {
-		try {
-			if (!result.hasErrors()) {
-				Receber receberAtualizado = repository.save(receber);
-				log.info(receberAtualizado.toString() + " gravada com sucesso");
-				model.addAttribute("mensagemInfo",
-						config.getMessage("gravadoSucesso", new Object[] { "a conta à receber" }, null));
-			}
-		} catch (Exception ex) {
-			log.error("Erro de processamento", ex);
-			model.addAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
-		}
-		return "/recebimentos/pendentes/cadastro";
-	}
+    @PostMapping("/pendentes/gravar")
+    public String gravarReceber(Model model, @ModelAttribute("receber") @Valid Receber receber, BindingResult result) {
+        try {
+            if (!result.hasErrors()) {
+                Receber receberAtualizado = repository.save(receber);
+                log.info(receberAtualizado.toString() + " gravada com sucesso");
+                model.addAttribute("mensagemInfo", config.getMessage("gravadoSucesso", new Object[] { "a conta à receber" }, null));
+            }
+        }
+        catch (Exception ex) {
+            log.error("Erro de processamento", ex);
+            model.addAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
+        }
+        return abrirCadastroReceber(model);
+    }
 
-	@GetMapping("/pendentes/excluir/{id}")
-	public String excluir(RedirectAttributes ra, @PathVariable Long id) {
-		try {
-			repository.delete(id);
-			log.info("Conta à receber #" + id + " excluída com sucesso");
-			ra.addFlashAttribute("mensagemInfo",
-					config.getMessage("excluidoSucesso", new Object[] { "a conta à receber" }, null));
-		} catch (Exception ex) {
-			log.error("Erro de processamento", ex);
-			ra.addFlashAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
-		}
-		return "redirect:/recebimentos/pendentes";
-	}
+    public String abrirCadastroReceber(Model model) {
+        model.addAttribute("listagemCategorias", categoriaRepository.findAll(new Sort(Sort.Direction.ASC, "descricao")));
+        return "/recebimentos/pendentes/cadastro";
+    }
+
+    @GetMapping("/pendentes/excluir/{id}")
+    public String excluirReceber(RedirectAttributes ra, @PathVariable Long id) {
+        try {
+            repository.delete(id);
+            log.info("Conta à receber #" + id + " excluída com sucesso");
+            ra.addFlashAttribute("mensagemInfo", config.getMessage("excluidoSucesso", new Object[] { "a conta à receber" }, null));
+        }
+        catch (Exception ex) {
+            log.error("Erro de processamento", ex);
+            ra.addFlashAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
+        }
+        return "redirect:/recebimentos/pendentes";
+    }
 }

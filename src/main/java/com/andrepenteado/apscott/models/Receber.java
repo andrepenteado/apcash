@@ -19,7 +19,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -37,39 +36,37 @@ import lombok.ToString;
 @Table(name = "receber")
 public class Receber implements Serializable {
 
-	private static final long serialVersionUID = -5444758171825826973L;
+    private static final long serialVersionUID = -5444758171825826973L;
 
-	@Id
-	@SequenceGenerator(name = "receber_id_seq", sequenceName = "receber_id_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "receber_id_seq")
-	@Column(name = "id", nullable = false)
-	private Long id;
+    @Id
+    @SequenceGenerator(name = "receber_id_seq", sequenceName = "receber_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "receber_id_seq")
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-	@NotBlank
-	@Column(name = "descricao")
-	private String descricao;
+    @NotBlank
+    @Column(name = "descricao")
+    private String descricao;
 
-	@NotNull
-	@Future
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@Column(name = "data_vencimento")
-	private Date dataVencimento;
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "data_vencimento")
+    private Date dataVencimento;
 
-	@NotNull
-	@NumberFormat(pattern = "#,##0.00")
-	@Column(name = "valor")
-	private BigDecimal valor;
+    @NotNull
+    @NumberFormat(pattern = "#,##0.00")
+    @Column(name = "valor")
+    private BigDecimal valor;
 
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "id_categoria", referencedColumnName = "id")
-	private Categoria categoria;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "id_categoria", referencedColumnName = "id")
+    private Categoria categoria;
 
-	@Column(name = "observacao")
-	private String observacao;
+    @Column(name = "observacao")
+    private String observacao;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "id_receber", insertable = false, updatable = false)
-	private List<Recebido> recebimentos;
+    @OneToMany(mappedBy = "receber", cascade = CascadeType.ALL)
+    private List<Recebido> recebimentos;
 }
