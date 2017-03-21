@@ -13,17 +13,43 @@
 <head>
   <title>Contas à Receber</title>
   <meta name="header" content="Recebimentos Pendentes" />
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Recebimentos Pendentes', 'Valor (R$)'],
+          ['Vencidas: <fmt:formatNumber value="${totalVencido}" type="currency"/>', ${totalVencido}],
+          ['Vencendo: <fmt:formatNumber value="${totalVencendo}" type="currency"/>', ${totalVencendo}],
+          ['A vencer: <fmt:formatNumber value="${totalVencer}" type="currency"/>', ${totalVencer}]
+        ]);
+        var options = {
+          is3D: true,
+          colors: [ '#a94442', 'orange', 'blue' ],
+          legend: { alignment: 'center' },
+          chartArea: { top: 0, left: 0, height: '100%' }
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+  </script>
+
 </head>
 
 <body>
-  <%@include file="/layouts/mensagens.jsp"%>
+
+  <%@include file="/layouts/modal-mensagens.jsp"%>
   <%@include file="/layouts/modal-exclusao.jsp"%>
 
-  <div class="row">
-    <div class="col-xs-12 col-md-3 alert alert-danger"><b>Vencidas:</b> <fmt:formatNumber value="${totalVencido}" type="currency"/></div>
-    <div class="col-xs-12 col-md-3 alert alert-warning"><b>Vencendo:</b> <fmt:formatNumber value="${totalVencendo}" type="currency"/></div>
-    <div class="col-xs-12 col-md-3 alert alert-success"><b>A vencer:</b> <fmt:formatNumber value="${totalVencer}" type="currency"/></div>
-    <div class="col-xs-12 col-md-3 alert alert-info"><b>Total:</b> <fmt:formatNumber value="${total}" type="currency"/></div>
+  <div class="page-header" style="margin-top: -10px;">
+    <h4>Relatório sintético: <small>Valor total: <fmt:formatNumber value="${total}" type="currency"/></small></h4>
+  </div>
+  <div id="piechart_3d" style="height: 150px;"></div>
+
+  <div class="page-header">
+    <h4>Relatório analítico</h4>
   </div>
 
   <button class="unespfc-floating-button" onclick="location.href='${linkController}/incluir'">+</button>

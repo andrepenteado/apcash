@@ -40,7 +40,7 @@
     <div class="panel panel-primary col-xs-12 col-md-8 col-md-offset-2">
       <div class="panel-body">
         <div class="page-header" style="margin-top: 10px;">
-          <jsp:include page="/layouts/mensagens.jsp"><jsp:param name="model" value="receber"/></jsp:include>
+          <jsp:include page="/layouts/modal-mensagens.jsp"><jsp:param name="model" value="receber"/></jsp:include>
           <h3><strong>Conta à Receber</strong></h3>
         </div>
         <div class="row">
