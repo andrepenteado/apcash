@@ -11,6 +11,17 @@
 	<name>APScott</name>
 	<description>Aplicação de controle de contas a pagar e a receber</description>
 
+    <repositories>
+        <repository>
+            <id>unesp-fc-nexus-repository</id>
+            <name>Unesp/FC Nexus Repository</name>
+            <url>https://alpha.fc.unesp.br/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
