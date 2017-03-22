@@ -9,7 +9,7 @@
 
    <context-param>
       <param-name>layout-default</param-name>
-      <param-value>unespfc-bootstrap3</param-value>
+      <param-value>bootstrap3</param-value>
    </context-param>
 
    <distributable/>
