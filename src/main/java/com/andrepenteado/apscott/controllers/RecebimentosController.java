@@ -1,6 +1,8 @@
 
 package com.andrepenteado.apscott.controllers;
 
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.andrepenteado.apscott.models.Receber;
+import com.andrepenteado.apscott.models.Recebido;
+import com.andrepenteado.apscott.models.TipoQuitacao;
 import com.andrepenteado.apscott.repositories.CategoriaRepository;
 import com.andrepenteado.apscott.repositories.ReceberRepository;
 import com.google.common.base.Objects;
@@ -87,6 +91,29 @@ public class RecebimentosController {
             repository.delete(id);
             log.info("Conta à receber #" + id + " excluída com sucesso");
             ra.addFlashAttribute("mensagemInfo", config.getMessage("excluidoSucesso", new Object[] { "a conta à receber" }, null));
+        }
+        catch (Exception ex) {
+            log.error("Erro de processamento", ex);
+            ra.addFlashAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
+        }
+        return "redirect:/recebimentos/pendentes";
+    }
+
+    @GetMapping("/pendentes/consolidar/{id}")
+    public String consolidarReceber(RedirectAttributes ra, @PathVariable Long id) {
+        try {
+            Receber receber = repository.findOne(id);
+            Recebido recebido = new Recebido();
+            recebido.setDataRecebimento(receber.getDataVencimento());
+            recebido.setValorRecebido(receber.getValor());
+            recebido.setFormaRecebimento(TipoQuitacao.DINHEIRO);
+            recebido.setReceber(receber);
+            if (receber.getRecebimentos() == null)
+                receber.setRecebimentos(new ArrayList<Recebido>());
+            receber.getRecebimentos().add(recebido);
+            repository.save(receber);
+            log.info("Conta à receber #" + id + " consolidada com sucesso");
+            ra.addFlashAttribute("mensagemInfo", "A consolidação da conta " + receber.getDescricao() + " foi efetuada com sucesso");
         }
         catch (Exception ex) {
             log.error("Erro de processamento", ex);

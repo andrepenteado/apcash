@@ -65,3 +65,35 @@ CREATE TABLE pago (
    CONSTRAINT fk_pago_pagar FOREIGN KEY (id_pagar) REFERENCES pagar (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 ```
+
+## Heroku
+
+Criar aplicação pela interface web - dashboard.heroku.com - e instalar o add-on Heroku Postgres::Database na aba pela Resources do dashboard.
+
+Criar o banco de dados via psql do heroku:
+
+```bash
+heroku login
+heroku pg:psql
+```
+
+Instalar o aplicativo de deploy via linha de comando:
+
+```bash
+add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./"
+curl -L https://cli-assets.heroku.com/apt/release.key | sudo apt-key add -
+apt update
+apt install heroku
+heroku plugins:install heroku-cli-deploy
+```
+
+Deploy de arquivo war:
+
+```bash
+heroku login
+heroku war:deploy <caminho-do-arquivo-war> --app <nome-da-aplicação-no-heroku>
+```
+
+Pela interface web, na aba resources, habilitar o Dynos criado.
+
+Acessar a aplicação pelo endereço https://<nome-da-aplicação-no-heroku>.herokuapp.com/

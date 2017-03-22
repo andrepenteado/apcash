@@ -30,7 +30,7 @@
     <div class="panel panel-primary col-xs-12 col-md-8 col-md-offset-2">
       <div class="panel-body">
         <div class="page-header" style="margin-top: 10px;">
-          <jsp:include page="/layouts/mensagens.jsp"><jsp:param name="model" value="categoria"/></jsp:include>
+          <jsp:include page="/layouts/modal-mensagens.jsp"><jsp:param name="model" value="categoria"/></jsp:include>
           <h3>
             <strong>Categoria de Contas</strong>
           </h3>

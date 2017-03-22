@@ -39,9 +39,15 @@
 </head>
 
 <body>
+  <script type="text/javascript">
+      $(document).ready(function() {
+          $('[data-toggle="tooltip"]').tooltip();
+      });
+  </script>
 
   <%@include file="/layouts/modal-mensagens.jsp"%>
   <%@include file="/layouts/modal-exclusao.jsp"%>
+  <%@include file="/layouts/modal-confirmacao.jsp"%>
 
   <div class="page-header" style="margin-top: -10px;">
     <h4>Relatório sintético: <small>Valor total: <fmt:formatNumber value="${total}" type="currency"/></small></h4>
@@ -58,10 +64,19 @@
     <datatables:column title="Descrição" property="descricao" cssCellClass="${cssLinha}"/>
     <datatables:column title="Vencimento" property="dataVencimento" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center ${cssLinha}"/>
     <datatables:column title="Valor" property="valor" format="R$ {0,number,#,##0.00}" cssCellClass="text-right ${cssLinha}"/>
-    <datatables:column title="Operações" filterable="false" searchable="false" cssCellClass="text-center ${cssLinha}">
-      <a href="${linkController}/editar/${receber.id}"><span class='glyphicon glyphicon-pencil'></span></a>
-      <a href="#" data-href="${linkController}/excluir/${receber.id}" data-mensagem-exclusao="Deseja realmente excluir ${receber.descricao}?" data-toggle="modal" data-target="#janela-exclusao-modal">
-        <span class='glyphicon glyphicon-remove'></span>
+    <datatables:column title="Operações" filterable="false" searchable="false" sortable="false" cssCellClass="text-center ${cssLinha}">
+      <a href="#" data-href="${linkController}/consolidar/${receber.id}" class="btn btn-success btn-xs"
+                  data-mensagem-confirmacao="Deseja realmente consolidar a conta ${receber.descricao}?"
+                  data-toggle="modal" data-target="#janela-confirmacao-modal">
+        <span class='glyphicon glyphicon-usd' data-toggle="tooltip" title="Consolidar"></span>
+      </a>
+      <a href="${linkController}/editar/${receber.id}" class="btn btn-default btn-xs" data-toggle="tooltip" title="Alterar">
+        <span class='glyphicon glyphicon-pencil'></span>
+      </a>
+      <a href="#" data-href="${linkController}/excluir/${receber.id}" class="btn btn-danger btn-xs"
+                  data-mensagem-exclusao="Deseja realmente excluir ${receber.descricao}?"
+                  data-toggle="modal" data-target="#janela-exclusao-modal">
+        <span class='glyphicon glyphicon-trash' data-toggle="tooltip" title="Excluir"></span>
       </a>
     </datatables:column>
     <datatables:extraJs bundles="datatables.extended.config" placeholder="before_start_document_ready" />
