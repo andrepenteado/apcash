@@ -12,8 +12,8 @@
 <meta name="MSSmartTagsPreventParsing" content="true" />
 <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="pragma" content="no-cache" />
-<link rel="shortcut icon" href="<%=request.getContextPath()%>/layouts/favicon.ico" />
-<link rel="icon" href="<%=request.getContextPath()%>/layouts/favicon.ico" />
+<link rel="shortcut icon" href="<%=request.getContextPath()%>/layouts/favicon.png" />
+<link rel="icon" href="<%=request.getContextPath()%>/layouts/favicon.png" />
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>

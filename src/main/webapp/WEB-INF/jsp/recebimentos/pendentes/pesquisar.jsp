@@ -11,7 +11,7 @@
 <html>
 
 <head>
-  <title>Contas à Receber</title>
+  <title>Recebimentos Pendentes</title>
   <meta name="header" content="Recebimentos Pendentes" />
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

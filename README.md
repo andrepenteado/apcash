@@ -17,7 +17,7 @@ CREATE TABLE cheque (
    nome character varying NOT NULL,
    valor numeric(15,2) NOT NULL,
    data date NOT NULL, 
-   situacao "char",
+   situacao character varying NOT NULL,
    CONSTRAINT pk_cheque PRIMARY KEY (id) 
 );
 
@@ -37,7 +37,7 @@ CREATE TABLE recebido (
    id_receber integer NOT NULL, 
    valor_recebido numeric(15,2) NOT NULL, 
    data_recebimento date NOT NULL, 
-   forma_recebimento "char" NOT NULL, 
+   forma_recebimento character varying NOT NULL, 
    observacao character varying, 
    CONSTRAINT pk_recebido PRIMARY KEY (id), 
    CONSTRAINT fk_recebido_receber FOREIGN KEY (id_receber) REFERENCES receber (id) ON UPDATE RESTRICT ON DELETE RESTRICT
@@ -59,7 +59,7 @@ CREATE TABLE pago (
    id_pagar integer NOT NULL, 
    valor_pago numeric(15,2) NOT NULL, 
    data_pagamento date NOT NULL, 
-   forma_pagamento "char" NOT NULL, 
+   forma_pagamento character varying NOT NULL, 
    observacao character varying, 
    CONSTRAINT pk_pago PRIMARY KEY (id), 
    CONSTRAINT fk_pago_pagar FOREIGN KEY (id_pagar) REFERENCES pagar (id) ON UPDATE RESTRICT ON DELETE RESTRICT

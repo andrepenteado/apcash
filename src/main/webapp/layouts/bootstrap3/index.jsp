@@ -20,7 +20,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand text-uppercase" href="<%=request.getContextPath()%>"><%=application.getServletContextName()%></a>
+          <a class="navbar-brand text-uppercase" href="<%=request.getContextPath()%>/"><strong><%=application.getServletContextName()%></strong></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -34,7 +34,7 @@
     </nav>
 
     <ol class="breadcrumb" style="margin-top: -20px">
-      <li><a href="<%=request.getContextPath()%>">Página inicial</a></li>
+      <li><a href="<%=request.getContextPath()%>/">Página inicial</a></li>
       <sitemesh:write property="meta.previouspage" />
       <li class="active"><sitemesh:write property="meta.header" /></li>
     </ol>
