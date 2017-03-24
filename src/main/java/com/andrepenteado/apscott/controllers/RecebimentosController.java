@@ -49,6 +49,8 @@ public class RecebimentosController {
     public String pendentes(Model model) {
         model.addAttribute("listagemPendentes", repository.pesquisarRecebimentosPendentes());
         model.addAttribute("total", Objects.firstNonNull(repository.somarTotalReceber(), 0));
+        model.addAttribute("totalPorCategoria", repository.somarTotalReceberAgrupadoPorCategoria());
+        model.addAttribute("totalPorDia", repository.somarTotalReceberAgrupadoPorDia());
         model.addAttribute("totalVencer", Objects.firstNonNull(repository.somarTotalVencer(), 0));
         model.addAttribute("totalVencido", Objects.firstNonNull(repository.somarTotalVencido(), 0));
         model.addAttribute("totalVencendo", Objects.firstNonNull(repository.somarTotalVencendo(), 0));
@@ -132,6 +134,8 @@ public class RecebimentosController {
                     @RequestParam(value = "txt_data_fim", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataFim) {
         if (dataInicio != null && dataFim != null) {
             model.addAttribute("total", Objects.firstNonNull(repository.somarRecebidoPorDescricaoPorData(descricao, dataInicio, dataFim), 0));
+            model.addAttribute("totalPorCategoria", repository.somarTotalRecebidoAgrupadoPorCategoria(descricao, dataInicio, dataFim));
+            model.addAttribute("totalPorDia", repository.somarTotalRecebidoAgrupadoPorDia(descricao, dataInicio, dataFim));
             model.addAttribute("listagemConsolidados", repository.pesquisarRecebidoPorDescricaoPorData(descricao, dataInicio, dataFim));
             model.addAttribute("txt_data_inicio", new SimpleDateFormat("dd/MM/yyyy").format(dataInicio));
             model.addAttribute("txt_data_fim", new SimpleDateFormat("dd/MM/yyyy").format(dataFim));

@@ -31,11 +31,23 @@ public interface ReceberRepository extends JpaRepository<Receber, Long> {
     @Query("SELECT SUM(r.valor) FROM Receber r WHERE r.dataVencimento > CURRENT_DATE AND r.recebimentos IS EMPTY")
     BigDecimal somarTotalVencer();
 
+    @Query("SELECT SUM(r.valor), r.categoria.descricao FROM Receber r WHERE r.recebimentos IS EMPTY GROUP BY r.categoria.descricao")
+    List<Object> somarTotalReceberAgrupadoPorCategoria();
+
+    @Query("SELECT SUM(r.valor), r.dataVencimento FROM Receber r WHERE r.recebimentos IS EMPTY GROUP BY r.dataVencimento ORDER BY r.dataVencimento")
+    List<Object> somarTotalReceberAgrupadoPorDia();
+
     @Query("SELECT r FROM Recebido r WHERE lower(r.receber.descricao) LIKE concat('%', lower(?1), '%') AND r.dataRecebimento BETWEEN ?2 AND ?3 ORDER BY r.dataRecebimento")
     List<Recebido> pesquisarRecebidoPorDescricaoPorData(String descricao, Date dataInicio, Date dataFim);
 
-    @Query("SELECT SUM(r.valorRecebido) FROM Recebido r WHERE UPPER(r.receber.descricao) LIKE concat('%', lower(?1), '%') AND r.dataRecebimento BETWEEN ?2 AND ?3")
+    @Query("SELECT SUM(r.valorRecebido) FROM Recebido r WHERE lower(r.receber.descricao) LIKE concat('%', lower(?1), '%') AND r.dataRecebimento BETWEEN ?2 AND ?3")
     BigDecimal somarRecebidoPorDescricaoPorData(String descricao, Date dataInicio, Date dataFim);
+
+    @Query("SELECT SUM(r.valorRecebido), r.receber.categoria.descricao FROM Recebido r WHERE lower(r.receber.descricao) LIKE concat('%', lower(?1), '%') AND r.dataRecebimento BETWEEN ?2 AND ?3 GROUP BY r.receber.categoria.descricao")
+    List<Object> somarTotalRecebidoAgrupadoPorCategoria(String descricao, Date dataInicio, Date dataFim);
+
+    @Query("SELECT SUM(r.valorRecebido), r.dataRecebimento FROM Recebido r WHERE lower(r.receber.descricao) LIKE concat('%', lower(?1), '%') AND r.dataRecebimento BETWEEN ?2 AND ?3 GROUP BY r.dataRecebimento ORDER BY r.dataRecebimento")
+    List<Object> somarTotalRecebidoAgrupadoPorDia(String descricao, Date dataInicio, Date dataFim);
 
     @Modifying
     @Transactional

@@ -17,8 +17,10 @@
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
       google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
+      google.charts.setOnLoadCallback(graficoTotais);
+      google.charts.setOnLoadCallback(graficoPorCategoria);
+      google.charts.setOnLoadCallback(graficoPorDia);
+      function graficoTotais() {
         var data = google.visualization.arrayToDataTable([
           ['Recebimentos Pendentes', 'Valor (R$)'],
           ['Vencidas: <fmt:formatNumber value="${totalVencido}" type="currency"/>', ${totalVencido}],
@@ -27,13 +29,35 @@
         ]);
         var options = {
           is3D: true,
-          colors: [ '#a94442', 'orange', 'blue' ],
+          colors: [ '#a52b0e', 'orange', 'blue' ],
           legend: { alignment: 'center' },
           chartArea: { top: 0, left: 0, height: '100%' }
         };
-        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        var chart = new google.visualization.PieChart(document.getElementById('graficoTotais'));
         chart.draw(data, options);
       }
+      function graficoPorCategoria() {
+          var data = google.visualization.arrayToDataTable([
+            ['Recebimentos Pendentes Por Categoria', 'Valor (R$)']
+            <c:forEach var="total" items="${totalPorCategoria}">
+                ,['${total[1]}: <fmt:formatNumber value="${total[0]}" type="currency"/>', ${total[0]}]
+            </c:forEach>
+          ]);
+          var options = { is3D: true, legend: { alignment: 'center' }, chartArea: { top: 0, left: 0, height: '100%' } };
+          var chart = new google.visualization.PieChart(document.getElementById('graficoPorCategoria'));
+          chart.draw(data, options);
+        }
+      function graficoPorDia() {
+          var data = google.visualization.arrayToDataTable([
+            ['Recebimentos Pendentes Por Dia', 'Valor (R$)']
+            <c:forEach var="total" items="${totalPorDia}">
+                ,['<fmt:formatDate value="${total[1]}" pattern="dd/MM"/>', ${total[0]}]
+            </c:forEach>
+          ]);
+          var options = { legend: { position: 'none' } };
+          var chart = new google.visualization.LineChart(document.getElementById('graficoPorDia'));
+          chart.draw(data, options);
+        }
   </script>
 
 </head>
@@ -52,7 +76,12 @@
   <div class="page-header" style="margin-top: -10px;">
     <h4>Relatório sintético: <small>Valor total: <fmt:formatNumber value="${total}" type="currency"/></small></h4>
   </div>
-  <div id="piechart_3d" style="height: 150px;"></div>
+  
+  <div class="row">
+    <div class="col-xs-12 col-md-4" id="graficoTotais" style="height: 150px;"></div>
+    <div class="col-xs-12 col-md-4" id="graficoPorCategoria" style="height: 150px;"></div>
+    <div class="col-xs-12 col-md-4" id="graficoPorDia" style="height: 150px;"></div>
+  </div>
 
   <div class="page-header">
     <h4>Relatório analítico</h4>
