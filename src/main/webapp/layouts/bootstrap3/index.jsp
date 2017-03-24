@@ -5,7 +5,7 @@
 <html lang="en">
   <head>
     <%@include file="../head.jsp"%>
-    <dandelion:bundle includes="bootstrap3"/>
+    <dandelion:bundle includes="bootstrap"/>
     <sitemesh:write property='head' />
   </head>
 

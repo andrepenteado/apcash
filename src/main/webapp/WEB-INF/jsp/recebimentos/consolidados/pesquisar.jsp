@@ -43,31 +43,39 @@
   <%@include file="/layouts/modal-mensagens.jsp"%>
   <%@include file="/layouts/modal-exclusao.jsp"%>
 
+  <div class="page-header" style="margin-top: -10px;">
+    <h4>Relatório analítico: <small>Valor total: <fmt:formatNumber value="${total}" type="currency"/></small></h4>
+  </div>
+
   <form name="form-pesquisar-recebidos" id="form-pesquisar-recebidos" action="${linkController}">
     <%@include file="/layouts/modal-processando.jsp" %>
     <div class="row">
-      <div class="form-group col-xs-12 col-md-4 col-md-offset-2">
+      <div class="form-group col-xs-12 col-md-3">
         <label for="txt_data_inicio" class="control-label">Data Início</label>
         <div class="input-group date" id="data_inicio">
-          <input type="text" name="txt_data_inicio" id="txt_data_inicio" class="form-control" placeholder="Pesquisar a partir desta data de recebimento"/>
+          <input type="text" name="txt_data_inicio" id="txt_data_inicio" class="form-control" value="${txt_data_inicio}" placeholder="Pesquisar a partir desta data de recebimento"/>
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>
         </div>
       </div>
-      <div class="form-group col-xs-12 col-md-4">
+      <div class="form-group col-xs-12 col-md-3">
         <label for="txt_data_inicio" class="control-label">Data Fim</label>
         <div class="input-group date" id="data_fim">
-          <input type="text" name="txt_data_fim" id="txt_data_fim" class="form-control" placeholder="Pesquisar até esta data de recebimento"/>
+          <input type="text" name="txt_data_fim" id="txt_data_fim" class="form-control" value="${txt_data_fim}" placeholder="Pesquisar até esta data de recebimento"/>
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-xs-12 col-md-12 text-center">
-        <button type="button" class="btn btn-primary" name="btn_pesquisar" id="btn_pesquisar"><span class="glyphicon glyphicon-search"></span> Pesquisar</button>
+      <div class="form-group col-xs-12 col-md-6">
+        <label for=txt_chave class="control-label">Descrição</label>
+        <div class="input-group">
+          <input type="text" name="txt_descricao" id="txt_descricao" value="${txt_descricao}" placeholder="Descrição ou parte da descrição a ser pesquisada" class="form-control"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-primary" name="btn_pesquisar" id="btn_pesquisar"><span class="glyphicon glyphicon-search"></span> Pesquisar</button>
+          </span>
+        </div>
       </div>
     </div>
   </form>
