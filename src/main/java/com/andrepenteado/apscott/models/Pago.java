@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 import lombok.Data;
@@ -53,8 +54,8 @@ public class Pago implements Serializable {
 	private BigDecimal valorPago;
 
 	@NotNull
-	@Past
 	@Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "data_pagamento")
 	private Date dataPagamento;
 

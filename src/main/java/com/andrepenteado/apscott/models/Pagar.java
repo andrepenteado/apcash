@@ -3,6 +3,7 @@ package com.andrepenteado.apscott.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 
@@ -15,14 +16,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 import lombok.Data;
@@ -36,38 +38,56 @@ import lombok.ToString;
 @Table(name = "pagar")
 public class Pagar implements Serializable {
 
-	private static final long serialVersionUID = -5444758171825826973L;
+    private static final long serialVersionUID = -5444758171825826973L;
 
-	@Id
-	@SequenceGenerator(name = "pagar_id_seq", sequenceName = "pagar_id_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pagar_id_seq")
-	@Column(name = "id", nullable = false)
-	private Long id;
+    @Id
+    @SequenceGenerator(name = "pagar_id_seq", sequenceName = "pagar_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pagar_id_seq")
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-	@NotBlank
-	@Column(name = "descricao")
-	private String descricao;
+    @NotBlank
+    @Column(name = "descricao")
+    private String descricao;
 
-	@NotNull
-	@Future
-	@Temporal(TemporalType.DATE)
-	@Column(name = "data_vencimento")
-	private Date dataVencimento;
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "data_vencimento")
+    private Date dataVencimento;
 
-	@NotNull
-	@NumberFormat(pattern = "#,##0.00")
-	@Column(name = "valor")
-	private BigDecimal valor;
+    @NotNull
+    @NumberFormat(pattern = "#,##0.00")
+    @Column(name = "valor")
+    private BigDecimal valor;
 
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "id_categoria", referencedColumnName = "id")
-	private Categoria categoria;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "id_categoria", referencedColumnName = "id")
+    private Categoria categoria;
 
-	@Column(name = "observacao")
-	private String observacao;
+    @Column(name = "observacao")
+    private String observacao;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "id_pagar", insertable = false, updatable = false)
-	private Collection<Pago> pagamentos;
+    @OneToMany(mappedBy = "pagar", cascade = CascadeType.ALL)
+    @OrderBy(value = "dataPagamento")
+    private Collection<Pago> pagamentos;
+
+    public boolean isVencida() {
+        LocalDate hoje = LocalDate.now();
+        LocalDate dataVencimento = new java.sql.Date(this.dataVencimento.getTime()).toLocalDate();
+        return hoje.isAfter(dataVencimento);
+    }
+
+    public boolean isVencendo() {
+        LocalDate hoje = LocalDate.now();
+        LocalDate dataVencimento = new java.sql.Date(this.dataVencimento.getTime()).toLocalDate();
+        return hoje.isEqual(dataVencimento);
+    }
+
+    public boolean isVencer() {
+        LocalDate hoje = LocalDate.now();
+        LocalDate dataVencimento = new java.sql.Date(this.dataVencimento.getTime()).toLocalDate();
+        return hoje.isBefore(dataVencimento);
+    }
 }
