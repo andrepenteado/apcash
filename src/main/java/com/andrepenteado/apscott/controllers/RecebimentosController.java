@@ -9,7 +9,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.andrepenteado.apscott.models.DespesaReceita;
 import com.andrepenteado.apscott.models.Receber;
 import com.andrepenteado.apscott.models.Recebido;
 import com.andrepenteado.apscott.models.TipoQuitacao;
@@ -48,9 +48,9 @@ public class RecebimentosController {
     @GetMapping("/pendentes")
     public String pendentes(Model model) {
         model.addAttribute("listagemPendentes", repository.pesquisarRecebimentosPendentes());
-        model.addAttribute("total", Objects.firstNonNull(repository.somarTotalReceber(), 0));
-        model.addAttribute("totalPorCategoria", repository.somarTotalReceberAgrupadoPorCategoria());
-        model.addAttribute("totalPorDia", repository.somarTotalReceberAgrupadoPorDia());
+        model.addAttribute("total", Objects.firstNonNull(repository.somarTotal(), 0));
+        model.addAttribute("totalPorCategoria", repository.somarTotalPendenteAgrupadoPorCategoria());
+        /*model.addAttribute("totalPorDia", repository.somarTotalPendenteAgrupadoPorDia());*/
         model.addAttribute("totalVencer", Objects.firstNonNull(repository.somarTotalVencer(), 0));
         model.addAttribute("totalVencido", Objects.firstNonNull(repository.somarTotalVencido(), 0));
         model.addAttribute("totalVencendo", Objects.firstNonNull(repository.somarTotalVencendo(), 0));
@@ -87,7 +87,7 @@ public class RecebimentosController {
     }
 
     public String abrirCadastroReceber(Model model) {
-        model.addAttribute("listagemCategorias", categoriaRepository.findAll(new Sort(Sort.Direction.ASC, "descricao")));
+        model.addAttribute("listagemCategorias", categoriaRepository.pesquisarPorTipo(DespesaReceita.RECEITA));
         return "/recebimentos/pendentes/cadastro";
     }
 
@@ -135,7 +135,7 @@ public class RecebimentosController {
         if (dataInicio != null && dataFim != null) {
             model.addAttribute("total", Objects.firstNonNull(repository.somarRecebidoPorDescricaoPorData(descricao, dataInicio, dataFim), 0));
             model.addAttribute("totalPorCategoria", repository.somarTotalRecebidoAgrupadoPorCategoria(descricao, dataInicio, dataFim));
-            model.addAttribute("totalPorDia", repository.somarTotalRecebidoAgrupadoPorDia(descricao, dataInicio, dataFim));
+            /*model.addAttribute("totalPorDia", repository.somarTotalRecebidoAgrupadoPorDia(descricao, dataInicio, dataFim));*/
             model.addAttribute("listagemConsolidados", repository.pesquisarRecebidoPorDescricaoPorData(descricao, dataInicio, dataFim));
             model.addAttribute("txt_data_inicio", new SimpleDateFormat("dd/MM/yyyy").format(dataInicio));
             model.addAttribute("txt_data_fim", new SimpleDateFormat("dd/MM/yyyy").format(dataFim));

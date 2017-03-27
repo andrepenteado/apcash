@@ -25,6 +25,7 @@
   <button class="unespfc-floating-button" onclick="location.href='${linkController}/incluir'">+</button>
   <datatables:table data="${listagemCategorias}" row="categoria" id="GridDatatable" sortable="false">
     <datatables:column title="Descrição" property="descricao"/>
+    <datatables:column title="Tipo" property="despesaReceita"/>
     <datatables:column title="Operações" filterable="false" searchable="false" cssCellClass="text-center">
       <a href="${linkController}/editar/${categoria.id}" class="btn btn-default btn-xs" data-toggle="tooltip" title="Alterar">
         <span class='glyphicon glyphicon-pencil'></span>

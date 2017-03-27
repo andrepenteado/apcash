@@ -19,7 +19,8 @@
   $(document).ready(function() {
       var formValidator = $("#categoria").validate({
           rules : {
-              descricao : { required : true }
+              descricao : { required : true },
+              despesaReceita : { required : true }
           }
       });
       $("#descricao").focus();
@@ -38,11 +39,19 @@
         <div class="row">
           <spring:bind path="descricao">
             <div class="form-group col-xs-12 col-md-12 ${status.error ? 'has-error' : ''}">
-	          <label for="descricao" class="control-label">Descrição</label>
-	          <form:input path="descricao" class="form-control" placeholder="Digite a descrição da categoria de contas"/>
-	          <span class="has-error"><form:errors path="descricao" class="help-block"/></span>
-	        </div>
-	      </spring:bind>
+              <label for="descricao" class="control-label">Descrição</label>
+              <form:input path="descricao" class="form-control" placeholder="Digite a descrição da categoria de contas"/>
+              <span class="has-error"><form:errors path="descricao" class="help-block"/></span>
+            </div>
+          </spring:bind>
+        </div>
+        <div class="row">
+          <spring:bind path="despesaReceita">
+            <div class="form-group col-xs-12 col-md-12 ${status.error ? 'has-error' : ''}">
+              <form:radiobuttons path="despesaReceita" items="${tipos}" itemLabel="descricao" element="label class='radio-inline'"/>
+              <span class="has-error"><form:errors path="despesaReceita" class="help-block"/></span>
+            </div>
+          </spring:bind>
         </div>
       </div>
       <div class="form-group col-x-12 col-md-12" style="text-align: center; margin-top: 25px;">

@@ -8,6 +8,7 @@ Segue comandos SQLs para a criação do banco de dados utilizado pelo sistema:
 CREATE TABLE categoria (
    id serial, 
    descricao character varying NOT NULL, 
+   despesa_receita character varying NOT NULL, 
    CONSTRAINT pk_categoria PRIMARY KEY (id)
 );
 
@@ -70,13 +71,6 @@ CREATE TABLE pago (
 
 Criar aplicação pela interface web - dashboard.heroku.com - e instalar o add-on Heroku Postgres::Database na aba pela Resources do dashboard.
 
-Criar o banco de dados via psql do heroku:
-
-```bash
-heroku login
-heroku pg:psql
-```
-
 Instalar o aplicativo de deploy via linha de comando:
 
 ```bash
@@ -85,6 +79,13 @@ curl -L https://cli-assets.heroku.com/apt/release.key | sudo apt-key add -
 apt update
 apt install heroku
 heroku plugins:install heroku-cli-deploy
+```
+
+Criar o banco de dados via psql do heroku:
+
+```bash
+heroku login
+heroku pg:psql
 ```
 
 Deploy de arquivo war:

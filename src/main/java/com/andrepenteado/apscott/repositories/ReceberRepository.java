@@ -20,7 +20,7 @@ public interface ReceberRepository extends JpaRepository<Receber, Long> {
     List<Receber> pesquisarRecebimentosPendentes();
 
     @Query("SELECT SUM(r.valor) FROM Receber r WHERE r.recebimentos IS EMPTY")
-    BigDecimal somarTotalReceber();
+    BigDecimal somarTotal();
 
     @Query("SELECT SUM(r.valor) FROM Receber r WHERE r.dataVencimento < CURRENT_DATE AND r.recebimentos IS EMPTY GROUP BY r.dataVencimento")
     BigDecimal somarTotalVencido();
@@ -32,10 +32,10 @@ public interface ReceberRepository extends JpaRepository<Receber, Long> {
     BigDecimal somarTotalVencer();
 
     @Query("SELECT SUM(r.valor), r.categoria.descricao FROM Receber r WHERE r.recebimentos IS EMPTY GROUP BY r.categoria.descricao")
-    List<Object> somarTotalReceberAgrupadoPorCategoria();
+    List<Object> somarTotalPendenteAgrupadoPorCategoria();
 
     @Query("SELECT SUM(r.valor), r.dataVencimento FROM Receber r WHERE r.recebimentos IS EMPTY GROUP BY r.dataVencimento ORDER BY r.dataVencimento")
-    List<Object> somarTotalReceberAgrupadoPorDia();
+    List<Object> somarTotalPendenteAgrupadoPorDia();
 
     @Query("SELECT r FROM Recebido r WHERE lower(r.receber.descricao) LIKE concat('%', lower(?1), '%') AND r.dataRecebimento BETWEEN ?2 AND ?3 ORDER BY r.dataRecebimento")
     List<Recebido> pesquisarRecebidoPorDescricaoPorData(String descricao, Date dataInicio, Date dataFim);

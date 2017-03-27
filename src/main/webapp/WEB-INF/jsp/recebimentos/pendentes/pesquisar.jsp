@@ -19,7 +19,7 @@
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(graficoTotais);
       google.charts.setOnLoadCallback(graficoPorCategoria);
-      google.charts.setOnLoadCallback(graficoPorDia);
+      /* google.charts.setOnLoadCallback(graficoPorDia); */
       function graficoTotais() {
         var data = google.visualization.arrayToDataTable([
           ['Recebimentos Pendentes', 'Valor (R$)'],
@@ -47,7 +47,7 @@
           var chart = new google.visualization.PieChart(document.getElementById('graficoPorCategoria'));
           chart.draw(data, options);
         }
-      function graficoPorDia() {
+      /* function graficoPorDia() {
           var data = google.visualization.arrayToDataTable([
             ['Recebimentos Pendentes Por Dia', 'Valor (R$)']
             <c:forEach var="total" items="${totalPorDia}">
@@ -57,7 +57,7 @@
           var options = { legend: { position: 'none' } };
           var chart = new google.visualization.LineChart(document.getElementById('graficoPorDia'));
           chart.draw(data, options);
-        }
+        } */
   </script>
 
 </head>
@@ -78,9 +78,9 @@
   </div>
   
   <div class="row">
-    <div class="col-xs-12 col-md-4" id="graficoTotais" style="height: 150px;"></div>
-    <div class="col-xs-12 col-md-4" id="graficoPorCategoria" style="height: 150px;"></div>
-    <div class="col-xs-12 col-md-4" id="graficoPorDia" style="height: 150px;"></div>
+    <div class="col-xs-12 col-md-6" id="graficoTotais" style="height: 150px;"></div>
+    <div class="col-xs-12 col-md-6" id="graficoPorCategoria" style="height: 150px;"></div>
+    <!-- <div class="col-xs-12 col-md-4" id="graficoPorDia" style="height: 150px;"></div> -->
   </div>
 
   <div class="page-header">
