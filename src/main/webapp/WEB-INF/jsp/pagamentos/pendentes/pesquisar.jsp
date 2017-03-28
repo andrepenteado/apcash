@@ -11,53 +11,24 @@
 <html>
 
 <head>
-  <title>Pagamentos Pendentes</title>
-  <meta name="header" content="Pagamentos Pendentes" />
+  <title>Débitos Pendentes</title>
+  <meta name="header" content="Débitos Pendentes" />
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(graficoTotais);
+      google.charts.load("current", {packages:["corechart"], 'language': 'pt_BR'});
       google.charts.setOnLoadCallback(graficoPorCategoria);
-      /* google.charts.setOnLoadCallback(graficoPorDia); */
-      function graficoTotais() {
-        var data = google.visualization.arrayToDataTable([
-          ['Pagamentos Pendentes', 'Valor (R$)'],
-          ['Vencidas: <fmt:formatNumber value="${totalVencido}" type="currency"/>', ${totalVencido}],
-          ['Vencendo: <fmt:formatNumber value="${totalVencendo}" type="currency"/>', ${totalVencendo}],
-          ['A vencer: <fmt:formatNumber value="${totalVencer}" type="currency"/>', ${totalVencer}]
-        ]);
-        var options = {
-          is3D: true,
-          colors: [ '#a52b0e', 'orange', 'blue' ],
-          legend: { alignment: 'center' },
-          chartArea: { top: 0, left: 0, height: '100%' }
-        };
-        var chart = new google.visualization.PieChart(document.getElementById('graficoTotais'));
-        chart.draw(data, options);
-      }
       function graficoPorCategoria() {
           var data = google.visualization.arrayToDataTable([
-            ['Pagamentos Pendentes Por Categoria', 'Valor (R$)']
+            ['Categoria', 'Valor']
             <c:forEach var="total" items="${totalPorCategoria}">
-                ,['${total[1]}: <fmt:formatNumber value="${total[0]}" type="currency"/>', ${total[0]}]
+                ,['${total[1]}: <fmt:formatNumber value="${total[0]}" type="currency"/>', {v: ${total[0]}, f: '<fmt:formatNumber value="${total[0]}" type="currency"/>'}]
             </c:forEach>
           ]);
           var options = { is3D: true, legend: { alignment: 'center' }, chartArea: { top: 0, left: 0, height: '100%' } };
           var chart = new google.visualization.PieChart(document.getElementById('graficoPorCategoria'));
           chart.draw(data, options);
         }
-      /* function graficoPorDia() {
-          var data = google.visualization.arrayToDataTable([
-            ['Pagamentos Pendentes Por Dia', 'Valor (R$)']
-            <c:forEach var="total" items="${totalPorDia}">
-                ,['<fmt:formatDate value="${total[1]}" pattern="dd/MM"/>', ${total[0]}]
-            </c:forEach>
-          ]);
-          var options = { legend: { position: 'none' } };
-          var chart = new google.visualization.LineChart(document.getElementById('graficoPorDia'));
-          chart.draw(data, options);
-        } */
   </script>
 
 </head>
@@ -70,7 +41,7 @@
       function fnFooterCallback( row, data, start, end, display ) {
     	  var totalPage = 0;
     	  for (var i = start; i < end; i++) {
-    		  totalPage += Number(data[display[i]].valor.replace('R$', '').replace('.', '').replace(',', '.'));
+    		  totalPage += Number(data[display[i]].valor.replace('.', '').replace(',', '.'));
     	  }
     	  $("#totalAnalitico").html("Valor total exibido: R$ " + totalPage.toFixed(2));
       };
@@ -85,9 +56,7 @@
   </div>
   
   <div class="row">
-    <div class="col-xs-12 col-md-6" id="graficoTotais" style="height: 150px;"></div>
-    <div class="col-xs-12 col-md-6" id="graficoPorCategoria" style="height: 150px;"></div>
-    <!-- <div class="col-xs-12 col-md-4" id="graficoPorDia" style="height: 150px;"></div> -->
+    <div class="col-xs-12 col-md-12" id="graficoPorCategoria" style="height: 150px;"></div>
   </div>
 
   <div class="page-header">
@@ -98,8 +67,9 @@
   <datatables:table data="${listagemPendentes}" row="pagar" id="GridDatatable">
     <c:set var="cssLinha">${pagar.vencida ? 'danger' : pagar.vencendo ? 'warning' : ''}</c:set>
     <datatables:column title="Descrição" property="descricao" cssCellClass="${cssLinha}"/>
+    <datatables:column title="Categoria" property="categoria.descricao" cssCellClass="${cssLinha}"/>
     <datatables:column title="Vencimento" property="dataVencimento" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center ${cssLinha}"/>
-    <datatables:column title="Valor" property="valor" format="R$ {0,number,#,##0.00}" cssCellClass="text-right ${cssLinha}"/>
+    <datatables:column title="Valor(R$)" property="valor" format="{0,number,#,##0.00}" cssCellClass="text-right ${cssLinha}"/>
     <datatables:column title="Operações" filterable="false" searchable="false" sortable="false" cssCellClass="text-center ${cssLinha}">
       <a href="#" data-href="${linkController}/consolidar/${pagar.id}" class="btn btn-success btn-xs"
                   data-mensagem-confirmacao="Deseja realmente consolidar a conta ${pagar.descricao}?"
@@ -110,7 +80,7 @@
         <span class='glyphicon glyphicon-pencil'></span>
       </a>
       <a href="#" data-href="${linkController}/excluir/${pagar.id}" class="btn btn-danger btn-xs"
-                  data-mensagem-exclusao="Deseja realmente excluir ${pagar.descricao}?"
+                  data-mensagem-exclusao="Deseja realmente excluir o débito ${pagar.descricao}?"
                   data-toggle="modal" data-target="#janela-exclusao-modal">
         <span class='glyphicon glyphicon-trash' data-toggle="tooltip" title="Excluir"></span>
       </a>

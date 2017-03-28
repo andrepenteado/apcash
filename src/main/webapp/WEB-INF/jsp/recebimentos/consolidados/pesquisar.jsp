@@ -11,17 +11,16 @@
 <html>
 
 <head>
-  <title>Recebimentos Consolidados</title>
-  <meta name="header" content="Recebimentos Consolidados" />
+  <title>Créditos Consolidados</title>
+  <meta name="header" content="Créditos Consolidados" />
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(graficoPorCategoria);
-      /* google.charts.setOnLoadCallback(graficoPorDia); */
       function graficoPorCategoria() {
           var data = google.visualization.arrayToDataTable([
-            ['Recebimentos Pendentes Por Categoria', 'Valor (R$)']
+            ['Categoria', 'Valor']
             <c:forEach var="total" items="${totalPorCategoria}">
                 ,['${total[1]}: <fmt:formatNumber value="${total[0]}" type="currency"/>', ${total[0]}]
             </c:forEach>
@@ -29,18 +28,7 @@
           var options = { is3D: true, legend: { alignment: 'center' }, chartArea: { top: 0, left: 0, height: '100%' } };
           var chart = new google.visualization.PieChart(document.getElementById('graficoPorCategoria'));
           chart.draw(data, options);
-        }
-      /* function graficoPorDia() {
-          var data = google.visualization.arrayToDataTable([
-            ['Recebimentos Pendentes Por Dia', 'Valor (R$)']
-            <c:forEach var="total" items="${totalPorDia}">
-                ,['<fmt:formatDate value="${total[1]}" pattern="dd/MM"/>', ${total[0]}]
-            </c:forEach>
-          ]);
-          var options = { legend: { position: 'none' } };
-          var chart = new google.visualization.LineChart(document.getElementById('graficoPorDia'));
-          chart.draw(data, options);
-        } */
+      }
   </script>
 
 </head>
@@ -71,7 +59,7 @@
       function fnFooterCallback( row, data, start, end, display ) {
           var totalPage = 0;
           for (var i = start; i < end; i++) {
-              totalPage += Number(data[display[i]].valor.replace('R$', '').replace('.', '').replace(',', '.'));
+              totalPage += Number(data[display[i]].valorRecebido.replace('R$', '').replace('.', '').replace(',', '.'));
           }
           $("#totalAnalitico").html("Valor total exibido: R$ " + totalPage.toFixed(2));
       };
@@ -85,7 +73,6 @@
   </div>
   <div class="row">
     <div class="col-xs-12 col-md-12" id="graficoPorCategoria" style="height: 150px;"></div>
-    <!-- <div class="col-xs-12 col-md-6" id="graficoPorDia" style="height: 150px;"></div> -->
   </div>
 
   <div class="page-header">
@@ -127,6 +114,7 @@
 
   <datatables:table data="${listagemConsolidados}" row="recebido" id="GridDatatable">
     <datatables:column title="Descrição" property="receber.descricao"/>
+    <datatables:column title="Categoria" property="receber.categoria.descricao"/>
     <datatables:column title="Recebimento" property="dataRecebimento" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center"/>
     <datatables:column title="Valor" property="valorRecebido" format="R$ {0,number,#,##0.00}" cssCellClass="text-right"/>
     <datatables:column title="Extornar" filterable="false" searchable="false" sortable="false" cssCellClass="text-center">

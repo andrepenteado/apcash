@@ -10,6 +10,14 @@
   </head>
 
   <body>
+    <link href="https://fonts.googleapis.com/css?family=Itim" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Itim', cursive;
+        font-size: 16px;
+      }
+    </style>
+
     <!-- Static navbar -->
     <nav class="navbar navbar-inverse navbar-static-top">
       <div class="container-fluid">

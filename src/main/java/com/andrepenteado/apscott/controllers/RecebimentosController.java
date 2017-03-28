@@ -50,10 +50,6 @@ public class RecebimentosController {
         model.addAttribute("listagemPendentes", repository.pesquisarRecebimentosPendentes());
         model.addAttribute("total", Objects.firstNonNull(repository.somarTotal(), 0));
         model.addAttribute("totalPorCategoria", repository.somarTotalPendenteAgrupadoPorCategoria());
-        /*model.addAttribute("totalPorDia", repository.somarTotalPendenteAgrupadoPorDia());*/
-        model.addAttribute("totalVencer", Objects.firstNonNull(repository.somarTotalVencer(), 0));
-        model.addAttribute("totalVencido", Objects.firstNonNull(repository.somarTotalVencido(), 0));
-        model.addAttribute("totalVencendo", Objects.firstNonNull(repository.somarTotalVencendo(), 0));
         return "/recebimentos/pendentes/pesquisar";
     }
 
