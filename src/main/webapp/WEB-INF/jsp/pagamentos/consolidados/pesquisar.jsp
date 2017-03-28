@@ -68,6 +68,13 @@
           $("#data_fim").datetimepicker({locale: "pt-br", format: "DD/MM/YYYY"});
           $('[data-toggle="tooltip"]').tooltip();
       });
+      function fnFooterCallback( row, data, start, end, display ) {
+          var totalPage = 0;
+          for (var i = start; i < end; i++) {
+              totalPage += Number(data[display[i]].valor.replace('R$', '').replace('.', '').replace(',', '.'));
+          }
+          $("#totalAnalitico").html("Valor total exibido: R$ " + totalPage.toFixed(2));
+      };
   </script>
 
   <%@include file="/layouts/modal-mensagens.jsp"%>
@@ -82,7 +89,7 @@
   </div>
 
   <div class="page-header">
-    <h4>Relatório analítico</h4>
+    <h4>Relatório analítico: <small id="totalAnalitico"></small></h4>
   </div>
 
   <form name="form-pesquisar-pagos" id="form-pesquisar-pagos" action="${linkController}">
@@ -129,6 +136,7 @@
         <span class='glyphicon glyphicon-trash' data-toggle="tooltip" title="Excluir"></span>
       </a>
     </datatables:column>
+    <datatables:callback function="fnFooterCallback" type="footer"/>
     <datatables:extraJs bundles="datatables.extended.config" placeholder="before_start_document_ready" />
   </datatables:table>
   <br/>
