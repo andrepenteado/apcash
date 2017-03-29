@@ -10,23 +10,29 @@
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"], 'language': 'pt_BR'});
-      google.charts.setOnLoadCallback(graficoPorDia);
-      function graficoPorDia() {
+      google.charts.load("current", {packages:["bar"], 'language': 'pt_BR'});
+      google.charts.setOnLoadCallback(graficoPendentesPorDia);
+      google.charts.setOnLoadCallback(graficoConsolidadosPorDia);
+      function graficoPendentesPorDia() {
           var data = google.visualization.arrayToDataTable([
-            ['Dia', 'Receita', 'Despesa', 'Saldo']
-            <c:forEach var="total" items="${graficoPorDia}">
-                ,['<fmt:formatDate value="${total.key}" pattern="dd/MM"/>', ${total.value[0]}, ${total.value[1]}, ${total.value[0] - total.value[1]}]
+            ['Dias', 'Receita', 'Despesa', 'Saldo']
+            <c:forEach var="total" items="${graficoPendentesPorDia}">
+                ,['<fmt:formatDate value="${total.key}" pattern="dd/MM"/>', ${total.value[0]}, ${total.value[1]}, ${total.value[0] - total.value[1]} ]
             </c:forEach>
           ]);
-          var options = {
-              legend: { position: 'bottom' },
-              chartArea: { top: 10 },
-              seriesType: 'bars',
-              series: { 2: { type: 'line' } },
-              vAxis: { format: 'currency' }
-          };
-          var chart = new google.visualization.ComboChart(document.getElementById('graficoPorDia'));
+          var options = { bars: 'horizontal' };
+          var chart = new google.charts.Bar(document.getElementById('graficoPendentesPorDia'));
+          chart.draw(data, options);
+      }
+      function graficoConsolidadosPorDia() {
+          var data = google.visualization.arrayToDataTable([
+            ['Dias', 'Receita', 'Despesa', 'Saldo']
+            <c:forEach var="total" items="${graficoConsolidadosPorDia}">
+                ,['<fmt:formatDate value="${total.key}" pattern="dd/MM"/>', ${total.value[0]}, ${total.value[1]}, ${total.value[0] - total.value[1]} ]
+            </c:forEach>
+          ]);
+          var options = { bars: 'horizontal' };
+          var chart = new google.charts.Bar(document.getElementById('graficoConsolidadosPorDia'));
           chart.draw(data, options);
       }
   </script>
@@ -36,7 +42,19 @@
   <div class="page-header" style="margin-top: -10px;">
     <h4>Previsão de Saldo Diário</h4>
   </div>
-  <div class="col-xs-12 col-md-12" id="graficoPorDia" style="height: 250px;"></div>
+  <div class="row">
+    <c:set var="tamanhoGrafico">${graficoPendentesPorDia.size()*60 < 150 ? 150 : graficoPendentesPorDia.size()*60}</c:set>
+    <div class="col-xs-12 col-md-12" id="graficoPendentesPorDia" style="height: ${tamanhoGrafico}px;"></div>
+  </div>
+
+  <div class="page-header">
+    <h4>Consolidados últimos 30 dias</h4>
+  </div>
+  <div class="row">
+    <c:set var="tamanhoGrafico">${graficoConsolidadosPorDia.size()*60 < 150 ? 150 : graficoConsolidadosPorDia.size()*60}</c:set>
+    <div class="col-xs-12 col-md-12" id="graficoConsolidadosPorDia" style="height: ${tamanhoGrafico}px;"></div>
+  </div>
+
 </body>
 
 </html>
