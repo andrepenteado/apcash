@@ -6,7 +6,7 @@
 
 <c:set var="linkController"><c:url value="/recebimentos/pendentes"/></c:set>
 
-<dandelion:bundle includes="datatables.extended,floating.button"/>
+<dandelion:bundle includes="datatables.extended,floating.button,font-awesome"/>
 
 <html>
 
@@ -63,7 +63,8 @@
     <h4>Relatório analítico: <small id="totalAnalitico"></small></h4>
   </div>
 
-  <button class="unespfc-floating-button" onclick="location.href='${linkController}/incluir'">+</button>
+  <a href="${linkController}/incluir" class="float-button"><i class="fa fa-plus"></i></a>
+
   <datatables:table data="${listagemPendentes}" row="receber" id="GridDatatable">
     <c:set var="cssLinha">${receber.vencida ? 'danger' : receber.vencendo ? 'warning' : ''}</c:set>
     <datatables:column title="Descrição" property="descricao" cssCellClass="${cssLinha}"/>

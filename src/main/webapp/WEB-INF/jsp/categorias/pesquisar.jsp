@@ -5,7 +5,7 @@
 
 <c:set var="linkController"><c:url value="/categorias"/></c:set>
 
-<dandelion:bundle includes="datatables.extended,floating.button"/>
+<dandelion:bundle includes="datatables.extended,floating.button,font-awesome"/>
 
 <html>
 <head>
@@ -22,7 +22,8 @@
   <%@include file="/layouts/modal-mensagens.jsp"%>
   <%@include file="/layouts/modal-exclusao.jsp"%>
 
-  <button class="unespfc-floating-button" onclick="location.href='${linkController}/incluir'">+</button>
+  <a href="${linkController}/incluir" class="float-button"><i class="fa fa-plus"></i></a>
+
   <datatables:table data="${listagemCategorias}" row="categoria" id="GridDatatable" sortable="false">
     <datatables:column title="Descrição" property="descricao"/>
     <datatables:column title="Tipo" property="despesaReceita"/>
