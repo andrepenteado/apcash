@@ -10,29 +10,55 @@
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
-      google.charts.load("current", {packages:["bar"], 'language': 'pt_BR'});
+      google.charts.load("current", {packages:["corechart"], 'language': 'pt_BR'});
       google.charts.setOnLoadCallback(graficoPendentesPorDia);
       google.charts.setOnLoadCallback(graficoConsolidadosPorDia);
       function graficoPendentesPorDia() {
           var data = google.visualization.arrayToDataTable([
             ['Dias', 'Receita', 'Despesa', 'Saldo']
             <c:forEach var="total" items="${graficoPendentesPorDia}">
-                ,['<fmt:formatDate value="${total.key}" pattern="dd/MM"/>', ${total.value[0]}, ${total.value[1]}, ${total.value[0] - total.value[1]} ]
+                ,[
+                    { v: new Date('<fmt:formatDate value="${total.key}" pattern="yyyy-MM-dd"/>'), f: 'Dia: <fmt:formatDate value="${total.key}" pattern="dd/MM/yyyy"/>' },
+                    { v: ${total.value[0]}, f: '<fmt:formatNumber value="${total.value[0]}" type="currency"/>' },
+                    { v: ${total.value[1]}, f: '<fmt:formatNumber value="${total.value[1]}" type="currency"/>' },
+                    { v: ${total.value[0] - total.value[1]}, f: '<fmt:formatNumber value="${total.value[0] - total.value[1]}" type="currency"/>' }
+                 ]
             </c:forEach>
           ]);
-          var options = { bars: 'horizontal' };
-          var chart = new google.charts.Bar(document.getElementById('graficoPendentesPorDia'));
+          var options = { 
+              legend: { position: 'top', maxLines: 3 }, 
+              animation: { duration: 1000, startup: true, easing: 'out' }, 
+              chartArea: { width: '90%', height: '88%' }, 
+              focusTarget: 'category',
+              vAxis: { format: 'short' },
+              hAxis: { format: 'dd/MM' },
+              orientation: 'horizontal'
+          };
+          var chart = new google.visualization.AreaChart(document.getElementById('graficoPendentesPorDia'));
           chart.draw(data, options);
       }
       function graficoConsolidadosPorDia() {
           var data = google.visualization.arrayToDataTable([
             ['Dias', 'Receita', 'Despesa', 'Saldo']
             <c:forEach var="total" items="${graficoConsolidadosPorDia}">
-                ,['<fmt:formatDate value="${total.key}" pattern="dd/MM"/>', ${total.value[0]}, ${total.value[1]}, ${total.value[0] - total.value[1]} ]
+                ,[
+                    { v: new Date('<fmt:formatDate value="${total.key}" pattern="yyyy-MM-dd"/>'), f: 'Dia: <fmt:formatDate value="${total.key}" pattern="dd/MM/yyyy"/>' },
+                    { v: ${total.value[0]}, f: '<fmt:formatNumber value="${total.value[0]}" type="currency"/>' },
+                    { v: ${total.value[1]}, f: '<fmt:formatNumber value="${total.value[1]}" type="currency"/>' },
+                    { v: ${total.value[0] - total.value[1]}, f: '<fmt:formatNumber value="${total.value[0] - total.value[1]}" type="currency"/>' }  
+                 ]
             </c:forEach>
           ]);
-          var options = { bars: 'horizontal' };
-          var chart = new google.charts.Bar(document.getElementById('graficoConsolidadosPorDia'));
+          var options = { 
+              legend: { position: 'top', maxLines: 3 }, 
+              animation: { duration: 1000, startup: true, easing: 'out' }, 
+              chartArea: { width: '90%', height: '88%' }, 
+              focusTarget: 'category',
+              vAxis: { format: 'short' },
+              hAxis: { format: 'dd/MM' },
+              orientation: 'horizontal'
+          };
+          var chart = new google.visualization.AreaChart(document.getElementById('graficoConsolidadosPorDia'));
           chart.draw(data, options);
       }
   </script>
@@ -43,16 +69,14 @@
     <h4>Previsão de Saldo Diário</h4>
   </div>
   <div class="row">
-    <c:set var="tamanhoGrafico">${graficoPendentesPorDia.size()*60 < 150 ? 150 : graficoPendentesPorDia.size()*60}</c:set>
-    <div class="col-xs-12 col-md-12" id="graficoPendentesPorDia" style="height: ${tamanhoGrafico}px;"></div>
+    <div class="col-xs-12 col-md-12" id="graficoPendentesPorDia" style="height: 300px;"></div>
   </div>
 
   <div class="page-header">
-    <h4>Consolidados últimos 30 dias</h4>
+    <h4>Consolidados últimos 90 dias</h4>
   </div>
   <div class="row">
-    <c:set var="tamanhoGrafico">${graficoConsolidadosPorDia.size()*60 < 150 ? 150 : graficoConsolidadosPorDia.size()*60}</c:set>
-    <div class="col-xs-12 col-md-12" id="graficoConsolidadosPorDia" style="height: ${tamanhoGrafico}px;"></div>
+    <div class="col-xs-12 col-md-12" id="graficoConsolidadosPorDia" style="height: 300px;"></div>
   </div>
 
 </body>

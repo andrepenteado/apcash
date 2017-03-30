@@ -92,11 +92,11 @@ public class DashboardController {
         /****************** Gráfico consolidado últimos 30 dias ***************************/
 
         Calendar hoje = Calendar.getInstance();
-        Calendar mesAtras = Calendar.getInstance();
-        mesAtras.add(Calendar.DAY_OF_MONTH, -31);
+        Calendar tresMesesAtras = Calendar.getInstance();
+        tresMesesAtras.add(Calendar.DAY_OF_MONTH, -91);
         Map<Date, BigDecimal[]> graficoConsolidadosPorDia = new TreeMap<Date, BigDecimal[]>();
-        List<Object[]> recebidoPorDia = receberRepository.somarTotalRecebidoAgrupadoPorDia("", mesAtras.getTime(), hoje.getTime());
-        List<Object[]> pagoPorDia = pagarRepository.somarTotalPagoAgrupadoPorDia("", mesAtras.getTime(), hoje.getTime());
+        List<Object[]> recebidoPorDia = receberRepository.somarTotalRecebidoAgrupadoPorDia("", tresMesesAtras.getTime(), hoje.getTime());
+        List<Object[]> pagoPorDia = pagarRepository.somarTotalPagoAgrupadoPorDia("", tresMesesAtras.getTime(), hoje.getTime());
 
         // Coloca os valores a receber com chave data e valor na posição do array 0
         for (Object[] recebido : recebidoPorDia) {
@@ -141,9 +141,9 @@ public class DashboardController {
         BigDecimal somadoRecebido = new BigDecimal(0);
         for (Date dia : graficoConsolidadosPorDia.keySet()) {
             BigDecimal[] recebidoPago = graficoConsolidadosPorDia.get(dia);
-            somadoReceber = somadoRecebido.add(recebidoPago[0]);
-            somadoPagar = somadoPago.add(recebidoPago[1]);
-            graficoPendentesPorDia.put(dia, new BigDecimal[] { somadoRecebido, somadoPago });
+            somadoRecebido = somadoRecebido.add(recebidoPago[0]);
+            somadoPago = somadoPago.add(recebidoPago[1]);
+            graficoConsolidadosPorDia.put(dia, new BigDecimal[] { somadoRecebido, somadoPago });
         }
 
         model.addAttribute("graficoConsolidadosPorDia", graficoConsolidadosPorDia);
