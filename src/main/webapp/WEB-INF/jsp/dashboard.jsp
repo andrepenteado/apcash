@@ -12,7 +12,7 @@
   <script type="text/javascript">
       google.charts.load("current", {packages:["corechart"], 'language': 'pt_BR'});
       google.charts.setOnLoadCallback(graficoPendentesPorDia);
-      google.charts.setOnLoadCallback(graficoConsolidadosPorDia);
+      google.charts.setOnLoadCallback(graficoLiquidadosPorDia);
       function graficoPendentesPorDia() {
           var data = google.visualization.arrayToDataTable([
             ['Dias', 'Receita', 'Despesa', 'Saldo']
@@ -37,10 +37,10 @@
           var chart = new google.visualization.AreaChart(document.getElementById('graficoPendentesPorDia'));
           chart.draw(data, options);
       }
-      function graficoConsolidadosPorDia() {
+      function graficoLiquidadosPorDia() {
           var data = google.visualization.arrayToDataTable([
             ['Dias', 'Receita', 'Despesa', 'Saldo']
-            <c:forEach var="total" items="${graficoConsolidadosPorDia}">
+            <c:forEach var="total" items="${graficoLiquidadosPorDia}">
                 ,[
                     { v: new Date('<fmt:formatDate value="${total.key}" pattern="yyyy-MM-dd"/>'), f: 'Dia: <fmt:formatDate value="${total.key}" pattern="dd/MM/yyyy"/>' },
                     { v: ${total.value[0]}, f: '<fmt:formatNumber value="${total.value[0]}" type="currency"/>' },
@@ -58,7 +58,7 @@
               hAxis: { format: 'dd/MM' },
               orientation: 'horizontal'
           };
-          var chart = new google.visualization.AreaChart(document.getElementById('graficoConsolidadosPorDia'));
+          var chart = new google.visualization.AreaChart(document.getElementById('graficoLiquidadosPorDia'));
           chart.draw(data, options);
       }
   </script>
@@ -73,10 +73,10 @@
   </div>
 
   <div class="page-header">
-    <h4>Consolidados últimos 90 dias</h4>
+    <h4>Liquidados últimos 90 dias</h4>
   </div>
   <div class="row">
-    <div class="col-xs-12 col-md-12" id="graficoConsolidadosPorDia" style="height: 300px;"></div>
+    <div class="col-xs-12 col-md-12" id="graficoLiquidadosPorDia" style="height: 300px;"></div>
   </div>
 
 </body>

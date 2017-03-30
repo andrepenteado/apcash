@@ -4,15 +4,15 @@
 <%@taglib prefix="datatables" uri="http://github.com/dandelion/datatables" %>
 <%@taglib prefix="dandelion" uri="http://github.com/dandelion" %>
 
-<c:set var="linkController"><c:url value="/recebimentos/consolidados"/></c:set>
+<c:set var="linkController"><c:url value="/creditos/liquidados"/></c:set>
 
 <dandelion:bundle includes="datatables.extended,jquery.validation,jquery.inputmask,jquery.datetimepicker"/>
 
 <html>
 
 <head>
-  <title>Créditos Consolidados</title>
-  <meta name="header" content="Créditos Consolidados" />
+  <title>Créditos Liquidados</title>
+  <meta name="header" content="Créditos Liquidados" />
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
@@ -112,14 +112,14 @@
     </div>
   </form>
 
-  <datatables:table data="${listagemConsolidados}" row="recebido" id="GridDatatable">
+  <datatables:table data="${listagemLiquidados}" row="recebido" id="GridDatatable">
     <datatables:column title="Descrição" property="receber.descricao"/>
     <datatables:column title="Categoria" property="receber.categoria.descricao"/>
     <datatables:column title="Recebimento" property="dataRecebimento" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center"/>
     <datatables:column title="Valor" property="valorRecebido" format="R$ {0,number,#,##0.00}" cssCellClass="text-right"/>
     <datatables:column title="Extornar" filterable="false" searchable="false" sortable="false" cssCellClass="text-center">
       <a href="#" data-href="${linkController}/excluir/${recebido.id}" class="btn btn-danger btn-xs"
-                  data-mensagem-exclusao="Deseja extorno do recebimento ${recebido.receber.descricao}?"
+                  data-mensagem-exclusao="Confirma extornar o crédito liquidado ${recebido.receber.descricao}?"
                   data-toggle="modal" data-target="#janela-exclusao-modal">
         <span class='glyphicon glyphicon-trash' data-toggle="tooltip" title="Excluir"></span>
       </a>

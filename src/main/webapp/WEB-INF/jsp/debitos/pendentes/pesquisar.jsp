@@ -4,7 +4,7 @@
 <%@taglib prefix="datatables" uri="http://github.com/dandelion/datatables" %>
 <%@taglib prefix="dandelion" uri="http://github.com/dandelion" %>
 
-<c:set var="linkController"><c:url value="/pagamentos/pendentes"/></c:set>
+<c:set var="linkController"><c:url value="/debitos/pendentes"/></c:set>
 
 <dandelion:bundle includes="datatables.extended,floating.button,font-awesome"/>
 
@@ -72,16 +72,16 @@
     <datatables:column title="Vencimento" property="dataVencimento" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center ${cssLinha}"/>
     <datatables:column title="Valor(R$)" property="valor" format="{0,number,#,##0.00}" cssCellClass="text-right ${cssLinha}"/>
     <datatables:column title="Operações" filterable="false" searchable="false" sortable="false" cssCellClass="text-center ${cssLinha}">
-      <a href="#" data-href="${linkController}/consolidar/${pagar.id}" class="btn btn-success btn-xs"
-                  data-mensagem-confirmacao="Deseja realmente consolidar a conta ${pagar.descricao}?"
+      <a href="#" data-href="${linkController}/liquidar/${pagar.id}" class="btn btn-success btn-xs"
+                  data-mensagem-confirmacao="Confirma liquidar o débito ${pagar.descricao}?"
                   data-toggle="modal" data-target="#janela-confirmacao-modal">
-        <span class='glyphicon glyphicon-usd' data-toggle="tooltip" title="Consolidar"></span>
+        <span class='glyphicon glyphicon-usd' data-toggle="tooltip" title="Liquidar"></span>
       </a>
       <a href="${linkController}/editar/${pagar.id}" class="btn btn-default btn-xs" data-toggle="tooltip" title="Alterar">
         <span class='glyphicon glyphicon-pencil'></span>
       </a>
       <a href="#" data-href="${linkController}/excluir/${pagar.id}" class="btn btn-danger btn-xs"
-                  data-mensagem-exclusao="Deseja realmente excluir o débito ${pagar.descricao}?"
+                  data-mensagem-exclusao="Confirma excluir o débito ${pagar.descricao}?"
                   data-toggle="modal" data-target="#janela-exclusao-modal">
         <span class='glyphicon glyphicon-trash' data-toggle="tooltip" title="Excluir"></span>
       </a>

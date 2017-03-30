@@ -4,20 +4,20 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<c:set var="actionGravar"><c:url value="/pagamentos/pendentes/gravar"/></c:set>
+<c:set var="actionGravar"><c:url value="/creditos/pendentes/gravar"/></c:set>
 
 <dandelion:bundle includes="jquery.validation,jquery.inputmask,jquery.datetimepicker" />
 
 <html>
 <head>
-  <title>Cadastro de Conta à Pagar</title>
+  <title>Cadastro de Crédito</title>
   <meta name="header" content="Cadastro" />
-  <meta name="previouspage" content="<li><a href='<c:url value="/pagamentos/pendentes"/>'>Pagamentos Pendentes</a></li>" />
+  <meta name="previouspage" content="<li><a href='<c:url value="/creditos/pendentes"/>'>Créditos Pendentes</a></li>" />
 </head>
 <body>
   <script type="text/javascript">
   $(document).ready(function() {
-      var formValidator = $("#pagar").validate({
+      var formValidator = $("#receber").validate({
           rules : {
               descricao : { required : true },
               dataVencimento : { required : true },
@@ -35,13 +35,13 @@
       });
   });
   </script>
-  <form:form action="${actionGravar}" modelAttribute="pagar">
+  <form:form action="${actionGravar}" modelAttribute="receber">
     <form:hidden path="id" />
     <div class="panel panel-primary col-xs-12 col-md-8 col-md-offset-2">
       <div class="panel-body">
         <div class="page-header" style="margin-top: 10px;">
-          <jsp:include page="/layouts/modal-mensagens.jsp"><jsp:param name="model" value="pagar"/></jsp:include>
-          <h3><strong>Conta à Pagar</strong></h3>
+          <jsp:include page="/layouts/modal-mensagens.jsp"><jsp:param name="model" value="receber"/></jsp:include>
+          <h3><strong>Conta à Receber</strong></h3>
         </div>
         <div class="row">
           <div class="form-group col-xs-12 col-md-12">

@@ -89,12 +89,12 @@ public class DashboardController {
 
         model.addAttribute("graficoPendentesPorDia", graficoPendentesPorDia);
 
-        /****************** Gráfico consolidado últimos 30 dias ***************************/
+        /****************** Gráfico liquidados últimos 30 dias ***************************/
 
         Calendar hoje = Calendar.getInstance();
         Calendar tresMesesAtras = Calendar.getInstance();
         tresMesesAtras.add(Calendar.DAY_OF_MONTH, -91);
-        Map<Date, BigDecimal[]> graficoConsolidadosPorDia = new TreeMap<Date, BigDecimal[]>();
+        Map<Date, BigDecimal[]> graficoLiquidadosPorDia = new TreeMap<Date, BigDecimal[]>();
         List<Object[]> recebidoPorDia = receberRepository.somarTotalRecebidoAgrupadoPorDia("", tresMesesAtras.getTime(), hoje.getTime());
         List<Object[]> pagoPorDia = pagarRepository.somarTotalPagoAgrupadoPorDia("", tresMesesAtras.getTime(), hoje.getTime());
 
@@ -107,14 +107,14 @@ public class DashboardController {
             Date currDay = (Date)recebido[1];
 
             // Tentar pegar os valores da data selecionada pelo for
-            BigDecimal[] itemGrafico = graficoConsolidadosPorDia.get(currDay);
+            BigDecimal[] itemGrafico = graficoLiquidadosPorDia.get(currDay);
 
             // Se já existe entrada para esta data, atualiza valor de receber [posição 0]
             if (itemGrafico != null)
                 itemGrafico[0] = currVal;
             else
                 itemGrafico = new BigDecimal[] { currVal, new BigDecimal(0) };
-            graficoConsolidadosPorDia.put(currDay, itemGrafico);
+            graficoLiquidadosPorDia.put(currDay, itemGrafico);
         }
 
         // Coloca os valores a receber com chave data e valor na posição do array 1
@@ -126,27 +126,27 @@ public class DashboardController {
             Date currDay = (Date)pago[1];
 
             // Tentar pegar os valores da data selecionada pelo for
-            BigDecimal[] itemGrafico = graficoConsolidadosPorDia.get(currDay);
+            BigDecimal[] itemGrafico = graficoLiquidadosPorDia.get(currDay);
 
             // Se já existe entrada para esta data, atualiza valor de pagar [posição 1]
             if (itemGrafico != null)
                 itemGrafico[1] = currVal;
             else
                 itemGrafico = new BigDecimal[] { new BigDecimal(0), currVal };
-            graficoConsolidadosPorDia.put(currDay, itemGrafico);
+            graficoLiquidadosPorDia.put(currDay, itemGrafico);
         }
 
         // Acerta Map do grafico, somando os valores conforme as datas passam [eliminam os 0]
         BigDecimal somadoPago = new BigDecimal(0);
         BigDecimal somadoRecebido = new BigDecimal(0);
-        for (Date dia : graficoConsolidadosPorDia.keySet()) {
-            BigDecimal[] recebidoPago = graficoConsolidadosPorDia.get(dia);
+        for (Date dia : graficoLiquidadosPorDia.keySet()) {
+            BigDecimal[] recebidoPago = graficoLiquidadosPorDia.get(dia);
             somadoRecebido = somadoRecebido.add(recebidoPago[0]);
             somadoPago = somadoPago.add(recebidoPago[1]);
-            graficoConsolidadosPorDia.put(dia, new BigDecimal[] { somadoRecebido, somadoPago });
+            graficoLiquidadosPorDia.put(dia, new BigDecimal[] { somadoRecebido, somadoPago });
         }
 
-        model.addAttribute("graficoConsolidadosPorDia", graficoConsolidadosPorDia);
+        model.addAttribute("graficoLiquidadosPorDia", graficoLiquidadosPorDia);
         return "/dashboard";
     }
 }

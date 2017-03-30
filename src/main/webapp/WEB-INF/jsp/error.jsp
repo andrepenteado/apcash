@@ -15,7 +15,7 @@
       <h2>Erro no processamento</h2>
       <p>Sua requisição não foi processada corretamente pelo servidor.</p>
       <br/>
-      <a href="javascript:history.back()" class="btn btn-primary"><span class="glyphicon glyphicon-repeat"></span> Voltar</a>
+      <a href="<%=request.getContextPath()%>/" class="btn btn-primary"><i class="fa fa-home"></i> Página Inicial</a>
     </div>
   </div>
 

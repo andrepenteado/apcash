@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/recebimentos")
+@RequestMapping("/creditos")
 public class RecebimentosController {
 
     @Autowired
@@ -50,59 +50,59 @@ public class RecebimentosController {
         model.addAttribute("listagemPendentes", repository.pesquisarRecebimentosPendentes());
         model.addAttribute("total", Objects.firstNonNull(repository.somarTotal(), 0));
         model.addAttribute("totalPorCategoria", repository.somarTotalPendenteAgrupadoPorCategoria());
-        return "/recebimentos/pendentes/pesquisar";
+        return "/creditos/pendentes/pesquisar";
     }
 
     @GetMapping("/pendentes/incluir")
-    public String incluirReceber(Model model) {
+    public String incluirCredito(Model model) {
         model.addAttribute("receber", new Receber());
-        return abrirCadastroReceber(model);
+        return abrirCadastroCredito(model);
     }
 
     @GetMapping("/pendentes/editar/{id}")
-    public String editarReceber(Model model, @PathVariable Long id) {
+    public String editarCredito(Model model, @PathVariable Long id) {
         Receber receber = repository.findOne(id);
         model.addAttribute("receber", receber);
-        return abrirCadastroReceber(model);
+        return abrirCadastroCredito(model);
     }
 
     @PostMapping("/pendentes/gravar")
-    public String gravarReceber(Model model, @ModelAttribute("receber") @Valid Receber receber, BindingResult result) {
+    public String gravarCredito(Model model, @ModelAttribute("receber") @Valid Receber receber, BindingResult result) {
         try {
             if (!result.hasErrors()) {
                 Receber receberAtualizado = repository.save(receber);
                 log.info(receberAtualizado.toString() + " gravada com sucesso");
-                model.addAttribute("mensagemInfo", config.getMessage("gravadoSucesso", new Object[] { "a conta à receber" }, null));
+                model.addAttribute("mensagemInfo", config.getMessage("gravadoSucesso", new Object[] { "o crédito" }, null));
             }
         }
         catch (Exception ex) {
             log.error("Erro de processamento", ex);
             model.addAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
         }
-        return abrirCadastroReceber(model);
+        return abrirCadastroCredito(model);
     }
 
-    public String abrirCadastroReceber(Model model) {
+    public String abrirCadastroCredito(Model model) {
         model.addAttribute("listagemCategorias", categoriaRepository.pesquisarPorTipo(DespesaReceita.RECEITA));
-        return "/recebimentos/pendentes/cadastro";
+        return "/creditos/pendentes/cadastro";
     }
 
     @GetMapping("/pendentes/excluir/{id}")
-    public String excluirReceber(RedirectAttributes ra, @PathVariable Long id) {
+    public String excluirCredito(RedirectAttributes ra, @PathVariable Long id) {
         try {
             repository.delete(id);
             log.info("Conta à receber #" + id + " excluída com sucesso");
-            ra.addFlashAttribute("mensagemInfo", config.getMessage("excluidoSucesso", new Object[] { "a conta à receber" }, null));
+            ra.addFlashAttribute("mensagemInfo", config.getMessage("excluidoSucesso", new Object[] { "o crédito" }, null));
         }
         catch (Exception ex) {
             log.error("Erro de processamento", ex);
             ra.addFlashAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
         }
-        return "redirect:/recebimentos/pendentes";
+        return "redirect:/creditos/pendentes";
     }
 
-    @GetMapping("/pendentes/consolidar/{id}")
-    public String consolidarReceber(RedirectAttributes ra, @PathVariable Long id) {
+    @GetMapping("/pendentes/liquidar/{id}")
+    public String liquidarCredito(RedirectAttributes ra, @PathVariable Long id) {
         try {
             Receber receber = repository.findOne(id);
             Recebido recebido = new Recebido();
@@ -114,25 +114,24 @@ public class RecebimentosController {
                 receber.setRecebimentos(new ArrayList<Recebido>());
             receber.getRecebimentos().add(recebido);
             repository.save(receber);
-            log.info("Conta à receber #" + id + " consolidada com sucesso");
-            ra.addFlashAttribute("mensagemInfo", "A consolidação da conta " + receber.getDescricao() + " foi efetuada com sucesso");
+            log.info("Crédito #" + id + " foi liquidado com sucesso");
+            ra.addFlashAttribute("mensagemInfo", "O crédito " + receber.getDescricao() + " foi liquidado com sucesso");
         }
         catch (Exception ex) {
             log.error("Erro de processamento", ex);
             ra.addFlashAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
         }
-        return "redirect:/recebimentos/pendentes";
+        return "redirect:/creditos/pendentes";
     }
 
-    @GetMapping("/consolidados")
-    public String consolidados(Model model, @RequestParam(value = "txt_descricao", required = false) String descricao,
+    @GetMapping("/liquidados")
+    public String liquidados(Model model, @RequestParam(value = "txt_descricao", required = false) String descricao,
                     @RequestParam(value = "txt_data_inicio", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
                     @RequestParam(value = "txt_data_fim", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataFim) {
         if (dataInicio != null && dataFim != null) {
             model.addAttribute("total", Objects.firstNonNull(repository.somarRecebidoPorDescricaoPorData(descricao, dataInicio, dataFim), 0));
             model.addAttribute("totalPorCategoria", repository.somarTotalRecebidoAgrupadoPorCategoria(descricao, dataInicio, dataFim));
-            /*model.addAttribute("totalPorDia", repository.somarTotalRecebidoAgrupadoPorDia(descricao, dataInicio, dataFim));*/
-            model.addAttribute("listagemConsolidados", repository.pesquisarRecebidoPorDescricaoPorData(descricao, dataInicio, dataFim));
+            model.addAttribute("listagemLiquidados", repository.pesquisarRecebidoPorDescricaoPorData(descricao, dataInicio, dataFim));
             model.addAttribute("txt_data_inicio", new SimpleDateFormat("dd/MM/yyyy").format(dataInicio));
             model.addAttribute("txt_data_fim", new SimpleDateFormat("dd/MM/yyyy").format(dataFim));
             model.addAttribute("txt_descricao", descricao);
@@ -140,20 +139,20 @@ public class RecebimentosController {
         else {
             model.addAttribute("total", "0");
         }
-        return "/recebimentos/consolidados/pesquisar";
+        return "/creditos/liquidados/pesquisar";
     }
 
-    @GetMapping("/consolidados/excluir/{id}")
+    @GetMapping("/liquidados/excluir/{id}")
     public String excluirRecebido(RedirectAttributes ra, @PathVariable Long id) {
         try {
             repository.excluirRecebimentoPorId(id);
-            log.info("Extornada consolidação de conta recebida #" + id);
-            ra.addFlashAttribute("mensagemInfo", "Extornada consolidação de conta recebida");
+            log.info("Extornado o crédito liquidado #" + id);
+            ra.addFlashAttribute("mensagemInfo", "Extornado o crédito liquidado");
         }
         catch (Exception ex) {
             log.error("Erro de processamento", ex);
             ra.addFlashAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
         }
-        return "redirect:/recebimentos/consolidados";
+        return "redirect:/creditos/liquidados";
     }
 }
