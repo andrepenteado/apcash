@@ -1,5 +1,5 @@
 # Projeto Codinome APScott
-Projeto de controle financeiro pessoal
+Projeto de controle financeiro pessoal. Para testes, visitar https://apscott.herokuapp.com
 
 ## Banco de Dados
 Segue comandos SQLs para a criação do banco de dados utilizado pelo sistema:
