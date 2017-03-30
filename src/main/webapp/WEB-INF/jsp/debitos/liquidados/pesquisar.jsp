@@ -25,7 +25,7 @@
                 ,['${total[1]}: <fmt:formatNumber value="${total[0]}" type="currency"/>', ${total[0]}]
             </c:forEach>
           ]);
-          var options = { is3D: true, legend: { alignment: 'center' }, chartArea: { top: 0, left: 0, height: '100%' } };
+          var options = { is3D: true, legend: { alignment: 'center' }, chartArea: { width: '100%', height: '100%' } };
           var chart = new google.visualization.PieChart(document.getElementById('graficoPorCategoria'));
           chart.draw(data, options);
       }
@@ -68,17 +68,6 @@
   <%@include file="/layouts/modal-mensagens.jsp"%>
   <%@include file="/layouts/modal-exclusao.jsp"%>
 
-  <div class="page-header" style="margin-top: -10px;">
-    <h4>Relatório sintético: <small>Valor total: <fmt:formatNumber value="${total}" type="currency"/></small></h4>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 col-md-12" id="graficoPorCategoria" style="height: 150px;"></div>
-  </div>
-
-  <div class="page-header">
-    <h4>Relatório analítico: <small id="totalAnalitico"></small></h4>
-  </div>
-
   <form name="form-pesquisar-pagos" id="form-pesquisar-pagos" action="${linkController}">
     <%@include file="/layouts/modal-processando.jsp" %>
     <div class="row">
@@ -91,19 +80,13 @@
           </span>
         </div>
       </div>
-      <div class="form-group col-xs-12 col-md-3">
+      <div class="form-group col-xs-12 col-md-4">
         <label for="txt_data_inicio" class="control-label">Data Fim</label>
         <div class="input-group date" id="data_fim">
           <input type="text" name="txt_data_fim" id="txt_data_fim" class="form-control" value="${txt_data_fim}" placeholder="Pesquisar até esta data de recebimento"/>
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>
-        </div>
-      </div>
-      <div class="form-group col-xs-12 col-md-6">
-        <label for=txt_chave class="control-label">Descrição</label>
-        <div class="input-group">
-          <input type="text" name="txt_descricao" id="txt_descricao" value="${txt_descricao}" placeholder="Descrição ou parte da descrição a ser pesquisada" class="form-control"/>
           <span class="input-group-btn">
             <button type="button" class="btn btn-primary" name="btn_pesquisar" id="btn_pesquisar"><span class="glyphicon glyphicon-search"></span> Pesquisar</button>
           </span>
@@ -111,6 +94,17 @@
       </div>
     </div>
   </form>
+
+  <div class="page-header" style="margin-top: -10px;">
+    <h4>Relatório sintético: <small>Valor total: <fmt:formatNumber value="${total}" type="currency"/></small></h4>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-12" id="graficoPorCategoria" style="height: 150px;"></div>
+  </div>
+
+  <div class="page-header">
+    <h4>Relatório analítico: <small id="totalAnalitico"></small></h4>
+  </div>
 
   <datatables:table data="${listagemLiquidados}" row="pago" id="GridDatatable">
     <datatables:column title="Descrição" property="pagar.descricao"/>

@@ -2,6 +2,7 @@
 package com.andrepenteado.apscott.controllers;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -91,7 +92,7 @@ public class PagamentosController {
     public String excluirDebito(RedirectAttributes ra, @PathVariable Long id) {
         try {
             repository.delete(id);
-            log.info("Conta à pagar #" + id + " excluída com sucesso");
+            log.info("Débito #" + id + " excluído com sucesso");
             ra.addFlashAttribute("mensagemInfo", config.getMessage("excluidoSucesso", new Object[] { "o débito" }, null));
         }
         catch (Exception ex) {
@@ -125,20 +126,20 @@ public class PagamentosController {
     }
 
     @GetMapping("/liquidados")
-    public String liquidados(Model model, @RequestParam(value = "txt_descricao", required = false) String descricao,
+    public String liquidados(Model model,
                     @RequestParam(value = "txt_data_inicio", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
                     @RequestParam(value = "txt_data_fim", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataFim) {
-        if (dataInicio != null && dataFim != null) {
-            model.addAttribute("total", Objects.firstNonNull(repository.somarPagoPorDescricaoPorData(descricao, dataInicio, dataFim), 0));
-            model.addAttribute("totalPorCategoria", repository.somarTotalPagoAgrupadoPorCategoria(descricao, dataInicio, dataFim));
-            model.addAttribute("listagemLiquidados", repository.pesquisarPagoPorDescricaoPorData(descricao, dataInicio, dataFim));
-            model.addAttribute("txt_data_inicio", new SimpleDateFormat("dd/MM/yyyy").format(dataInicio));
-            model.addAttribute("txt_data_fim", new SimpleDateFormat("dd/MM/yyyy").format(dataFim));
-            model.addAttribute("txt_descricao", descricao);
+        if (dataInicio == null || dataFim == null) {
+            LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
+            LocalDate fimMes = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
+            dataInicio = java.sql.Date.valueOf(inicioMes);
+            dataFim = java.sql.Date.valueOf(fimMes);
         }
-        else {
-            model.addAttribute("total", "0");
-        }
+        model.addAttribute("total", Objects.firstNonNull(repository.somarPagoPorDescricaoPorData(dataInicio, dataFim), 0));
+        model.addAttribute("totalPorCategoria", repository.somarTotalPagoAgrupadoPorCategoria(dataInicio, dataFim));
+        model.addAttribute("listagemLiquidados", repository.pesquisarPagoPorDescricaoPorData(dataInicio, dataFim));
+        model.addAttribute("txt_data_inicio", new SimpleDateFormat("dd/MM/yyyy").format(dataInicio));
+        model.addAttribute("txt_data_fim", new SimpleDateFormat("dd/MM/yyyy").format(dataFim));
         return "/debitos/liquidados/pesquisar";
     }
 

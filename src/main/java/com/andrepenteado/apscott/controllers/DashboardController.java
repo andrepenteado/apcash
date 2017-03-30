@@ -95,8 +95,8 @@ public class DashboardController {
         Calendar tresMesesAtras = Calendar.getInstance();
         tresMesesAtras.add(Calendar.DAY_OF_MONTH, -91);
         Map<Date, BigDecimal[]> graficoLiquidadosPorDia = new TreeMap<Date, BigDecimal[]>();
-        List<Object[]> recebidoPorDia = receberRepository.somarTotalRecebidoAgrupadoPorDia("", tresMesesAtras.getTime(), hoje.getTime());
-        List<Object[]> pagoPorDia = pagarRepository.somarTotalPagoAgrupadoPorDia("", tresMesesAtras.getTime(), hoje.getTime());
+        List<Object[]> recebidoPorDia = receberRepository.somarTotalRecebidoAgrupadoPorDia(tresMesesAtras.getTime(), hoje.getTime());
+        List<Object[]> pagoPorDia = pagarRepository.somarTotalPagoAgrupadoPorDia(tresMesesAtras.getTime(), hoje.getTime());
 
         // Coloca os valores a receber com chave data e valor na posição do array 0
         for (Object[] recebido : recebidoPorDia) {

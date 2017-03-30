@@ -33,6 +33,7 @@
           decimal: ",",
           thousands: "."
       });
+      $("#txt_parcelas").inputmask("999");
   });
   </script>
   <form:form action="${actionGravar}" modelAttribute="pagar">
@@ -72,6 +73,12 @@
               <form:options items="${listagemCategorias}" itemLabel="descricao" itemValue="id" />
             </form:select>
           </div>
+          <c:if test="${empty pagar.id}">
+            <div class="form-group col-xs-12 col-md-6">
+              <label for="valor" class="control-label">Repetir Mensalmente (Vezes)</label>
+              <input name="txt_parcelas" id="txt_parcelas" class="form-control" placeholder="Quantidade de parcelas de mesmo valor"/>
+            </div>
+          </c:if>
         </div>
         <div class="row">
           <div class="form-group col-xs-12 col-md-12">

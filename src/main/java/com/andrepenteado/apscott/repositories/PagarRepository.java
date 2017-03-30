@@ -28,17 +28,17 @@ public interface PagarRepository extends JpaRepository<Pagar, Long> {
     @Query("SELECT SUM(p.valor), p.dataVencimento FROM Pagar p WHERE p.pagamentos IS EMPTY GROUP BY p.dataVencimento ORDER BY p.dataVencimento")
     List<Object[]> somarTotalPendenteAgrupadoPorDia();
 
-    @Query("SELECT p FROM Pago p WHERE lower(p.pagar.descricao) LIKE concat('%', lower(?1), '%') AND p.dataPagamento BETWEEN ?2 AND ?3 ORDER BY p.dataPagamento")
-    List<Pago> pesquisarPagoPorDescricaoPorData(String descricao, Date dataInicio, Date dataFim);
+    @Query("SELECT p FROM Pago p WHERE p.dataPagamento BETWEEN ?1 AND ?2 ORDER BY p.dataPagamento")
+    List<Pago> pesquisarPagoPorDescricaoPorData(Date dataInicio, Date dataFim);
 
-    @Query("SELECT SUM(p.valorPago) FROM Pago p WHERE lower(p.pagar.descricao) LIKE concat('%', lower(?1), '%') AND p.dataPagamento BETWEEN ?2 AND ?3")
-    BigDecimal somarPagoPorDescricaoPorData(String descricao, Date dataInicio, Date dataFim);
+    @Query("SELECT SUM(p.valorPago) FROM Pago p WHERE p.dataPagamento BETWEEN ?1 AND ?2")
+    BigDecimal somarPagoPorDescricaoPorData(Date dataInicio, Date dataFim);
 
-    @Query("SELECT SUM(p.valorPago), p.pagar.categoria.descricao FROM Pago p WHERE lower(p.pagar.descricao) LIKE concat('%', lower(?1), '%') AND p.dataPagamento BETWEEN ?2 AND ?3 GROUP BY p.pagar.categoria.descricao")
-    List<Object[]> somarTotalPagoAgrupadoPorCategoria(String descricao, Date dataInicio, Date dataFim);
+    @Query("SELECT SUM(p.valorPago), p.pagar.categoria.descricao FROM Pago p WHERE p.dataPagamento BETWEEN ?1 AND ?2 GROUP BY p.pagar.categoria.descricao")
+    List<Object[]> somarTotalPagoAgrupadoPorCategoria(Date dataInicio, Date dataFim);
 
-    @Query("SELECT SUM(p.valorPago), p.dataPagamento FROM Pago p WHERE lower(p.pagar.descricao) LIKE concat('%', lower(?1), '%') AND p.dataPagamento BETWEEN ?2 AND ?3 GROUP BY p.dataPagamento ORDER BY p.dataPagamento")
-    List<Object[]> somarTotalPagoAgrupadoPorDia(String descricao, Date dataInicio, Date dataFim);
+    @Query("SELECT SUM(p.valorPago), p.dataPagamento FROM Pago p WHERE p.dataPagamento BETWEEN ?2 AND ?3 GROUP BY p.dataPagamento ORDER BY p.dataPagamento")
+    List<Object[]> somarTotalPagoAgrupadoPorDia(Date dataInicio, Date dataFim);
 
     @Modifying
     @Transactional

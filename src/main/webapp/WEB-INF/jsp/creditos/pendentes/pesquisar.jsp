@@ -25,7 +25,7 @@
                 ,['${total[1]}: <fmt:formatNumber value="${total[0]}" type="currency"/>', ${total[0]}]
             </c:forEach>
           ]);
-          var options = { is3D: true, legend: { alignment: 'center' }, chartArea: { top: 0, left: 0, height: '100%' } };
+          var options = { is3D: true, legend: { alignment: 'center' }, chartArea: { width: '100%', height: '100%' } };
           var chart = new google.visualization.PieChart(document.getElementById('graficoPorCategoria'));
           chart.draw(data, options);
         }
@@ -65,7 +65,7 @@
 
   <a href="${linkController}/incluir" class="float-button"><i class="fa fa-plus"></i></a>
 
-  <datatables:table data="${listagemPendentes}" row="receber" id="GridDatatable">
+  <datatables:table data="${listagemPendentes}" row="receber" id="GridDatatable" pageable="false">
     <c:set var="cssLinha">${receber.vencida ? 'danger' : receber.vencendo ? 'warning' : ''}</c:set>
     <datatables:column title="Descrição" property="descricao" cssCellClass="${cssLinha}"/>
     <datatables:column title="Categoria" property="categoria.descricao" cssCellClass="${cssLinha}"/>

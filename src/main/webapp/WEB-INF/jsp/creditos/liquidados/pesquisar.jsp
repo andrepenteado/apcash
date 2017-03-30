@@ -25,7 +25,7 @@
                 ,['${total[1]}: <fmt:formatNumber value="${total[0]}" type="currency"/>', ${total[0]}]
             </c:forEach>
           ]);
-          var options = { is3D: true, legend: { alignment: 'center' }, chartArea: { top: 0, left: 0, height: '100%' } };
+          var options = { is3D: true, legend: { alignment: 'center' }, chartArea: { width: '100%', height: '100%' } };
           var chart = new google.visualization.PieChart(document.getElementById('graficoPorCategoria'));
           chart.draw(data, options);
       }
@@ -68,6 +68,33 @@
   <%@include file="/layouts/modal-mensagens.jsp"%>
   <%@include file="/layouts/modal-exclusao.jsp"%>
 
+  <form name="form-pesquisar-recebidos" id="form-pesquisar-recebidos" action="${linkController}">
+    <%@include file="/layouts/modal-processando.jsp" %>
+    <div class="row">
+      <div class="form-group col-xs-12 col-md-3">
+        <label for="txt_data_inicio" class="control-label">Data Início</label>
+        <div class="input-group date" id="data_inicio">
+          <input type="text" name="txt_data_inicio" id="txt_data_inicio" class="form-control" value="${txt_data_inicio}"/>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-xs-12 col-md-4">
+        <label for="txt_data_fim" class="control-label">Data Fim</label>
+        <div class="input-group date" id="data_fim">
+          <input type="text" name="txt_data_fim" id="txt_data_fim" class="form-control" value="${txt_data_fim}"/>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-primary" name="btn_pesquisar" id="btn_pesquisar"><span class="glyphicon glyphicon-search"></span> Pesquisar</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </form>
+  
   <div class="page-header" style="margin-top: -10px;">
     <h4>Relatório sintético: <small>Valor total: <fmt:formatNumber value="${total}" type="currency"/></small></h4>
   </div>
@@ -79,40 +106,7 @@
     <h4>Relatório analítico: <small id="totalAnalitico"></small></h4>
   </div>
 
-  <form name="form-pesquisar-recebidos" id="form-pesquisar-recebidos" action="${linkController}">
-    <%@include file="/layouts/modal-processando.jsp" %>
-    <div class="row">
-      <div class="form-group col-xs-12 col-md-3">
-        <label for="txt_data_inicio" class="control-label">Data Início</label>
-        <div class="input-group date" id="data_inicio">
-          <input type="text" name="txt_data_inicio" id="txt_data_inicio" class="form-control" value="${txt_data_inicio}" placeholder="Pesquisar a partir desta data de recebimento"/>
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-          </span>
-        </div>
-      </div>
-      <div class="form-group col-xs-12 col-md-3">
-        <label for="txt_data_inicio" class="control-label">Data Fim</label>
-        <div class="input-group date" id="data_fim">
-          <input type="text" name="txt_data_fim" id="txt_data_fim" class="form-control" value="${txt_data_fim}" placeholder="Pesquisar até esta data de recebimento"/>
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-          </span>
-        </div>
-      </div>
-      <div class="form-group col-xs-12 col-md-6">
-        <label for=txt_chave class="control-label">Descrição</label>
-        <div class="input-group">
-          <input type="text" name="txt_descricao" id="txt_descricao" value="${txt_descricao}" placeholder="Descrição ou parte da descrição a ser pesquisada" class="form-control"/>
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-primary" name="btn_pesquisar" id="btn_pesquisar"><span class="glyphicon glyphicon-search"></span> Pesquisar</button>
-          </span>
-        </div>
-      </div>
-    </div>
-  </form>
-
-  <datatables:table data="${listagemLiquidados}" row="recebido" id="GridDatatable">
+  <datatables:table data="${listagemLiquidados}" row="recebido" id="GridDatatable" pageable="false">
     <datatables:column title="Descrição" property="receber.descricao"/>
     <datatables:column title="Categoria" property="receber.categoria.descricao"/>
     <datatables:column title="Recebimento" property="dataRecebimento" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center"/>
@@ -125,7 +119,7 @@
       </a>
     </datatables:column>
     <datatables:callback function="fnFooterCallback" type="footer"/>
-    <datatables:extraJs bundles="datatables.extended.config" placeholder="before_start_document_ready" />
+    <%-- <datatables:extraJs bundles="datatables.extended.config" placeholder="before_start_document_ready" /> --%>
   </datatables:table>
   <br/>
   <br/>

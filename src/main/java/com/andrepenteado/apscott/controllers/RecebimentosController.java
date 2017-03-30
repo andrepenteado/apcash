@@ -2,11 +2,13 @@
 package com.andrepenteado.apscott.controllers;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.validation.Valid;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -67,19 +69,39 @@ public class RecebimentosController {
     }
 
     @PostMapping("/pendentes/gravar")
-    public String gravarCredito(Model model, @ModelAttribute("receber") @Valid Receber receber, BindingResult result) {
+    public String gravarCredito(Model model, @ModelAttribute("receber") @Valid Receber receber, BindingResult result,
+                    @RequestParam(value = "txt_parcelas", defaultValue = "1") int parcelas) {
         try {
             if (!result.hasErrors()) {
-                Receber receberAtualizado = repository.save(receber);
-                log.info(receberAtualizado.toString() + " gravada com sucesso");
-                model.addAttribute("mensagemInfo", config.getMessage("gravadoSucesso", new Object[] { "o crédito" }, null));
+                // Sem parcelamento
+                if (parcelas == 1) {
+                    Receber savedObj = repository.save(receber);
+                    log.info(savedObj.toString() + " gravada com sucesso");
+                    model.addAttribute("mensagemInfo", config.getMessage("gravadoSucesso", new Object[] { "o crédito" }, null));
+                    return abrirCadastroCredito(model);
+                }
+                // Parcelamento
+                LocalDate primeiroVencimento = new java.sql.Date(receber.getDataVencimento().getTime()).toLocalDate();
+                for (int i = 0; i < parcelas; i++) {
+                    // Clona objeto
+                    Receber objToSave = new Receber();
+                    BeanUtils.copyProperties(objToSave, receber);
+
+                    // Atualiza info da parcela
+                    objToSave.setDescricao(objToSave.getDescricao() + " (" + (i + 1) + "/" + parcelas + ")");
+                    objToSave.setDataVencimento(java.sql.Date.valueOf(primeiroVencimento.plusMonths(i)));
+
+                    // Grava parcela
+                    Receber savedObj = repository.save(objToSave);
+                    log.info(savedObj.toString() + " gravada com sucesso");
+                }
             }
         }
         catch (Exception ex) {
             log.error("Erro de processamento", ex);
             model.addAttribute("mensagemErro", config.getMessage("erroProcessamento", null, null));
         }
-        return abrirCadastroCredito(model);
+        return "redirect:/creditos/pendentes";
     }
 
     public String abrirCadastroCredito(Model model) {
@@ -91,7 +113,7 @@ public class RecebimentosController {
     public String excluirCredito(RedirectAttributes ra, @PathVariable Long id) {
         try {
             repository.delete(id);
-            log.info("Conta à receber #" + id + " excluída com sucesso");
+            log.info("Crédito #" + id + " excluído com sucesso");
             ra.addFlashAttribute("mensagemInfo", config.getMessage("excluidoSucesso", new Object[] { "o crédito" }, null));
         }
         catch (Exception ex) {
@@ -125,20 +147,19 @@ public class RecebimentosController {
     }
 
     @GetMapping("/liquidados")
-    public String liquidados(Model model, @RequestParam(value = "txt_descricao", required = false) String descricao,
-                    @RequestParam(value = "txt_data_inicio", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
+    public String liquidados(Model model, @RequestParam(value = "txt_mes", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
                     @RequestParam(value = "txt_data_fim", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataFim) {
-        if (dataInicio != null && dataFim != null) {
-            model.addAttribute("total", Objects.firstNonNull(repository.somarRecebidoPorDescricaoPorData(descricao, dataInicio, dataFim), 0));
-            model.addAttribute("totalPorCategoria", repository.somarTotalRecebidoAgrupadoPorCategoria(descricao, dataInicio, dataFim));
-            model.addAttribute("listagemLiquidados", repository.pesquisarRecebidoPorDescricaoPorData(descricao, dataInicio, dataFim));
-            model.addAttribute("txt_data_inicio", new SimpleDateFormat("dd/MM/yyyy").format(dataInicio));
-            model.addAttribute("txt_data_fim", new SimpleDateFormat("dd/MM/yyyy").format(dataFim));
-            model.addAttribute("txt_descricao", descricao);
+        if (dataInicio == null || dataFim == null) {
+            LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
+            LocalDate fimMes = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
+            dataInicio = java.sql.Date.valueOf(inicioMes);
+            dataFim = java.sql.Date.valueOf(fimMes);
         }
-        else {
-            model.addAttribute("total", "0");
-        }
+        model.addAttribute("total", Objects.firstNonNull(repository.somarRecebidoPorDescricaoPorData(dataInicio, dataFim), 0));
+        model.addAttribute("totalPorCategoria", repository.somarTotalRecebidoAgrupadoPorCategoria(dataInicio, dataFim));
+        model.addAttribute("listagemLiquidados", repository.pesquisarRecebidoPorDescricaoPorData(dataInicio, dataFim));
+        model.addAttribute("txt_data_inicio", new SimpleDateFormat("dd/MM/yyyy").format(dataInicio));
+        model.addAttribute("txt_data_fim", new SimpleDateFormat("dd/MM/yyyy").format(dataFim));
         return "/creditos/liquidados/pesquisar";
     }
 

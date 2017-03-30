@@ -25,7 +25,7 @@
                 ,['${total[1]}: <fmt:formatNumber value="${total[0]}" type="currency"/>', {v: ${total[0]}, f: '<fmt:formatNumber value="${total[0]}" type="currency"/>'}]
             </c:forEach>
           ]);
-          var options = { is3D: true, legend: { alignment: 'center' }, chartArea: { top: 0, left: 0, height: '100%' } };
+          var options = { is3D: true, legend: { alignment: 'center' }, chartArea: { width: '100%', height: '100%' } };
           var chart = new google.visualization.PieChart(document.getElementById('graficoPorCategoria'));
           chart.draw(data, options);
         }
