@@ -92,9 +92,10 @@ Deploy de arquivo war:
 
 ```bash
 heroku login
-heroku war:deploy <caminho-do-arquivo-war> --app <nome-da-aplicação-no-heroku>
+keroku config:set JAVA_OPTS="-Ddandelion.profile.active='prod' -Dspring.profiles.active='heroku'" --app apscott
+heroku war:deploy <caminho-do-arquivo-war> --app apscott
 ```
 
 Pela interface web, na aba resources, habilitar o Dynos criado.
 
-Acessar a aplicação pelo endereço https://<nome-da-aplicação-no-heroku>.herokuapp.com/
+Acessar a aplicação pelo endereço https://apscott.herokuapp.com/
