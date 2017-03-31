@@ -74,7 +74,7 @@
       <div class="form-group col-xs-12 col-md-3">
         <label for="txt_data_inicio" class="control-label">Data Início</label>
         <div class="input-group date" id="data_inicio">
-          <input type="text" name="txt_data_inicio" id="txt_data_inicio" class="form-control" value="${txt_data_inicio}" placeholder="Pesquisar a partir desta data de recebimento"/>
+          <input type="text" name="txt_data_inicio" id="txt_data_inicio" class="form-control" value="${txt_data_inicio}"/>
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>
@@ -83,7 +83,7 @@
       <div class="form-group col-xs-12 col-md-4">
         <label for="txt_data_inicio" class="control-label">Data Fim</label>
         <div class="input-group date" id="data_fim">
-          <input type="text" name="txt_data_fim" id="txt_data_fim" class="form-control" value="${txt_data_fim}" placeholder="Pesquisar até esta data de recebimento"/>
+          <input type="text" name="txt_data_fim" id="txt_data_fim" class="form-control" value="${txt_data_fim}"/>
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
           </span>
@@ -106,7 +106,7 @@
     <h4>Relatório analítico: <small id="totalAnalitico"></small></h4>
   </div>
 
-  <datatables:table data="${listagemLiquidados}" row="pago" id="GridDatatable">
+  <datatables:table data="${listagemLiquidados}" row="pago" id="GridDatatable" pageable="false">
     <datatables:column title="Descrição" property="pagar.descricao"/>
     <datatables:column title="Categoria" property="pagar.categoria.descricao"/>
     <datatables:column title="Pagamento" property="dataPagamento" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center"/>

@@ -48,10 +48,15 @@ public class RecebimentosController {
     private MessageSource config;
 
     @GetMapping("/pendentes")
-    public String pendentes(Model model) {
-        model.addAttribute("listagemPendentes", repository.pesquisarRecebimentosPendentes());
-        model.addAttribute("total", Objects.firstNonNull(repository.somarTotal(), 0));
-        model.addAttribute("totalPorCategoria", repository.somarTotalPendenteAgrupadoPorCategoria());
+    public String pendentes(Model model, @RequestParam(value = "txt_data", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date data) {
+        if (data == null) {
+            LocalDate fimMes = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
+            data = java.sql.Date.valueOf(fimMes);
+        }
+        model.addAttribute("listagemPendentes", repository.pesquisarPendentesAteData(data));
+        model.addAttribute("total", Objects.firstNonNull(repository.totalPendenteAteData(data), 0));
+        model.addAttribute("totalPorCategoria", repository.totalPendenteAgrupadoPorCategoriaAteData(data));
+        model.addAttribute("txt_data", new SimpleDateFormat("dd/MM/yyyy").format(data));
         return "/creditos/pendentes/pesquisar";
     }
 
@@ -147,7 +152,8 @@ public class RecebimentosController {
     }
 
     @GetMapping("/liquidados")
-    public String liquidados(Model model, @RequestParam(value = "txt_mes", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
+    public String liquidados(Model model,
+                    @RequestParam(value = "txt_data_inicio", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
                     @RequestParam(value = "txt_data_fim", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataFim) {
         if (dataInicio == null || dataFim == null) {
             LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
@@ -155,9 +161,9 @@ public class RecebimentosController {
             dataInicio = java.sql.Date.valueOf(inicioMes);
             dataFim = java.sql.Date.valueOf(fimMes);
         }
-        model.addAttribute("total", Objects.firstNonNull(repository.somarRecebidoPorDescricaoPorData(dataInicio, dataFim), 0));
-        model.addAttribute("totalPorCategoria", repository.somarTotalRecebidoAgrupadoPorCategoria(dataInicio, dataFim));
-        model.addAttribute("listagemLiquidados", repository.pesquisarRecebidoPorDescricaoPorData(dataInicio, dataFim));
+        model.addAttribute("total", Objects.firstNonNull(repository.totalLiquidadoPorDescricaoPorData(dataInicio, dataFim), 0));
+        model.addAttribute("totalPorCategoria", repository.totalLiquidadoAgrupadoPorCategoria(dataInicio, dataFim));
+        model.addAttribute("listagemLiquidados", repository.pesquisarLiquidadosPorDescricaoPorData(dataInicio, dataFim));
         model.addAttribute("txt_data_inicio", new SimpleDateFormat("dd/MM/yyyy").format(dataInicio));
         model.addAttribute("txt_data_fim", new SimpleDateFormat("dd/MM/yyyy").format(dataFim));
         return "/creditos/liquidados/pesquisar";

@@ -6,7 +6,7 @@
 
 <c:set var="linkController"><c:url value="/creditos/pendentes"/></c:set>
 
-<dandelion:bundle includes="datatables.extended,floating.button,font-awesome"/>
+<dandelion:bundle includes="datatables.extended,floating.button,font-awesome,jquery.validation,jquery.inputmask,jquery.datetimepicker"/>
 
 <html>
 
@@ -36,6 +36,21 @@
 <body>
   <script type="text/javascript">
       $(document).ready(function() {
+          var formValidator = $("#form-pesquisar-receber").validate({
+              rules : {
+                  txt_data : { required : true }
+              }
+          });
+          $("#btn_pesquisar").click(function() {
+              var form = $("#form-pesquisar-receber"); 
+              form.validate();
+              if (form.valid()) {
+                  form.submit();
+              }
+          });
+          $("#txt_data").focus();
+          $("#txt_data").inputmask("99/99/9999");
+          $("#data").datetimepicker({locale: "pt-br", format: "DD/MM/YYYY"});
           $('[data-toggle="tooltip"]').tooltip();
       });
       function fnFooterCallback( row, data, start, end, display ) {
@@ -50,6 +65,24 @@
   <%@include file="/layouts/modal-mensagens.jsp"%>
   <%@include file="/layouts/modal-exclusao.jsp"%>
   <%@include file="/layouts/modal-confirmacao.jsp"%>
+
+  <form name="form-pesquisar-receber" id="form-pesquisar-receber" action="${linkController}">
+    <%@include file="/layouts/modal-processando.jsp" %>
+    <div class="row">
+      <div class="form-group col-xs-12 col-md-4">
+        <label for="txt_data" class="control-label">Até a Data</label>
+        <div class="input-group date" id="data">
+          <input type="text" name="txt_data" id="txt_data" class="form-control" value="${txt_data}"/>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-primary" name="btn_pesquisar" id="btn_pesquisar"><span class="glyphicon glyphicon-search"></span> Pesquisar</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </form>
 
   <div class="page-header" style="margin-top: -10px;">
     <h4>Relatório sintético: <small>Valor total: <fmt:formatNumber value="${total}" type="currency"/></small></h4>

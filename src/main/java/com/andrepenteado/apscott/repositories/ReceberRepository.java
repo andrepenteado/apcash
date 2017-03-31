@@ -16,29 +16,29 @@ import com.andrepenteado.apscott.models.Recebido;
 
 public interface ReceberRepository extends JpaRepository<Receber, Long> {
 
-    @Query("SELECT r FROM Receber r WHERE r.recebimentos IS EMPTY ORDER BY r.dataVencimento")
-    List<Receber> pesquisarRecebimentosPendentes();
+    @Query("SELECT r FROM Receber r WHERE r.recebimentos IS EMPTY AND r.dataVencimento <= ?1 ORDER BY r.dataVencimento")
+    List<Receber> pesquisarPendentesAteData(Date data);
 
-    @Query("SELECT SUM(r.valor) FROM Receber r WHERE r.recebimentos IS EMPTY")
-    BigDecimal somarTotal();
+    @Query("SELECT SUM(r.valor) FROM Receber r WHERE r.recebimentos IS EMPTY AND r.dataVencimento <= ?1")
+    BigDecimal totalPendenteAteData(Date data);
 
-    @Query("SELECT SUM(r.valor), r.categoria.descricao FROM Receber r WHERE r.recebimentos IS EMPTY GROUP BY r.categoria.descricao")
-    List<Object[]> somarTotalPendenteAgrupadoPorCategoria();
+    @Query("SELECT SUM(r.valor), r.categoria.descricao FROM Receber r WHERE r.recebimentos IS EMPTY AND r.dataVencimento <= ?1 GROUP BY r.categoria.descricao")
+    List<Object[]> totalPendenteAgrupadoPorCategoriaAteData(Date data);
 
-    @Query("SELECT SUM(r.valor), r.dataVencimento FROM Receber r WHERE r.recebimentos IS EMPTY GROUP BY r.dataVencimento ORDER BY r.dataVencimento")
-    List<Object[]> somarTotalPendenteAgrupadoPorDia();
+    @Query("SELECT SUM(r.valor), r.dataVencimento FROM Receber r WHERE r.recebimentos IS EMPTY AND r.dataVencimento <= ?1 GROUP BY r.dataVencimento ORDER BY r.dataVencimento")
+    List<Object[]> totalPendenteAgrupadoPorDiaAteData(Date date);
 
     @Query("SELECT r FROM Recebido r WHERE r.dataRecebimento BETWEEN ?1 AND ?2 ORDER BY r.dataRecebimento")
-    List<Recebido> pesquisarRecebidoPorDescricaoPorData(Date dataInicio, Date dataFim);
+    List<Recebido> pesquisarLiquidadosPorDescricaoPorData(Date dataInicio, Date dataFim);
 
     @Query("SELECT SUM(r.valorRecebido) FROM Recebido r WHERE r.dataRecebimento BETWEEN ?1 AND ?2")
-    BigDecimal somarRecebidoPorDescricaoPorData(Date dataInicio, Date dataFim);
+    BigDecimal totalLiquidadoPorDescricaoPorData(Date dataInicio, Date dataFim);
 
     @Query("SELECT SUM(r.valorRecebido), r.receber.categoria.descricao FROM Recebido r WHERE r.dataRecebimento BETWEEN ?1 AND ?2 GROUP BY r.receber.categoria.descricao")
-    List<Object[]> somarTotalRecebidoAgrupadoPorCategoria(Date dataInicio, Date dataFim);
+    List<Object[]> totalLiquidadoAgrupadoPorCategoria(Date dataInicio, Date dataFim);
 
     @Query("SELECT SUM(r.valorRecebido), r.dataRecebimento FROM Recebido r WHERE r.dataRecebimento BETWEEN ?1 AND ?2 GROUP BY r.dataRecebimento ORDER BY r.dataRecebimento")
-    List<Object[]> somarTotalRecebidoAgrupadoPorDia(Date dataInicio, Date dataFim);
+    List<Object[]> totalLiquidadoAgrupadoPorDia(Date dataInicio, Date dataFim);
 
     @Modifying
     @Transactional

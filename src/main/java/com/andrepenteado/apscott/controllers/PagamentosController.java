@@ -47,10 +47,16 @@ public class PagamentosController {
     private MessageSource config;
 
     @GetMapping("/pendentes")
-    public String pendentes(Model model) {
-        model.addAttribute("listagemPendentes", repository.pesquisarPagamentosPendentes());
-        model.addAttribute("total", Objects.firstNonNull(repository.somarTotal(), 0));
-        model.addAttribute("totalPorCategoria", repository.somarTotalPendenteAgrupadoPorCategoria());
+    public String pendentes(Model model,
+                    @RequestParam(value = "txt_data_inicio", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date data) {
+        if (data == null) {
+            LocalDate fimMes = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
+            data = java.sql.Date.valueOf(fimMes);
+        }
+        model.addAttribute("listagemPendentes", repository.pesquisarPendentesAteData(data));
+        model.addAttribute("total", Objects.firstNonNull(repository.totalPendenteAteData(data), 0));
+        model.addAttribute("totalPorCategoria", repository.totalPendenteAgrupadoPorCategoriaAteData(data));
+        model.addAttribute("txt_data", new SimpleDateFormat("dd/MM/yyyy").format(data));
         return "/debitos/pendentes/pesquisar";
     }
 
@@ -135,9 +141,9 @@ public class PagamentosController {
             dataInicio = java.sql.Date.valueOf(inicioMes);
             dataFim = java.sql.Date.valueOf(fimMes);
         }
-        model.addAttribute("total", Objects.firstNonNull(repository.somarPagoPorDescricaoPorData(dataInicio, dataFim), 0));
-        model.addAttribute("totalPorCategoria", repository.somarTotalPagoAgrupadoPorCategoria(dataInicio, dataFim));
-        model.addAttribute("listagemLiquidados", repository.pesquisarPagoPorDescricaoPorData(dataInicio, dataFim));
+        model.addAttribute("total", Objects.firstNonNull(repository.totalLiquidadoPorDescricaoPorData(dataInicio, dataFim), 0));
+        model.addAttribute("totalPorCategoria", repository.totalLiquidadoAgrupadoPorCategoria(dataInicio, dataFim));
+        model.addAttribute("listagemLiquidados", repository.pesquisarLiquidadosPorDescricaoPorData(dataInicio, dataFim));
         model.addAttribute("txt_data_inicio", new SimpleDateFormat("dd/MM/yyyy").format(dataInicio));
         model.addAttribute("txt_data_fim", new SimpleDateFormat("dd/MM/yyyy").format(dataFim));
         return "/debitos/liquidados/pesquisar";

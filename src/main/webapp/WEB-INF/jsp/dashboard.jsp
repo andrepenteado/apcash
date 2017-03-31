@@ -66,7 +66,7 @@
 
 <body>
   <div class="page-header" style="margin-top: -10px;">
-    <h4>Previsão de Saldo Diário</h4>
+    <h4>Saldo Próximos 30 dias</h4>
   </div>
   <div class="row">
     <div class="col-xs-12 col-md-12" id="graficoPendentesPorDia" style="height: 300px;"></div>

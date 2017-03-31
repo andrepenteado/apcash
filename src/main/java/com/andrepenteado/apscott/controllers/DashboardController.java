@@ -32,12 +32,17 @@ public class DashboardController {
 
     @GetMapping(value = { "/dashboard" })
     public String dashboard(Model model) {
+        Calendar hoje = Calendar.getInstance();
+        Calendar tresMesesAtras = Calendar.getInstance();
+        Calendar proximoTrintaDias = Calendar.getInstance();
+        tresMesesAtras.add(Calendar.DAY_OF_MONTH, -91);
+        proximoTrintaDias.add(Calendar.DAY_OF_MONTH, 30);
 
         /****************** Gráfico contas pendentes **********************/
 
         Map<Date, BigDecimal[]> graficoPendentesPorDia = new TreeMap<Date, BigDecimal[]>();
-        List<Object[]> receberPorDia = receberRepository.somarTotalPendenteAgrupadoPorDia();
-        List<Object[]> pagarPorDia = pagarRepository.somarTotalPendenteAgrupadoPorDia();
+        List<Object[]> receberPorDia = receberRepository.totalPendenteAgrupadoPorDiaAteData(proximoTrintaDias.getTime());
+        List<Object[]> pagarPorDia = pagarRepository.totalPendenteAgrupadoPorDiaAteData(proximoTrintaDias.getTime());
 
         // Coloca os valores a receber com chave data e valor na posição do array 0
         for (Object[] receber : receberPorDia) {
@@ -91,12 +96,9 @@ public class DashboardController {
 
         /****************** Gráfico liquidados últimos 30 dias ***************************/
 
-        Calendar hoje = Calendar.getInstance();
-        Calendar tresMesesAtras = Calendar.getInstance();
-        tresMesesAtras.add(Calendar.DAY_OF_MONTH, -91);
         Map<Date, BigDecimal[]> graficoLiquidadosPorDia = new TreeMap<Date, BigDecimal[]>();
-        List<Object[]> recebidoPorDia = receberRepository.somarTotalRecebidoAgrupadoPorDia(tresMesesAtras.getTime(), hoje.getTime());
-        List<Object[]> pagoPorDia = pagarRepository.somarTotalPagoAgrupadoPorDia(tresMesesAtras.getTime(), hoje.getTime());
+        List<Object[]> recebidoPorDia = receberRepository.totalLiquidadoAgrupadoPorDia(tresMesesAtras.getTime(), hoje.getTime());
+        List<Object[]> pagoPorDia = pagarRepository.totalLiquidadoAgrupadoPorDia(tresMesesAtras.getTime(), hoje.getTime());
 
         // Coloca os valores a receber com chave data e valor na posição do array 0
         for (Object[] recebido : recebidoPorDia) {
