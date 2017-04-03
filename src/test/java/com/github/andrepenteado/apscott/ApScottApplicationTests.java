@@ -1,4 +1,4 @@
-package com.andrepenteado.apscott;
+package com.github.andrepenteado.apscott;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
