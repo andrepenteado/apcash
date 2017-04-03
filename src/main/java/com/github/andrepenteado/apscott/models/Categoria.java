@@ -1,5 +1,5 @@
 
-package com.andrepenteado.apscott.models;
+package com.github.andrepenteado.apscott.models;
 
 import java.io.Serializable;
 

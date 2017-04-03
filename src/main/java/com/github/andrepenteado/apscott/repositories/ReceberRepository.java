@@ -1,5 +1,5 @@
 
-package com.andrepenteado.apscott.repositories;
+package com.github.andrepenteado.apscott.repositories;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.andrepenteado.apscott.models.Receber;
-import com.andrepenteado.apscott.models.Recebido;
+import com.github.andrepenteado.apscott.models.Receber;
+import com.github.andrepenteado.apscott.models.Recebido;
 
 public interface ReceberRepository extends JpaRepository<Receber, Long> {
 

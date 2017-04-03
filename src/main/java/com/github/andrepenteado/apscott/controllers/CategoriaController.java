@@ -1,5 +1,5 @@
 
-package com.andrepenteado.apscott.controllers;
+package com.github.andrepenteado.apscott.controllers;
 
 import javax.validation.Valid;
 
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.andrepenteado.apscott.models.Categoria;
-import com.andrepenteado.apscott.models.DespesaReceita;
-import com.andrepenteado.apscott.repositories.CategoriaRepository;
+import com.github.andrepenteado.apscott.models.Categoria;
+import com.github.andrepenteado.apscott.models.DespesaReceita;
+import com.github.andrepenteado.apscott.repositories.CategoriaRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

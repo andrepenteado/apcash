@@ -1,5 +1,5 @@
 
-package com.andrepenteado.apscott;
+package com.github.andrepenteado.apscott;
 
 import java.util.Locale;
 

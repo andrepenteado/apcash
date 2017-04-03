@@ -1,5 +1,5 @@
 
-package com.andrepenteado.apscott.controllers;
+package com.github.andrepenteado.apscott.controllers;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.andrepenteado.apscott.repositories.PagarRepository;
-import com.andrepenteado.apscott.repositories.ReceberRepository;
+import com.github.andrepenteado.apscott.repositories.PagarRepository;
+import com.github.andrepenteado.apscott.repositories.ReceberRepository;
 
 @Controller
 public class DashboardController {

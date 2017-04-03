@@ -1,5 +1,5 @@
 
-package com.andrepenteado.apscott;
+package com.github.andrepenteado.apscott;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;

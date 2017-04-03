@@ -1,5 +1,5 @@
 
-package com.andrepenteado.apscott.controllers;
+package com.github.andrepenteado.apscott.controllers;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.andrepenteado.apscott.models.DespesaReceita;
-import com.andrepenteado.apscott.models.Pagar;
-import com.andrepenteado.apscott.models.Pago;
-import com.andrepenteado.apscott.models.TipoQuitacao;
-import com.andrepenteado.apscott.repositories.CategoriaRepository;
-import com.andrepenteado.apscott.repositories.PagarRepository;
+import com.github.andrepenteado.apscott.models.DespesaReceita;
+import com.github.andrepenteado.apscott.models.Pagar;
+import com.github.andrepenteado.apscott.models.Pago;
+import com.github.andrepenteado.apscott.models.TipoQuitacao;
+import com.github.andrepenteado.apscott.repositories.CategoriaRepository;
+import com.github.andrepenteado.apscott.repositories.PagarRepository;
 import com.google.common.base.Objects;
 
 import lombok.extern.slf4j.Slf4j;
