@@ -1,5 +1,13 @@
 # Projeto Codinome APScott
-Projeto de controle financeiro pessoal. Para testes, visitar https://apscott.herokuapp.com
+Projeto web de controle financeiro pessoal. Desenvolvido em java, utiliza vários sub-projetos spring [spring-boot, spring-data-jpa, spring-mvc, etc]. Para testes, visitar https://apscott.herokuapp.com
+
+## Instalação
+Os requisitos necessários para a instalação da aplicação é um servidor de aplicação JEE e um banco dados relacional. Os passos a serem seguidos são:
+* Baixar o projeto do github.com
+* Criar o banco de dados, através do script abaixo
+* Configurar a credencial de acesso ao banco de dados através do arquivo ***application-dev.properties***
+* Gerar o arquivo ***war*** do projeto
+* Fazer o deploy no servidor de aplicação, por exemplo o tomcat.
 
 ## Banco de Dados
 Segue comandos SQLs para a criação do banco de dados utilizado pelo sistema:
@@ -65,6 +73,13 @@ CREATE TABLE pago (
    CONSTRAINT pk_pago PRIMARY KEY (id), 
    CONSTRAINT fk_pago_pagar FOREIGN KEY (id_pagar) REFERENCES pagar (id) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
+```
+
+## Deploy no tomcat
+A partir do momento que as credenciais de acesso ao banco de dados foram configuradas  no arquivo ***application-dev.properties***, o tomcat deve iniciar com o paramêtro a seguir:
+
+```bash
+-Dspring.profiles.active=dev
 ```
 
 ## Heroku
