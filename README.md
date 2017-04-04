@@ -1,5 +1,9 @@
-# Projeto Codinome APScott
-Projeto web de controle financeiro pessoal. Desenvolvido em java, utiliza vários sub-projetos spring [spring-boot, spring-data-jpa, spring-mvc, etc]. Para testes, visitar https://apscott.herokuapp.com
+# Apresentação
+Projeto web de controle financeiro pessoal. Desenvolvido em java, utiliza vários sub-projetos spring [spring-boot, spring-data-jpa, spring-mvc, etc].
+
+Você pode acessar o manual de uso pelo link https://andrepenteado.github.io/apscott
+
+Para acessar o ambiente de testes, visitar https://apscott.herokuapp.com
 
 ## Instalação
 Os requisitos necessários para a instalação da aplicação é um servidor de aplicação JEE e um banco dados relacional. Os passos a serem seguidos são:
