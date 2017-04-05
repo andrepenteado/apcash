@@ -1,5 +1,5 @@
 
-package com.github.andrepenteado.apscott;
+package com.github.andrepenteado.apcash;
 
 import java.util.Locale;
 
@@ -12,10 +12,10 @@ import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 import ch.qos.logback.classic.helpers.MDCInsertingServletFilter;
 
 @SpringBootApplication
-public class ApScottApplication {
+public class ApCashApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ApScottApplication.class, args);
+        SpringApplication.run(ApCashApplication.class, args);
     }
 
     @Bean

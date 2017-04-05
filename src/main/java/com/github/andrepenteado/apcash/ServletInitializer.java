@@ -1,5 +1,5 @@
 
-package com.github.andrepenteado.apscott;
+package com.github.andrepenteado.apcash;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -8,7 +8,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(ApScottApplication.class);
+        return application.sources(ApCashApplication.class);
     }
 
 }

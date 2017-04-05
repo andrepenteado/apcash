@@ -1,4 +1,4 @@
-package com.github.andrepenteado.apscott;
+package com.github.andrepenteado.apcash;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ApScottApplicationTests {
+public class ApCashApplicationTests {
 
 	@Test
 	public void contextLoads() {

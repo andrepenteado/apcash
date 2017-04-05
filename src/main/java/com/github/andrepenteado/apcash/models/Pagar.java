@@ -1,11 +1,11 @@
 
-package com.github.andrepenteado.apscott.models;
+package com.github.andrepenteado.apcash.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,16 +33,16 @@ import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(of = { "descricao", "dataVencimento", "valor" })
-@ToString(of = { "descricao", "valor" })
+@ToString(of = { "descricao", "dataVencimento", "valor" })
 @Entity
-@Table(name = "receber")
-public class Receber implements Serializable {
+@Table(name = "pagar")
+public class Pagar implements Serializable {
 
     private static final long serialVersionUID = -5444758171825826973L;
 
     @Id
-    @SequenceGenerator(name = "receber_id_seq", sequenceName = "receber_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "receber_id_seq")
+    @SequenceGenerator(name = "pagar_id_seq", sequenceName = "pagar_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pagar_id_seq")
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -69,9 +69,9 @@ public class Receber implements Serializable {
     @Column(name = "observacao")
     private String observacao;
 
-    @OneToMany(mappedBy = "receber", cascade = CascadeType.ALL)
-    @OrderBy(value = "dataRecebimento")
-    private List<Recebido> recebimentos;
+    @OneToMany(mappedBy = "pagar", cascade = CascadeType.ALL)
+    @OrderBy(value = "dataPagamento")
+    private Collection<Pago> pagamentos;
 
     public boolean isVencida() {
         LocalDate hoje = LocalDate.now();

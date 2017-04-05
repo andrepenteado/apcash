@@ -1,5 +1,5 @@
 
-package com.github.andrepenteado.apscott.models;
+package com.github.andrepenteado.apcash.models;
 
 public enum SituacaoCheque {
 

@@ -1,5 +1,5 @@
 
-package com.github.andrepenteado.apscott.repositories;
+package com.github.andrepenteado.apcash.repositories;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.github.andrepenteado.apscott.models.Pagar;
-import com.github.andrepenteado.apscott.models.Pago;
+import com.github.andrepenteado.apcash.models.Pagar;
+import com.github.andrepenteado.apcash.models.Pago;
 
 public interface PagarRepository extends JpaRepository<Pagar, Long> {
 

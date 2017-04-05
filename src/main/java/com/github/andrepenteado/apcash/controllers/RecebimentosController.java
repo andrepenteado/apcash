@@ -1,5 +1,5 @@
 
-package com.github.andrepenteado.apscott.controllers;
+package com.github.andrepenteado.apcash.controllers;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -23,12 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.github.andrepenteado.apscott.models.DespesaReceita;
-import com.github.andrepenteado.apscott.models.Receber;
-import com.github.andrepenteado.apscott.models.Recebido;
-import com.github.andrepenteado.apscott.models.TipoQuitacao;
-import com.github.andrepenteado.apscott.repositories.CategoriaRepository;
-import com.github.andrepenteado.apscott.repositories.ReceberRepository;
+import com.github.andrepenteado.apcash.models.DespesaReceita;
+import com.github.andrepenteado.apcash.models.Receber;
+import com.github.andrepenteado.apcash.models.Recebido;
+import com.github.andrepenteado.apcash.models.TipoQuitacao;
+import com.github.andrepenteado.apcash.repositories.CategoriaRepository;
+import com.github.andrepenteado.apcash.repositories.ReceberRepository;
 import com.google.common.base.Objects;
 
 import lombok.extern.slf4j.Slf4j;

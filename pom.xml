@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.andrepenteado</groupId>
-	<artifactId>apscott</artifactId>
+	<artifactId>apcash</artifactId>
 	<version>0.1</version>
 	<packaging>war</packaging>
 
-	<name>APScott</name>
-	<description>Aplicação de controle de contas a pagar e a receber</description>
+	<name>APCASH</name>
+	<description>Controle financeiro de receitas e despesas pessoais</description>
 
     <repositories>
         <repository>
