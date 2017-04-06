@@ -9,7 +9,7 @@
 
    <context-param>
       <param-name>layout-default</param-name>
-      <param-value>bootstrap3</param-value>
+      <param-value>ap-bootstrap3</param-value>
    </context-param>
 
    <distributable/>

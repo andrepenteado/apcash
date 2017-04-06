@@ -3,24 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.andrepenteado</groupId>
+	<groupId>com.github.andrepenteado</groupId>
 	<artifactId>apcash</artifactId>
-	<version>0.1</version>
+	<version>0.2</version>
 	<packaging>war</packaging>
 
 	<name>APCASH</name>
 	<description>Controle financeiro de receitas e despesas pessoais</description>
-
-    <repositories>
-        <repository>
-            <id>unesp-fc-nexus-repository</id>
-            <name>Unesp/FC Nexus Repository</name>
-            <url>https://alpha.fc.unesp.br/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-    </repositories>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -29,7 +18,14 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<properties>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -71,16 +67,16 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		   <groupId>br.unesp.fc</groupId>
-		   <artifactId>unespfc-core-layout</artifactId>
-		   <version>1.2</version>
-		</dependency>
-		<dependency>
 		   <groupId>com.google.guava</groupId>
 		   <artifactId>guava</artifactId>
 		   <version>16.0.1</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+           <groupId>com.github.andrepenteado</groupId>
+           <artifactId>web-assets</artifactId>
+           <version>1.0</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>
