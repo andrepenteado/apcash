@@ -109,7 +109,7 @@
   <datatables:table data="${listagemLiquidados}" row="recebido" id="GridDatatable" pageable="false">
     <datatables:column title="Descrição" property="receber.descricao"/>
     <datatables:column title="Categoria" property="receber.categoria.descricao"/>
-    <datatables:column title="Recebimento" property="dataRecebimento" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center"/>
+    <datatables:column title="Recebimento" property="dataRecebimentoJsp" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center"/>
     <datatables:column title="Valor" property="valorRecebido" format="R$ {0,number,#,##0.00}" cssCellClass="text-right"/>
     <datatables:column title="Extornar" filterable="false" searchable="false" sortable="false" cssCellClass="text-center">
       <a href="#" data-href="${linkController}/excluir/${recebido.id}" class="btn btn-danger btn-xs"

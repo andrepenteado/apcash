@@ -1,29 +1,17 @@
 
 package com.github.andrepenteado.apcash.models;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.format.annotation.NumberFormat;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.NumberFormat;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 @EqualsAndHashCode(of = { "numero", "nome", "valor", "data" })
@@ -54,9 +42,8 @@ public class Cheque implements Serializable {
     private BigDecimal valor;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
     @Column(name = "data")
-    private Date data;
+    private LocalDate data;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "situacao")

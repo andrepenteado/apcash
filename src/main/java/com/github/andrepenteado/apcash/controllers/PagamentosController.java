@@ -1,26 +1,4 @@
-
 package com.github.andrepenteado.apcash.controllers;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.andrepenteado.apcash.models.DespesaReceita;
 import com.github.andrepenteado.apcash.models.Pagar;
@@ -29,8 +7,20 @@ import com.github.andrepenteado.apcash.models.TipoQuitacao;
 import com.github.andrepenteado.apcash.repositories.CategoriaRepository;
 import com.github.andrepenteado.apcash.repositories.PagarRepository;
 import com.google.common.base.Objects;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 @Slf4j
 @Controller
@@ -48,15 +38,15 @@ public class PagamentosController {
 
     @GetMapping("/pendentes")
     public String pendentes(Model model,
-                    @RequestParam(value = "txt_data_inicio", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date data) {
+                            @RequestParam(value = "txt_data_inicio", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate data) {
         if (data == null) {
             LocalDate fimMes = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
-            data = java.sql.Date.valueOf(fimMes);
+            data = fimMes;
         }
         model.addAttribute("listagemPendentes", repository.pesquisarPendentesAteData(data));
         model.addAttribute("total", Objects.firstNonNull(repository.totalPendenteAteData(data), 0));
         model.addAttribute("totalPorCategoria", repository.totalPendenteAgrupadoPorCategoriaAteData(data));
-        model.addAttribute("txt_data", new SimpleDateFormat("dd/MM/yyyy").format(data));
+        model.addAttribute("txt_data", data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         return "/debitos/pendentes/pesquisar";
     }
 
@@ -117,8 +107,9 @@ public class PagamentosController {
             pago.setValorPago(pagar.getValor());
             pago.setFormaPagamento(TipoQuitacao.DINHEIRO);
             pago.setPagar(pagar);
-            if (pagar.getPagamentos() == null)
+            if (pagar.getPagamentos() == null) {
                 pagar.setPagamentos(new ArrayList<Pago>());
+            }
             pagar.getPagamentos().add(pago);
             repository.save(pagar);
             log.info("Débito #" + id + " liquidado com sucesso");
@@ -133,19 +124,19 @@ public class PagamentosController {
 
     @GetMapping("/liquidados")
     public String liquidados(Model model,
-                    @RequestParam(value = "txt_data_inicio", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
-                    @RequestParam(value = "txt_data_fim", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataFim) {
+                             @RequestParam(value = "txt_data_inicio", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataInicio,
+                             @RequestParam(value = "txt_data_fim", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataFim) {
         if (dataInicio == null || dataFim == null) {
             LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
             LocalDate fimMes = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
-            dataInicio = java.sql.Date.valueOf(inicioMes);
-            dataFim = java.sql.Date.valueOf(fimMes);
+            dataInicio = inicioMes;
+            dataFim = fimMes;
         }
         model.addAttribute("total", Objects.firstNonNull(repository.totalLiquidadoPorDescricaoPorData(dataInicio, dataFim), 0));
         model.addAttribute("totalPorCategoria", repository.totalLiquidadoAgrupadoPorCategoria(dataInicio, dataFim));
         model.addAttribute("listagemLiquidados", repository.pesquisarLiquidadosPorDescricaoPorData(dataInicio, dataFim));
-        model.addAttribute("txt_data_inicio", new SimpleDateFormat("dd/MM/yyyy").format(dataInicio));
-        model.addAttribute("txt_data_fim", new SimpleDateFormat("dd/MM/yyyy").format(dataFim));
+        model.addAttribute("txt_data_inicio", dataInicio.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        model.addAttribute("txt_data_fim", dataFim.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         return "/debitos/liquidados/pesquisar";
     }
 

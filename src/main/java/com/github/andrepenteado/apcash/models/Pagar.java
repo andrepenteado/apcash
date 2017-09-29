@@ -1,39 +1,23 @@
-
 package com.github.andrepenteado.apcash.models;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.NumberFormat;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 @Data
-@EqualsAndHashCode(of = { "descricao", "dataVencimento", "valor" })
-@ToString(of = { "descricao", "dataVencimento", "valor" })
+@EqualsAndHashCode(of = {"descricao", "dataVencimento", "valor"})
+@ToString(of = {"descricao", "dataVencimento", "valor"})
 @Entity
 @Table(name = "pagar")
 public class Pagar implements Serializable {
@@ -51,10 +35,9 @@ public class Pagar implements Serializable {
     private String descricao;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "data_vencimento")
-    private Date dataVencimento;
+    private LocalDate dataVencimento;
 
     @NotNull
     @NumberFormat(pattern = "#,##0.00")
@@ -75,19 +58,20 @@ public class Pagar implements Serializable {
 
     public boolean isVencida() {
         LocalDate hoje = LocalDate.now();
-        LocalDate dataVencimento = new java.sql.Date(this.dataVencimento.getTime()).toLocalDate();
-        return hoje.isAfter(dataVencimento);
+        return hoje.isAfter(this.dataVencimento);
     }
 
     public boolean isVencendo() {
         LocalDate hoje = LocalDate.now();
-        LocalDate dataVencimento = new java.sql.Date(this.dataVencimento.getTime()).toLocalDate();
-        return hoje.isEqual(dataVencimento);
+        return hoje.isEqual(this.dataVencimento);
     }
 
     public boolean isVencer() {
         LocalDate hoje = LocalDate.now();
-        LocalDate dataVencimento = new java.sql.Date(this.dataVencimento.getTime()).toLocalDate();
-        return hoje.isBefore(dataVencimento);
+        return hoje.isBefore(this.dataVencimento);
+    }
+
+    public Date getDataVencimentoJsp() {
+        return java.sql.Date.valueOf(this.dataVencimento);
     }
 }

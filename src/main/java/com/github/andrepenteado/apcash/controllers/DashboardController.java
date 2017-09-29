@@ -1,20 +1,18 @@
-
 package com.github.andrepenteado.apcash.controllers;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
+import com.github.andrepenteado.apcash.repositories.PagarRepository;
+import com.github.andrepenteado.apcash.repositories.ReceberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.github.andrepenteado.apcash.repositories.PagarRepository;
-import com.github.andrepenteado.apcash.repositories.ReceberRepository;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Controller
 public class DashboardController {
@@ -32,17 +30,15 @@ public class DashboardController {
 
     @GetMapping(value = { "/dashboard" })
     public String dashboard(Model model) {
-        Calendar hoje = Calendar.getInstance();
-        Calendar tresMesesAtras = Calendar.getInstance();
-        Calendar proximoTrintaDias = Calendar.getInstance();
-        tresMesesAtras.add(Calendar.DAY_OF_MONTH, -91);
-        proximoTrintaDias.add(Calendar.DAY_OF_MONTH, 30);
+        LocalDate hoje = LocalDate.now();
+        LocalDate tresMesesAtras = hoje.plusMonths(-3);
+        LocalDate proximoTrintaDias = hoje.plusDays(30);
 
         /****************** Gráfico contas pendentes **********************/
 
         Map<Date, BigDecimal[]> graficoPendentesPorDia = new TreeMap<Date, BigDecimal[]>();
-        List<Object[]> receberPorDia = receberRepository.totalPendenteAgrupadoPorDiaAteData(proximoTrintaDias.getTime());
-        List<Object[]> pagarPorDia = pagarRepository.totalPendenteAgrupadoPorDiaAteData(proximoTrintaDias.getTime());
+        List<Object[]> receberPorDia = receberRepository.totalPendenteAgrupadoPorDiaAteData(proximoTrintaDias);
+        List<Object[]> pagarPorDia = pagarRepository.totalPendenteAgrupadoPorDiaAteData(proximoTrintaDias);
 
         // Coloca os valores a receber com chave data e valor na posição do array 0
         for (Object[] receber : receberPorDia) {
@@ -50,16 +46,18 @@ public class DashboardController {
             BigDecimal currVal = (BigDecimal)receber[0];
 
             // posição 1 da consulta JPQL é a data
-            Date currDay = (Date)receber[1];
+            Date currDay = java.sql.Date.valueOf((LocalDate)receber[1]);
 
             // Tentar pegar os valores da data selecionada pelo for
             BigDecimal[] itemGrafico = graficoPendentesPorDia.get(currDay);
 
             // Se já existe entrada para esta data, atualiza valor de receber [posição 0]
-            if (itemGrafico != null)
+            if (itemGrafico != null) {
                 itemGrafico[0] = currVal;
-            else
+            }
+            else {
                 itemGrafico = new BigDecimal[] { currVal, new BigDecimal(0) };
+            }
             graficoPendentesPorDia.put(currDay, itemGrafico);
         }
 
@@ -69,16 +67,18 @@ public class DashboardController {
             BigDecimal currVal = (BigDecimal)pagar[0];
 
             // posição 1 da consulta JPQL é a data
-            Date currDay = (Date)pagar[1];
+            Date currDay = java.sql.Date.valueOf((LocalDate)pagar[1]);
 
             // Tentar pegar os valores da data selecionada pelo for
             BigDecimal[] itemGrafico = graficoPendentesPorDia.get(currDay);
 
             // Se já existe entrada para esta data, atualiza valor de pagar [posição 1]
-            if (itemGrafico != null)
+            if (itemGrafico != null) {
                 itemGrafico[1] = currVal;
-            else
+            }
+            else {
                 itemGrafico = new BigDecimal[] { new BigDecimal(0), currVal };
+            }
             graficoPendentesPorDia.put(currDay, itemGrafico);
         }
 
@@ -97,8 +97,8 @@ public class DashboardController {
         /****************** Gráfico liquidados últimos 30 dias ***************************/
 
         Map<Date, BigDecimal[]> graficoLiquidadosPorDia = new TreeMap<Date, BigDecimal[]>();
-        List<Object[]> recebidoPorDia = receberRepository.totalLiquidadoAgrupadoPorDia(tresMesesAtras.getTime(), hoje.getTime());
-        List<Object[]> pagoPorDia = pagarRepository.totalLiquidadoAgrupadoPorDia(tresMesesAtras.getTime(), hoje.getTime());
+        List<Object[]> recebidoPorDia = receberRepository.totalLiquidadoAgrupadoPorDia(tresMesesAtras, hoje);
+        List<Object[]> pagoPorDia = pagarRepository.totalLiquidadoAgrupadoPorDia(tresMesesAtras, hoje);
 
         // Coloca os valores a receber com chave data e valor na posição do array 0
         for (Object[] recebido : recebidoPorDia) {
@@ -106,16 +106,18 @@ public class DashboardController {
             BigDecimal currVal = (BigDecimal)recebido[0];
 
             // posição 1 da consulta JPQL é a data
-            Date currDay = (Date)recebido[1];
+            Date currDay = java.sql.Date.valueOf((LocalDate)recebido[1]);
 
             // Tentar pegar os valores da data selecionada pelo for
             BigDecimal[] itemGrafico = graficoLiquidadosPorDia.get(currDay);
 
             // Se já existe entrada para esta data, atualiza valor de receber [posição 0]
-            if (itemGrafico != null)
+            if (itemGrafico != null) {
                 itemGrafico[0] = currVal;
-            else
+            }
+            else {
                 itemGrafico = new BigDecimal[] { currVal, new BigDecimal(0) };
+            }
             graficoLiquidadosPorDia.put(currDay, itemGrafico);
         }
 
@@ -125,16 +127,18 @@ public class DashboardController {
             BigDecimal currVal = (BigDecimal)pago[0];
 
             // posição 1 da consulta JPQL é a data
-            Date currDay = (Date)pago[1];
+            Date currDay = java.sql.Date.valueOf((LocalDate)pago[1]);
 
             // Tentar pegar os valores da data selecionada pelo for
             BigDecimal[] itemGrafico = graficoLiquidadosPorDia.get(currDay);
 
             // Se já existe entrada para esta data, atualiza valor de pagar [posição 1]
-            if (itemGrafico != null)
+            if (itemGrafico != null) {
                 itemGrafico[1] = currVal;
-            else
+            }
+            else {
                 itemGrafico = new BigDecimal[] { new BigDecimal(0), currVal };
+            }
             graficoLiquidadosPorDia.put(currDay, itemGrafico);
         }
 

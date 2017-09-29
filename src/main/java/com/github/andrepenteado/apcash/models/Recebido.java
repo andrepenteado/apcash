@@ -1,31 +1,17 @@
-
 package com.github.andrepenteado.apcash.models;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.NumberFormat;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @EqualsAndHashCode(of = { "receber", "valorRecebido", "dataRecebimento", "formaRecebimento" })
@@ -53,10 +39,9 @@ public class Recebido implements Serializable {
     private BigDecimal valorRecebido;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "data_recebimento")
-    private Date dataRecebimento;
+    private LocalDate dataRecebimento;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -65,4 +50,8 @@ public class Recebido implements Serializable {
 
     @Column(name = "observacao")
     private String observacao;
+
+    public Date getDataRecebimentoJsp() {
+        return java.sql.Date.valueOf(this.dataRecebimento);
+    }
 }

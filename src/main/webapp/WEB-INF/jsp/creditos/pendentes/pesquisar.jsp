@@ -102,7 +102,7 @@
     <c:set var="cssLinha">${receber.vencida ? 'danger' : receber.vencendo ? 'warning' : ''}</c:set>
     <datatables:column title="Descrição" property="descricao" cssCellClass="${cssLinha}"/>
     <datatables:column title="Categoria" property="categoria.descricao" cssCellClass="${cssLinha}"/>
-    <datatables:column title="Vencimento" property="dataVencimento" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center ${cssLinha}"/>
+    <datatables:column title="Vencimento" property="dataVencimentoJsp" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center ${cssLinha}"/>
     <datatables:column title="Valor(R$)" property="valor" format="{0,number,#,##0.00}" cssCellClass="text-right ${cssLinha}"/>
     <datatables:column title="Operações" filterable="false" searchable="false" sortable="false" cssCellClass="text-center ${cssLinha}">
       <a href="#" data-href="${linkController}/liquidar/${receber.id}" class="btn btn-success btn-xs"
