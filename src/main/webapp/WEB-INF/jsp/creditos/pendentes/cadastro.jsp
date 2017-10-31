@@ -54,7 +54,7 @@
           <div class="form-group col-xs-12 col-md-6">
             <label for="dataVencimento" class="control-label">Data de Vencimento</label>
             <div class="input-group date" id="div-data-vencimento">
-              <form:input path="dataVencimento" class="form-control" extra="placeholder=Data de vencimento da conta" />
+              <form:input path="dataVencimento" class="form-control" placeholder="Data de vencimento da conta" />
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
               </span>
@@ -67,7 +67,7 @@
         </div>
         <div class="row">
           <div class="form-group col-xs-12 col-md-6">
-            <label for="txt_descricao" class="control-label">Categoria</label>
+            <label for="categoria" class="control-label">Categoria</label>
             <form:select path="categoria" class="form-control">
               <form:option value="" label="----- Selecione uma categoria -----"/>
               <form:options items="${listagemCategorias}" itemLabel="descricao" itemValue="id" />
@@ -82,14 +82,14 @@
         </div>
         <div class="row">
           <div class="form-group col-xs-12 col-md-12">
-            <label for="txt_descricao" class="control-label">Observações</label>
+            <label for="observacao" class="control-label">Observações</label>
             <form:textarea path="observacao" rows="4" class="form-control" placeholder="Digite possíveis observações relacionada a conta"/>
           </div>
         </div>
         <div class="row">
           <div class="form-group col-x-12 col-md-12" style="text-align: center; margin-top: 25px;">
 	        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Gravar</button>
-          </div>
+        </div>
 	    </div>
       </div>
     </div>
