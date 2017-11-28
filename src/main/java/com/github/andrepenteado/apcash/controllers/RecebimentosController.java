@@ -58,7 +58,7 @@ public class RecebimentosController {
 
     @GetMapping("/pendentes/editar/{id}")
     public String editarCredito(Model model, @PathVariable Long id) {
-        Receber receber = repository.findOne(id);
+        Receber receber = repository.findById(id).get();
         model.addAttribute("receber", receber);
         return abrirCadastroCredito(model);
     }
@@ -107,7 +107,7 @@ public class RecebimentosController {
     @GetMapping("/pendentes/excluir/{id}")
     public String excluirCredito(RedirectAttributes ra, @PathVariable Long id) {
         try {
-            repository.delete(id);
+            repository.deleteById(id);
             log.info("Crédito #" + id + " excluído com sucesso");
             ra.addFlashAttribute("mensagemInfo", config.getMessage("excluidoSucesso", new Object[] { "o crédito" }, null));
         }
@@ -121,7 +121,7 @@ public class RecebimentosController {
     @GetMapping("/pendentes/liquidar/{id}")
     public String liquidarCredito(RedirectAttributes ra, @PathVariable Long id) {
         try {
-            Receber receber = repository.findOne(id);
+            Receber receber = repository.findById(id).get();
             Recebido recebido = new Recebido();
             recebido.setDataRecebimento(receber.getDataVencimento());
             recebido.setValorRecebido(receber.getValor());

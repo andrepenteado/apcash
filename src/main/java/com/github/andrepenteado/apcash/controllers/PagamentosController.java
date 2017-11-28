@@ -58,7 +58,7 @@ public class PagamentosController {
 
     @GetMapping("/pendentes/editar/{id}")
     public String editarDebito(Model model, @PathVariable Long id) {
-        Pagar pagar = repository.findOne(id);
+        Pagar pagar = repository.findById(id).get();
         model.addAttribute("pagar", pagar);
         return abrirCadastroDebito(model);
     }
@@ -87,7 +87,7 @@ public class PagamentosController {
     @GetMapping("/pendentes/excluir/{id}")
     public String excluirDebito(RedirectAttributes ra, @PathVariable Long id) {
         try {
-            repository.delete(id);
+            repository.deleteById(id);
             log.info("Débito #" + id + " excluído com sucesso");
             ra.addFlashAttribute("mensagemInfo", config.getMessage("excluidoSucesso", new Object[] { "o débito" }, null));
         }
@@ -101,7 +101,7 @@ public class PagamentosController {
     @GetMapping("/pendentes/liquidar/{id}")
     public String liquidarDebito(RedirectAttributes ra, @PathVariable Long id) {
         try {
-            Pagar pagar = repository.findOne(id);
+            Pagar pagar = repository.findById(id).get();
             Pago pago = new Pago();
             pago.setDataPagamento(pagar.getDataVencimento());
             pago.setValorPago(pagar.getValor());

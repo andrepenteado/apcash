@@ -47,7 +47,7 @@ public class CategoriaController {
 
     @GetMapping("/editar/{id}")
     public String editar(Model model, @PathVariable Long id) {
-        Categoria categoria = repository.findOne(id);
+        Categoria categoria = repository.findById(id).get();
         model.addAttribute("categoria", categoria);
         return abrirCadastroCategoria(model);
     }
@@ -76,7 +76,7 @@ public class CategoriaController {
     @GetMapping("/excluir/{id}")
     public String excluir(RedirectAttributes ra, @PathVariable Long id) {
         try {
-            repository.delete(id);
+            repository.deleteById(id);
             log.info("Categoria #" + id + " excluída com sucesso");
             ra.addFlashAttribute("mensagemInfo", config.getMessage("excluidoSucesso", new Object[] { "a categoria" }, null));
         }
