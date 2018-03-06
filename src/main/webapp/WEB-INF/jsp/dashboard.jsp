@@ -3,7 +3,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="dandelion" uri="http://github.com/dandelion" %>
 
-<dandelion:bundle includes="font-awesome"/>
+<dandelion:bundle includes="font-awesome4"/>
 
 <c:set var="totalReceitaPendente" value="0"/>
 <c:set var="totalDespesaPendente" value="0"/>

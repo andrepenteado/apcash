@@ -1,3 +1,5 @@
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <div class="modal fade" id="janela-confirmacao-modal" tabindex="-1" role="dialog" aria-labelledby="mensagemJanelaConfirmacao">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -6,7 +8,7 @@
         <h4 class="modal-title" id="mensagemJanelaConfirmacao">Deseja realmente confirmar?</h4>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">NÃ£o</button>
         <a class="btn btn-success"><span class='glyphicon glyphicon-ok'></span> Confirmar</a>
       </div>
     </div>

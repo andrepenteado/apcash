@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.0.M6</version>
+		<version>2.0.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -23,14 +23,14 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
-		<repository>
+		<!--<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
 			<url>https://repo.spring.io/libs-milestone</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-		</repository>
+		</repository>-->
 	</repositories>
 
     <properties>
@@ -82,7 +82,7 @@
         <dependency>
            <groupId>com.github.andrepenteado</groupId>
            <artifactId>web-assets</artifactId>
-           <version>1.0</version>
+           <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>

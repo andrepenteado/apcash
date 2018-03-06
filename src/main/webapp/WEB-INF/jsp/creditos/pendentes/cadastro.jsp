@@ -6,7 +6,7 @@
 
 <c:set var="actionGravar"><c:url value="/creditos/pendentes/gravar"/></c:set>
 
-<dandelion:bundle includes="jquery.validation,jquery.inputmask,jquery.datetimepicker" />
+<dandelion:bundle includes="jquery.validation,jquery.inputmask,bootstrap3.datetimepicker" />
 
 <html>
 <head>

@@ -6,7 +6,7 @@
 
 <c:set var="linkController"><c:url value="/debitos/liquidados"/></c:set>
 
-<dandelion:bundle includes="datatables.extended,jquery.validation,jquery.inputmask,jquery.datetimepicker"/>
+<dandelion:bundle includes="datatables.extended,jquery.validation,jquery.inputmask,bootstrap3.datetimepicker"/>
 
 <html>
 

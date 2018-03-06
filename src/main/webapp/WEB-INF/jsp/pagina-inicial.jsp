@@ -1,7 +1,4 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true"%>
-<%@taglib uri="http://github.com/dandelion" prefix="dandelion"%>
-
-<dandelion:bundle includes="font-awesome"/>
 
 <html>
 <head>

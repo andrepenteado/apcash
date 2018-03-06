@@ -6,7 +6,7 @@
 
 <c:set var="linkController"><c:url value="/debitos/pendentes"/></c:set>
 
-<dandelion:bundle includes="datatables.extended,floating.button,font-awesome,jquery.validation,jquery.inputmask,jquery.datetimepicker"/>
+<dandelion:bundle includes="datatables.extended,floating.button,font-awesome4,jquery.validation,jquery.inputmask,bootstrap3.datetimepicker"/>
 
 <html>
 

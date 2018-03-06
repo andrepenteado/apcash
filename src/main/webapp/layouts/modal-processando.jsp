@@ -1,5 +1,5 @@
 <%@taglib prefix="dandelion" uri="http://github.com/dandelion" %>
-<dandelion:bundle includes="font-awesome"/>
+<dandelion:bundle includes="font-awesome4"/>
 
 <!-- Mensagem "Processando..." -->
 <script type="text/javascript">

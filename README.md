@@ -24,6 +24,29 @@ CREATE TABLE categoria (
    CONSTRAINT pk_categoria PRIMARY KEY (id)
 );
 
+CREATE TABLE cliente (
+   id SERIAL,
+   nome character varying NOT NULL,
+   cpf character varying NOT NULL,
+   data_cadastro timestamp,
+   data_ultima_atualizacao timestamp,
+   data_nascimento date NULL,
+   telefone character varying NULL,
+   celular character varying NULL,
+   whatsapp boolean NULL,
+   email character varying NULL,
+   profissao character varying NULL,
+   cep integer NULL,
+   logradouro character varying NULL,
+   numero character varying NULL,
+   complemento character varying NULL,
+   bairro character varying NULL,
+   cidade character varying NULL,
+   estado character varying NULL,
+   observacao character varying NULL,
+   CONSTRAINT pk_cliente PRIMARY KEY (id)
+);
+
 CREATE TABLE cheque (
    id serial,
    numero integer NOT NULL,
