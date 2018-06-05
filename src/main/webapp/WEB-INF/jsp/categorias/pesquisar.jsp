@@ -27,15 +27,23 @@
   <datatables:table data="${listagemCategorias}" row="categoria" id="GridDatatable" sortable="false">
     <datatables:column title="Descrição" property="descricao"/>
     <datatables:column title="Tipo" property="despesaReceita"/>
-    <datatables:column title="Operações" filterable="false" searchable="false" cssCellClass="text-center">
-      <a href="${linkController}/editar/${categoria.id}" class="btn btn-default btn-xs" data-toggle="tooltip" title="Alterar">
-        <span class='glyphicon glyphicon-pencil'></span>
-      </a>
-      <a href="#" data-href="${linkController}/excluir/${categoria.id}" 
-                  data-mensagem-exclusao="Deseja realmente excluir ${categoria.descricao}?" 
-                  data-toggle="modal" data-target="#janela-exclusao-modal" class="btn btn-danger btn-xs">
-        <span class='glyphicon glyphicon-trash' data-toggle="tooltip" title="Excluir"></span>
-      </a>
+    <datatables:column title="Opções" filterable="false" searchable="false" cssCellClass="text-center" cssStyle="width: 1%">
+      <span class="dropdown clearfix">
+        <button class="btn btn-sm" type="button" id="dropdownMenuBottomLeft"
+                data-toggle="dropdown" aria-expanded="true"><span class='glyphicon glyphicon-option-vertical'></span>
+        </button>
+        <ul aria-labelledby="dropdownMenu2" role="menu" class="dropdown-menu">
+            <li role="presentation">
+              <a href="${linkController}/editar/${categoria.id}" tabindex="-1" role="menuitem"><span class='glyphicon glyphicon-pencil'></span> Editar</a>
+            </li>
+            <li role="presentation">
+              <a href="#" data-href="${linkController}/excluir/${categoria.id}"
+                 data-mensagem-exclusao="Deseja realmente excluir a categoria ${categoria.descricao}?"
+                 data-toggle="modal" data-target="#janela-exclusao-modal" tabindex="-1" role="menuitem"><span class='glyphicon glyphicon-trash'></span> Excluir
+              </a>
+            </li>
+        </ul>
+      </span>
     </datatables:column>
     <datatables:extraJs bundles="datatables.extended.config" placeholder="before_start_document_ready" />
   </datatables:table>
