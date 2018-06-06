@@ -1,5 +1,6 @@
 <%@taglib prefix="dandelion" uri="http://github.com/dandelion" %>
-<dandelion:bundle includes="font-awesome4"/>
+
+<dandelion:bundle includes="font-awesome5"/>
 
 <!-- Mensagem "Processando..." -->
 <script type="text/javascript">
@@ -20,7 +21,7 @@
       </div>
       <div class="modal-body">
         <p align="center" style="text-decoration: blink;">
-          <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i> Aguarde, em processamento ... <br><br>
+          <i class="fas fa-circle-notch fa-spin fa-2x fa-fw"></i> Aguarde, em processamento ... <br><br>
         </p>
       </div>
     </div>

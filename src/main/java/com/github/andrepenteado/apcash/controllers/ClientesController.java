@@ -91,4 +91,9 @@ public class ClientesController {
         }
         return "redirect:/clientes";
     }
+
+    @GetMapping("/prontuarios/{id}/pesquisar")
+    public String prontuario(@PathVariable Long id) {
+        return "/clientes/prontuarios";
+    }
 }

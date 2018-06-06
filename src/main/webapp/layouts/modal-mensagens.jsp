@@ -4,7 +4,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://github.com/dandelion" prefix="dandelion"%>
 
-<dandelion:bundle includes="sweetalert2,font-awesome4" />
+<dandelion:bundle includes="sweetalert2,font-awesome5" />
 
 <%-- Mensagem de Erro --%>
 <c:if test="${not empty mensagemErro}">
@@ -56,7 +56,7 @@
   <div class="alert alert-danger alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <c:forEach var="error" items="${errors.allErrors}">
-      <strong><span class="glyphicon glyphicon-alert"></span> <spring:message message="${error}" /></strong><br/>
+      <strong><span class="fas fa-exclamation-triangle"></span> <spring:message message="${error}" /></strong><br/>
     </c:forEach>
   </div>
 </spring:hasBindErrors>

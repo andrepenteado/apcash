@@ -48,6 +48,9 @@
                  data-toggle="modal" data-target="#janela-exclusao-modal" tabindex="-1" role="menuitem"><span class='glyphicon glyphicon-trash'></span> Excluir
               </a>
             </li>
+            <li role="presentation">
+              <a href="${linkController}/prontuario/${cliente.id}" tabindex="-1" role="menuitem"><span class='glyphicon glyphicon-inbox'></span> Prontuário</a>
+            </li>
         </ul>
       </span>
     </datatables:column>

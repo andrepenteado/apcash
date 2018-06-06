@@ -6,7 +6,7 @@
         <h4 class="modal-title" id="mensagemJanelaExclusao">Deseja realmente excluir?</h4>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">NÃ£o</button>
         <a class="btn btn-danger"><span class='glyphicon glyphicon-trash'></span> Excluir</a>
       </div>
     </div>
