@@ -23,30 +23,23 @@
   <%@include file="/layouts/modal-exclusao.jsp"%>
 
   <a href="${linkController}/incluir" class="float-button"><span class="fas fa-plus fa-lg"></span></a>
-  <ul class="float-menu">
-    <li><a href="#"><span class="fas fa-home fa-lg"></span></a></li>
-  </ul>
 
   <datatables:table data="${listagemCategorias}" row="categoria" id="GridDatatable" sortable="false">
     <datatables:column title="Descrição" property="descricao"/>
     <datatables:column title="Tipo" property="despesaReceita"/>
     <datatables:column title="Opções" filterable="false" searchable="false" cssCellClass="text-center" cssStyle="width: 1%">
-      <span class="dropdown clearfix">
-        <button class="btn btn-sm" type="button" id="dropdownMenuBottomLeft"
-                data-toggle="dropdown" aria-expanded="true"><span class='fas fa-ellipsis-v'></span>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default btn-circle dropdown-toggle" data-toggle="dropdown">
+          <span class='fas fa-ellipsis-v'></span>
         </button>
-        <ul aria-labelledby="dropdownMenu2" role="menu" class="dropdown-menu">
-            <li role="presentation">
-              <a href="${linkController}/editar/${categoria.id}" tabindex="-1" role="menuitem"><span class='fas fa-pencil-alt'></span> Editar</a>
-            </li>
-            <li role="presentation">
-              <a href="#" data-href="${linkController}/excluir/${categoria.id}"
-                 data-mensagem-exclusao="Deseja realmente excluir a categoria ${categoria.descricao}?"
-                 data-toggle="modal" data-target="#janela-exclusao-modal" tabindex="-1" role="menuitem"><span class='fas fa-trash-alt'></span> Excluir
-              </a>
-            </li>
+        <ul class="dropdown-menu">
+          <li><a href="${linkController}/editar/${categoria.id}"><span class='fas fa-pencil-alt'></span> Editar</a></li>
+          <li><a href="#" data-href="${linkController}/excluir/${categoria.id}"
+             data-mensagem-exclusao="Deseja realmente excluir a categoria ${categoria.descricao}?"
+             data-toggle="modal" data-target="#janela-exclusao-modal"><span class='fas fa-trash-alt'></span> Excluir
+        </a></li>
         </ul>
-      </span>
+      </div>
     </datatables:column>
     <datatables:extraJs bundles="datatables.extended.config" placeholder="before_start_document_ready" />
   </datatables:table>
