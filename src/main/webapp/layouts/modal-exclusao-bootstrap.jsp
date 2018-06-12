@@ -1,3 +1,12 @@
+<!-- No JSP que tem o link:
+<li><a href="#" data-href="/excluir/1"
+data-mensagem-exclusao="Deseja realmente excluir a categoria Nome?"
+data-toggle="modal" data-target="#janela-exclusao-modal"><span class='fas fa-trash-alt'></span> Excluir
+</a></li>
+-->
+
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <div class="modal fade" id="janela-exclusao-modal" tabindex="-1" role="dialog" aria-labelledby="mensagemJanelaExclusao">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">

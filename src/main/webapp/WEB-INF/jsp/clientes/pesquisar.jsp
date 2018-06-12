@@ -8,7 +8,7 @@
 
 <spring:eval var="labelCliente" expression="@environment.getProperty('label.cliente')"/>
 
-<dandelion:bundle includes="datatables.extended,floating.button,font-awesome4,jquery.validation"/>
+<dandelion:bundle includes="datatables.extended,floating.button,font-awesome5,jquery.validation"/>
 
 <html>
 <head>
@@ -23,7 +23,7 @@
   </script>
 
   <%@include file="/layouts/modal-mensagens.jsp"%>
-  <%@include file="/layouts/modal-exclusao.jsp"%>
+  <%@include file="/layouts/modal-confirmacoes.jsp"%>
 
   <a href="${linkController}/incluir" class="float-button"><i class="fa fa-plus"></i></a>
 
@@ -34,25 +34,19 @@
     <datatables:column title="Telefone" property="telefone" sortable="false"/>
     <datatables:column title="Celular" property="celular" sortable="false"/>
     <datatables:column title="Opções" filterable="false" searchable="false" sortable="false" cssClass="text-center" cssCellClass="text-center">
-      <span class="dropdown clearfix">
-        <button class="btn btn-sm" type="button" id="dropdownMenuBottomLeft"
-                data-toggle="dropdown" aria-expanded="true"><span class='glyphicon glyphicon-option-vertical'></span>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default btn-circle dropdown-toggle" data-toggle="dropdown">
+          <span class='fas fa-ellipsis-v'></span>
         </button>
-        <ul aria-labelledby="dropdownMenu2" role="menu" class="dropdown-menu">
-            <li role="presentation">
-              <a href="${linkController}/editar/${cliente.id}" tabindex="-1" role="menuitem"><span class='glyphicon glyphicon-pencil'></span> Editar</a>
-            </li>
-            <li role="presentation">
-              <a href="#" data-href="${linkController}/excluir/${cliente.id}"
-                 data-mensagem-exclusao="Deseja realmente excluir a categoria ${cliente.nome}?"
-                 data-toggle="modal" data-target="#janela-exclusao-modal" tabindex="-1" role="menuitem"><span class='glyphicon glyphicon-trash'></span> Excluir
-              </a>
-            </li>
-            <li role="presentation">
-              <a href="${linkController}/prontuario/${cliente.id}" tabindex="-1" role="menuitem"><span class='glyphicon glyphicon-inbox'></span> Prontuário</a>
-            </li>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li><a href="${linkController}/editar/${cliente.id}"><span class='fas fa-pencil-alt'></span> Editar</a></li>
+          <li><a href="${linkController}/prontuario/${cliente.id}"><span class='fas fa-inbox'></span> Prontuário</a></li>
+          <li>
+            <a href="#" onclick="confirmarExclusao('Deseja realmente excluir o ${labelCliente} ${cliente.nome}?', '${linkController}/excluir/${cliente.id}'); return false;">
+              <span class='fas fa-trash-alt'></span> Excluir</a>
+          </li>
         </ul>
-      </span>
+      </div>
     </datatables:column>
     <datatables:extraJs bundles="datatables.extended.config" placeholder="before_start_document_ready" />
   </datatables:table>

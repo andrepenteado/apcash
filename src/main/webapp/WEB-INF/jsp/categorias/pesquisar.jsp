@@ -20,7 +20,7 @@
   </script>
 
   <%@include file="/layouts/modal-mensagens.jsp"%>
-  <%@include file="/layouts/modal-exclusao.jsp"%>
+  <%@include file="/layouts/modal-confirmacoes.jsp"%>
 
   <a href="${linkController}/incluir" class="float-button"><span class="fas fa-plus fa-lg"></span></a>
 
@@ -32,12 +32,12 @@
         <button type="button" class="btn btn-default btn-circle dropdown-toggle" data-toggle="dropdown">
           <span class='fas fa-ellipsis-v'></span>
         </button>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu dropdown-menu-right">
           <li><a href="${linkController}/editar/${categoria.id}"><span class='fas fa-pencil-alt'></span> Editar</a></li>
-          <li><a href="#" data-href="${linkController}/excluir/${categoria.id}"
-             data-mensagem-exclusao="Deseja realmente excluir a categoria ${categoria.descricao}?"
-             data-toggle="modal" data-target="#janela-exclusao-modal"><span class='fas fa-trash-alt'></span> Excluir
-        </a></li>
+          <li>
+            <a href="#" onclick="confirmarExclusao('Deseja realmente excluir a categoria ${categoria.descricao}?', '${linkController}/excluir/${categoria.id}'); return false;">
+            <span class='fas fa-trash-alt'></span> Excluir</a>
+          </li>
         </ul>
       </div>
     </datatables:column>

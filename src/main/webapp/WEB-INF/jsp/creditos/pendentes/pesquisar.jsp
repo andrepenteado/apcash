@@ -63,8 +63,7 @@
   </script>
 
   <%@include file="/layouts/modal-mensagens.jsp"%>
-  <%@include file="/layouts/modal-exclusao.jsp"%>
-  <%@include file="/layouts/modal-confirmacao.jsp"%>
+  <%@include file="/layouts/modal-confirmacoes.jsp"%>
 
   <form name="form-pesquisar-receber" id="form-pesquisar-receber" action="${linkController}">
     <%@include file="/layouts/modal-processando.jsp" %>
@@ -104,20 +103,23 @@
     <datatables:column title="Categoria" property="categoria.descricao" cssCellClass="${cssLinha}"/>
     <datatables:column title="Vencimento" property="dataVencimentoJsp" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center ${cssLinha}"/>
     <datatables:column title="Valor(R$)" property="valor" format="{0,number,#,##0.00}" cssCellClass="text-right ${cssLinha}"/>
-    <datatables:column title="Operações" filterable="false" searchable="false" sortable="false" cssCellClass="text-center ${cssLinha}">
-      <a href="#" data-href="${linkController}/liquidar/${receber.id}" class="btn btn-success btn-xs"
-                  data-mensagem-confirmacao="Confirma liquidar o crédito ${receber.descricao}?"
-                  data-toggle="modal" data-target="#janela-confirmacao-modal">
-        <span class='glyphicon glyphicon-usd' data-toggle="tooltip" title="Liquidar"></span>
-      </a>
-      <a href="${linkController}/editar/${receber.id}" class="btn btn-default btn-xs" data-toggle="tooltip" title="Alterar">
-        <span class='glyphicon glyphicon-pencil'></span>
-      </a>
-      <a href="#" data-href="${linkController}/excluir/${receber.id}" class="btn btn-danger btn-xs"
-                  data-mensagem-exclusao="Confirma excluir o crédito ${receber.descricao}?"
-                  data-toggle="modal" data-target="#janela-exclusao-modal">
-        <span class='glyphicon glyphicon-trash' data-toggle="tooltip" title="Excluir"></span>
-      </a>
+    <datatables:column title="Opções" filterable="false" searchable="false" sortable="false" cssCellClass="text-center ${cssLinha}">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default btn-circle dropdown-toggle" data-toggle="dropdown">
+          <span class='fas fa-ellipsis-v'></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li><a href="${linkController}/editar/${receber.id}"><span class='fas fa-pencil-alt'></span> Editar</a></li>
+          <li>
+            <a href="#" onclick="confirmarAlteracao('Confirmar o recebimento do crédito de ${receber.valor} do item ${receber.descricao}?', '${linkController}/liquidar/${receber.id}'); return false;">
+              <span class='fas fa-dollar-sign'></span> Liquidar</a>
+          </li>
+          <li>
+            <a href="#" onclick="confirmarExclusao('Deseja realmente excluir o lançamento de crédito de ${receber.valor} do item ${receber.descricao}?', '${linkController}/excluir/${receber.id}'); return false;">
+              <span class='fas fa-trash-alt'></span> Excluir</a>
+          </li>
+        </ul>
+      </div>
     </datatables:column>
     <datatables:callback function="fnFooterCallback" type="footer"/>
     <datatables:extraJs bundles="datatables.extended.config" placeholder="before_start_document_ready" />

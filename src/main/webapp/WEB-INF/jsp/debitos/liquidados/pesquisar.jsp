@@ -66,7 +66,7 @@
   </script>
 
   <%@include file="/layouts/modal-mensagens.jsp"%>
-  <%@include file="/layouts/modal-exclusao.jsp"%>
+  <%@include file="/layouts/modal-confirmacoes.jsp"%>
 
   <form name="form-pesquisar-pagos" id="form-pesquisar-pagos" action="${linkController}">
     <%@include file="/layouts/modal-processando.jsp" %>
@@ -112,11 +112,8 @@
     <datatables:column title="Pagamento" property="dataPagamentoJsp" format="{0,date,dd/MM/yyyy}" sortType="date-uk" sortInitDirection="asc" cssCellClass="text-center"/>
     <datatables:column title="Valor" property="valorPago" format="R$ {0,number,#,##0.00}" cssCellClass="text-right"/>
     <datatables:column title="Extornar" filterable="false" searchable="false" sortable="false" cssCellClass="text-center">
-      <a href="#" data-href="${linkController}/excluir/${pago.id}" class="btn btn-danger btn-xs"
-                  data-mensagem-exclusao="Confirma extornar o débito liquidado ${pago.pagar.descricao}?"
-                  data-toggle="modal" data-target="#janela-exclusao-modal">
-        <span class='glyphicon glyphicon-trash' data-toggle="tooltip" title="Excluir"></span>
-      </a>
+      <a href="#" onclick="confirmarExclusao('Extornar o pagamento do débito de ${pago.pagar.valor} do item ${pago.pagar.descricao}?', '${linkController}/excluir/${pago.id}'); return false;">
+      <span class='fas fa-trash-alt'></span></a>
     </datatables:column>
     <datatables:callback function="fnFooterCallback" type="footer"/>
     <datatables:extraJs bundles="datatables.extended.config" placeholder="before_start_document_ready" />

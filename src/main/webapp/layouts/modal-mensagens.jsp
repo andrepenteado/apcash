@@ -33,15 +33,6 @@
   </script>
 </c:if>
 
-<%-- Mensagem de Pergunta --%>
-<c:if test="${not empty mensagemPergunta}">
-  <script type="text/javascript">
-      $(document).ready(function() {
-          swal('Responda', '${mensagemPergunta}','question');
-      });
-  </script>
-</c:if>
-
 <%-- Mensagem de Atenção --%>
 <c:if test="${not empty mensagemAtencao}">
   <script type="text/javascript">
