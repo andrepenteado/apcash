@@ -3,7 +3,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="dandelion" uri="http://github.com/dandelion" %>
 
-<dandelion:bundle includes="font-awesome4"/>
+<dandelion:bundle includes="font-awesome5"/>
 
 <c:set var="totalReceitaPendente" value="0"/>
 <c:set var="totalDespesaPendente" value="0"/>
@@ -89,15 +89,15 @@
   </div>
   <div class="row text-center text-primary">
     <div class="cols-xs-6 col-md-4">
-      <i class="fa fa-2x fa-plus-circle"></i>
+      <span class="fas fa-plus-circle fa-3x"></span>
       <h3><fmt:formatNumber value="${totalReceitaPendente}" type="currency"/></h3>
     </div>
     <div class="cols-xs-6 col-md-4 text-danger">
-      <i class="fa fa-2x fa-minus-circle"></i>
+      <span class="fas fa-minus-circle fa-3x"></span>
       <h3><fmt:formatNumber value="${totalDespesaPendente}" type="currency"/></h3>
     </div>
     <div class="cols-xs-12 col-md-4 text-warning">
-      <i class="fa fa-2x fa-usd"></i>
+      <span class="fas fa-dollar-sign fa-3x"></span>
       <h3><fmt:formatNumber value="${saldoPendente}" type="currency"/></h3>
     </div>
   </div>
@@ -110,15 +110,15 @@
   </div>
   <div class="row text-center text-primary">
     <div class="cols-xs-6 col-md-4">
-      <i class="fa fa-2x fa-plus-circle"></i>
+      <span class="fas fa-plus-circle fa-3x"></span>
       <h3><fmt:formatNumber value="${totalReceitaLiquidado}" type="currency"/></h3>
     </div>
     <div class="cols-xs-6 col-md-4 text-danger">
-      <i class="fa fa-2x fa-minus-circle"></i>
+      <span class="fas fa-minus-circle fa-3x"></span>
       <h3><fmt:formatNumber value="${totalDespesaLiquidado}" type="currency"/></h3>
     </div>
     <div class="cols-xs-12 col-md-4 text-warning">
-      <i class="fa fa-2x fa-usd"></i>
+      <span class="fas fa-dollar-sign fa-3x"></span>
       <h3><fmt:formatNumber value="${saldoLiquidado}" type="currency"/></h3>
     </div>
   </div>

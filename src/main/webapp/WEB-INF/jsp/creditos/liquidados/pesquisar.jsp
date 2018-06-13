@@ -76,7 +76,7 @@
         <div class="input-group date" id="data_inicio">
           <input type="text" name="txt_data_inicio" id="txt_data_inicio" class="form-control" value="${txt_data_inicio}"/>
           <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
+            <span class="fas fa-calendar-alt"></span>
           </span>
         </div>
       </div>
@@ -85,10 +85,10 @@
         <div class="input-group date" id="data_fim">
           <input type="text" name="txt_data_fim" id="txt_data_fim" class="form-control" value="${txt_data_fim}"/>
           <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
+            <span class="fas fa-calendar-alt"></span>
           </span>
           <span class="input-group-btn">
-            <button type="button" class="btn btn-primary" name="btn_pesquisar" id="btn_pesquisar"><span class="glyphicon glyphicon-search"></span> Pesquisar</button>
+            <button type="button" class="btn btn-primary" name="btn_pesquisar" id="btn_pesquisar"><span class="fas fa-search"></span> Pesquisar</button>
           </span>
         </div>
       </div>

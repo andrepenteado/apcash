@@ -6,7 +6,7 @@
 
 <c:set var="linkController"><c:url value="/debitos/pendentes"/></c:set>
 
-<dandelion:bundle includes="datatables.extended,floating.button,font-awesome4,jquery.validation,jquery.inputmask,bootstrap3.datetimepicker"/>
+<dandelion:bundle includes="datatables.extended,floating.button,font-awesome5,jquery.validation,jquery.inputmask,bootstrap3.datetimepicker"/>
 
 <html>
 
@@ -73,10 +73,10 @@
         <div class="input-group date" id="data">
           <input type="text" name="txt_data" id="txt_data" class="form-control" value="${txt_data}"/>
           <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
+            <span class="fas fa-calendar-alt"></span>
           </span>
           <span class="input-group-btn">
-            <button type="button" class="btn btn-primary" name="btn_pesquisar" id="btn_pesquisar"><span class="glyphicon glyphicon-search"></span> Pesquisar</button>
+            <button type="button" class="btn btn-primary" name="btn_pesquisar" id="btn_pesquisar"><span class="fas fa-search"></span> Pesquisar</button>
           </span>
         </div>
       </div>
@@ -95,7 +95,7 @@
     <h4>Relatório analítico: <small id="totalAnalitico"></small></h4>
   </div>
 
-  <a href="${linkController}/incluir" class="float-button"><i class="fa fa-plus"></i></a>
+  <a href="${linkController}/incluir" class="float-button"><span class="fas fa-plus fa-lg"></span></a>
 
   <datatables:table data="${listagemPendentes}" row="pagar" id="GridDatatable" pageable="false">
     <c:set var="cssLinha">${pagar.vencida ? 'danger' : pagar.vencendo ? 'warning' : ''}</c:set>

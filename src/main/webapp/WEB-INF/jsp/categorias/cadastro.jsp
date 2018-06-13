@@ -6,7 +6,7 @@
 
 <c:set var="actionGravar"><c:url value="/categorias/gravar"/></c:set>
 
-<dandelion:bundle includes="jquery.validation" />
+<dandelion:bundle includes="jquery.validation,font-awesome5" />
 
 <html>
 <head>
@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="form-group col-x-12 col-md-12" style="text-align: center; margin-top: 25px;">
-        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Gravar</button>
+        <button type="submit" class="btn btn-primary"><span class="fas fa-save"></span> Gravar</button>
       </div>
     </div>
   </form:form>

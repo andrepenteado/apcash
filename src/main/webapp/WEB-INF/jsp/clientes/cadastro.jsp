@@ -8,7 +8,7 @@
 
 <spring:eval var="labelCliente" expression="@environment.getProperty('label.cliente')"/>
 
-<dandelion:bundle includes="jquery.validation,jquery.maskedinput,bootstrap3.datetimepicker,font-awesome4" />
+<dandelion:bundle includes="jquery.validation,jquery.maskedinput,bootstrap3.datetimepicker,font-awesome5" />
 
 <html>
 <head>
@@ -97,7 +97,7 @@
           <label for="dataNascimento" class="control-label">Data de Nascimento</label>
           <div class="input-group date" id="txt_data_nascimento">
             <form:input path="dataNascimento" class="form-control" />
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            <span class="input-group-addon"><span class="fas fa-calendar-alt"></span></span>
           </div>
         </div>
       </div>
@@ -111,7 +111,7 @@
           <div class="input-group">
             <form:input path="celular" class="form-control" placeholder="Telefone celular do ${labelCliente}"/>
             <span class="input-group-addon">
-              <i class="fa fa-whatsapp fa-lg"></i>&nbsp;&nbsp;<form:checkbox path="whatsapp"/>
+              <span class="fab fa-whatsapp fa-lg"></span>&nbsp;&nbsp;<form:checkbox path="whatsapp"/>
             </span>
           </div>
         </div>
@@ -133,12 +133,12 @@
             <form:input path="cep" class="form-control" />
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" id="btn_buscar_endereco" name="btn_buscar_endereco">
-                <span class="glyphicon glyphicon-search"></span> Buscar
+                <span class="fas fa-search"></span> Buscar
               </button>
             </span>
           </div>
         </div>
-        <div id="buscando_endereco" style="display: none; margin-top: 27px; margin-left: -14px;"><i class="fa fa-spinner fa-pulse fa-fw fa-lg"></i></div>
+        <div id="buscando_endereco" style="display: none; margin-top: 27px; margin-left: -14px;"><span class="fas fa-spinner fa-pulse fa-fw fa-lg"></span></div>
       </div>
       <div class="row">
         <div class="form-group col-xs-12 col-md-9">
@@ -172,7 +172,7 @@
       </div>
     </div>
     <div class="form-group col-x-12 col-md-12" style="text-align: center; margin-top: 25px;">
-      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Gravar</button>
+      <button type="submit" class="btn btn-primary"><span class="fas fa-save"></span> Gravar</button>
     </div>
   </div>
 </form:form>

@@ -6,7 +6,7 @@
 
 <c:set var="actionGravar"><c:url value="/debitos/pendentes/gravar"/></c:set>
 
-<dandelion:bundle includes="jquery.validation,jquery.inputmask,bootstrap3.datetimepicker" />
+<dandelion:bundle includes="jquery.validation,jquery.inputmask,bootstrap3.datetimepicker,font-awesome5" />
 
 <html>
 <head>
@@ -56,7 +56,7 @@
             <div class="input-group date" id="div-data-vencimento">
               <form:input path="dataVencimento" class="form-control" extra="placeholder=Data de vencimento da conta" />
               <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
+                <span class="fas fa-calendar-alt"></span>
               </span>
             </div>
           </div>
@@ -88,7 +88,7 @@
         </div>
         <div class="row">
           <div class="form-group col-x-12 col-md-12" style="text-align: center; margin-top: 25px;">
-	        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Gravar</button>
+	        <button type="submit" class="btn btn-primary"><span class="fas fa-save"></span> Gravar</button>
           </div>
 	    </div>
       </div>

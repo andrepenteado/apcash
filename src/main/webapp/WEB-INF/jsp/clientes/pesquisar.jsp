@@ -25,7 +25,7 @@
   <%@include file="/layouts/modal-mensagens.jsp"%>
   <%@include file="/layouts/modal-confirmacoes.jsp"%>
 
-  <a href="${linkController}/incluir" class="float-button"><i class="fa fa-plus"></i></a>
+  <a href="${linkController}/incluir" class="float-button"><span class="fas fa-plus fa-lg"></span></a>
 
   <datatables:table data="${listagemClientes}" row="cliente" id="GridDatatable">
     <datatables:column title="#" property="id" cssClass="text-center" cssCellClass="text-center"/>
